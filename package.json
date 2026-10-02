@@ -12,7 +12,8 @@
     "collect": "node collect.mjs",
     "test": "node --test",
     "context:queue": "node scripts/context-pilot.mjs queue",
-    "context:validate": "node scripts/context-pilot.mjs validate"
+    "context:validate": "node scripts/context-pilot.mjs validate",
+    "context:daily": "node scripts/context-daily.mjs"
   },
   "devDependencies": { "vite": "7.3.6" }
 }
