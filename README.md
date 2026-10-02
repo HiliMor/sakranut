@@ -44,6 +44,8 @@ npm run build
 ```bash
 npm run context:queue
 npm run context:validate -- --input data/context-pilot/YYYY-MM-DD/drafts.json
+npm run context:daily -- prepare --snapshot /absolute/path/to/latest-snapshot.json
+npm run context:daily -- complete --date YYYY-MM-DD
 ```
 
 התור כולל עד חמישה ערכים עם עניין מוגבר שניתן לחשב. הוא אינו הסבר ואינו מבצע חיפוש ברשת.
@@ -52,6 +54,10 @@ npm run context:validate -- --input data/context-pilot/YYYY-MM-DD/drafts.json
 
 [פרוטוקול הפיילוט](docs/CONTEXT_PILOT.md) מפרט את עבודת האיתור והבקרה ואת התנאים הנדרשים לפני הפעלה מתוזמנת.
 אין פקודת פרסום: הכותב אינו רשאי לאשר בעצמו את הטיוטה.
+
+`context:daily` מוסיף בקרת ריצות: יום מדידה טרי, מניעת מחקר חוזר ועצירה אחרי שבעה ימי מחקר שהושלמו. `complete` מתעד השלמת מחקר בלבד, לא אישור עריכתי או פרסום. אין בפקודות חיפוש, מודל או מתזמן; יש לספק להן צילום עדכני מהאוסף, לא להניח שדוגמת הנתונים בגיט התעדכנה.
+
+נבחן מסלול עתידי דרך Codex CLI בשרת, בהתחברות למנוי ChatGPT הקיים. הוא טרם הותקן או חובר: יש לבדוק הרשאות, חיפוש חי וצריכת מכסה/קרדיטים לפני הרצת מודל. [הפרטים והמגבלות](docs/CONTEXT_PILOT.md#הרצה-בשרת-ללא-api-בתשלום--הצעה-שטרם-הופעלה).
 
 ## מבנה
 
