@@ -1,0 +1,18 @@
+{
+  "name": "sakranut",
+  "private": true,
+  "type": "module",
+  "version": "0.2.0",
+  "description": "Daily Hebrew Wikipedia reading trends, with transparent comparisons and source-linked context.",
+  "engines": { "node": ">=24 <25" },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 5176 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4176 --strictPort",
+    "collect": "node collect.mjs",
+    "test": "node --test",
+    "context:queue": "node scripts/context-pilot.mjs queue",
+    "context:validate": "node scripts/context-pilot.mjs validate"
+  },
+  "devDependencies": { "vite": "7.3.6" }
+}

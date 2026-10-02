@@ -1,0 +1,29 @@
+[Unit]
+Description=Check Sakranut freshness and send a dedicated optional heartbeat
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=wiki-interest
+Group=www-data
+WorkingDirectory=/opt/wiki-interest/current
+Environment=NODE_ENV=production
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+Environment=WIKI_INTEREST_RUNTIME_DIR=/var/lib/wiki-interest
+EnvironmentFile=-/etc/wiki-interest/healthchecks.env
+ExecStart=/usr/bin/env node health.mjs
+TimeoutStartSec=2min
+UMask=0027
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/wiki-interest
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+MemoryMax=256M
+TasksMax=64

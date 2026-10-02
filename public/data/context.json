@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "items": [
+    {
+      "title": "יעקב עמידרור",
+      "dataDate": "2026-10-01",
+      "reviewStatus": "approved",
+      "reviewedAt": "2026-10-02T10:00:00Z",
+      "reviewedBy": "assistant-source-check",
+      "summary": "ב־1 באוקטובר פורסם, בעקבות התרת הפרסום, שאריה עמידרור — בנו של יעקב — היה קצין המודיעין של אוגדת עזה ב־7 באוקטובר. הדיווח הזכיר במפורש את הקשר לאביו. ההתאמה בנושא ובתאריך עשויה להסביר את הזינוק בקריאה על יעקב עמידרור, אך אינה מוכיחה מה הביא את הקוראים לערך.",
+      "sources": [
+        {
+          "label": "ynet — הפרסום על אריה עמידרור והקשר לאביו",
+          "url": "https://www.ynet.co.il/news/article/syr6lzs8zx",
+          "publishedDate": "2026-10-01"
+        },
+        {
+          "label": "וואלה — דיווח מאותו יום",
+          "url": "https://www.walla.co.il/news/military/383955953",
+          "publishedDate": "2026-10-01"
+        }
+      ],
+      "qualification": "הקשר אפשרי, לא סיבתיות מוכחת"
+    }
+  ]
+}

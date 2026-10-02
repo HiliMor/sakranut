@@ -1,0 +1,11 @@
+[Unit]
+Description=Check Sakranut hourly independently of the daily collector
+
+[Timer]
+OnCalendar=*-*-* *:45:00 UTC
+RandomizedDelaySec=45
+Persistent=true
+Unit=wiki-interest-health.service
+
+[Install]
+WantedBy=timers.target

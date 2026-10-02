@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ניסוי חזותי במגמות הקריאה בוויקיפדיה העברית: מה זינק ביחס לשגרה, ומה ממשיך לעורר עניין." />
+    <title>סקרנות — מגמות קריאה בעברית</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">דילוג לתוכן</a>
+    <header class="masthead wrap">
+      <a class="brand" href="./" aria-label="סקרנות — עמוד ראשי"><span class="brand-symbol" aria-hidden="true">ס</span>סקרנות<span class="brand-description">מגמות קריאה בעברית</span></a>
+      <nav aria-label="ניווט"><a href="#discover">לגלות</a><a href="#method">איך זה נמדד?</a><span class="lab-tag">ניסוי 01</span></nav>
+    </header>
+    <main id="main" class="wrap">
+      <section class="intro">
+        <div><p class="eyebrow">לא רק מה פופולרי. מה השתנה.</p><h1>מה קראנו <em>אחרת?</em></h1><p class="intro-copy">הערכים שמשכו יותר צפיות מהרגיל בוויקיפדיה העברית.<br />קפיצה רגעית, עניין שנשאר, והנתונים שביניהם.</p></div>
+        <div class="edition" role="status" aria-live="polite"><strong id="edition-date">טוענים נתונים</strong><span class="edition-separator" aria-hidden="true">·</span><span id="edition-status">צילום מצב</span></div>
+      </section>
+      <div id="loading" class="load-state" role="status">טוענים את צילום המצב של ויקימדיה…</div>
+      <div id="error" class="error-state" role="alert" hidden><h2>לא הצלחנו לטעון נתונים</h2><p>לא מציגים נתוני דמה במקום נתונים חסרים. אפשר לנסות לטעון שוב.</p><button id="retry" class="text-button">לנסות שוב ←</button></div>
+      <div id="content" hidden>
+        <details id="data-details" class="data-details">
+          <summary>פרטי הנתונים ואפשרויות עדכון</summary>
+          <div class="data-details-body">
+            <div class="refresh-controls" role="group" aria-label="עדכון התצוגה">
+              <label><input id="pause-refresh" type="checkbox" /> השהיית עדכוני התצוגה</label>
+              <button id="refresh-now" class="text-button">בדיקת עדכון עכשיו</button>
+              <span id="refresh-state" role="status" aria-live="polite"></span>
+            </div>
+            <dl><div><dt>צילום הנתונים נוצר</dt><dd id="snapshot-note"></dd></div><div><dt>בדיקת האיסוף בשרת</dt><dd id="server-check-note"></dd></div><div><dt>המדגם</dt><dd id="sample-size"></dd></div></dl>
+            <p id="coverage-note" hidden></p>
+            <p id="runtime-note"></p>
+            <p>יום המדידה הוא יממה מלאה לפי UTC, לא לפי שעון ישראל. הנתונים יומיים, לא בזמן אמת. כשהתצוגה אינה מושהית, הדף בודק אם פורסם עדכון בכניסה לאתר, בחזרה ללשונית ובכל שעה כשהיא גלויה. השהיית התצוגה אינה עוצרת את האיסוף בשרת.</p>
+            <a id="snapshot-link" href="./data/snapshot.json" target="_blank" rel="noopener">קובץ הנתונים המלא (JSON) ↗</a>
+          </div>
+        </details>
+        <p id="update-warning" class="warning" role="status" aria-live="polite" hidden></p>
+        <section class="feature" aria-labelledby="feature-title" id="feature"></section>
+        <section id="discover" class="discovery" aria-labelledby="discover-title">
+          <div class="section-head"><div><p class="eyebrow">מה עוד עולה מהנתונים?</p><h2 id="discover-title">בעקבות הסקרנות</h2></div></div>
+          <div class="toolbar"><div class="tabs" role="group" aria-label="מיון הערכים במדגם"><button data-sort="surge" aria-pressed="true">קפיצות בעניין</button><button data-sort="popular" aria-pressed="false">הכי נקראים</button><button data-sort="lasting" aria-pressed="false">עניין מתמשך</button></div><label class="search"><span>חיפוש במדגם</span><input id="search" type="search" aria-label="חיפוש ערך במדגם" placeholder="שם של ערך…" autocomplete="off" /></label></div>
+          <p id="sort-explanation" class="sort-explanation"></p>
+          <div id="article-grid" class="article-grid"></div>
+          <p class="sort-explanation">לכל גרף קנה מידה משלו. להשוואת היקף הקריאה בין ערכים, השתמשו במספר הצפיות ולא בגובה הקו.</p>
+          <p id="result-status" class="result-status" role="status" aria-live="polite"></p>
+          <button class="more-button" id="show-more" hidden>להציג עוד ערכים ↓</button>
+        </section>
+        <section id="uncompared" class="partial-history" aria-labelledby="uncompared-title" hidden>
+          <div class="section-head"><h2 id="uncompared-title">עוד ערכים שנקראו</h2></div>
+          <p class="partial-explanation">לערכים האלה מוצג מספר הצפיות, כשהוא זמין, בלי השוואה לתקופה קודמת — כי חסרים נתונים בחלון של 35 ימי הבדיקה.</p>
+          <div id="uncompared-grid" class="partial-grid"></div>
+          <p id="uncompared-status" class="result-status" role="status" aria-live="polite" hidden></p>
+        </section>
+      </div>
+      <section id="method" class="method" aria-labelledby="method-title">
+        <div><p class="eyebrow">מאחורי המספרים</p><h2 id="method-title">סקרנות היא שאלה.<br />הנתונים הם נקודת התחלה.</h2><p>זהו אבטיפוס לבדיקת חוויית קריאה — לא מדד דעת קהל ולא מחקר מייצג של ישראל.</p></div>
+        <div class="method-items"><article><span>01</span><div><h3>משווים כל ערך לעצמו</h3><p>רמת הבסיס היא חציון הצפיות ב־28 הימים שלפני שבוע התצוגה. ״פי 3״ פירושו פי שלושה מהבסיס של אותו ערך, לא משל ערך אחר.</p></div></article><article><span>02</span><div><h3>קוראים דפוס, לא מנחשים סיבה</h3><p>״עניין מתמשך״ דורש לפחות שלושה ימים רצופים עד היום הנבחר, עם פי שניים מהבסיס ולפחות 100 צפיות בכל יום. ירידה של יותר מ־40% מהשיא הקודם בשבוע מקבלת עדיפות בסיווג. המספרים לבדם לא מסבירים מה גרם לשינוי.</p></div></article><article><span>03</span><div><h3>מכירים את גבולות התמונה</h3><p>המדגם מתחיל ברשימת הנצפים ביותר, ולכן עלול להחמיץ עליות בערכים קטנים. צפיות אינן אנשים; עברית אינה מיקום גאוגרפי. גם לאחר סינון אוטומציה עלולות להישאר חריגות.</p></div></article></div>
+      </section>
+      <section class="feedback"><div><span class="feedback-star" aria-hidden="true">✳</span><h2>גילית כאן משהו שלא ידעת?</h2><p>זה המבחן של הניסוי: לזהות שינוי, להבין אותו, ולרצות לחזור מחר.</p></div><a href="https://pageviews.wmcloud.org/topviews?project=he.wikipedia.org" target="_blank" rel="noopener">להשוואה עם Topviews ↗</a></section>
+    </main>
+    <footer class="wrap"><span>סקרנות / מעבדת מוצר קטנה</span><span>נתוני צפיות: Wikimedia Analytics · CC0 · ללא שיוך רשמי לוויקימדיה</span><a href="https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/documentation/access-policy.html" target="_blank" rel="noopener">מקור ותנאי שימוש ↗</a></footer>
+    <dialog id="detail" aria-labelledby="detail-title"><div class="dialog-toolbar"><button class="dialog-return">חזרה לרשימה</button><button class="dialog-close" aria-label="סגירת פירוט">×</button></div><div id="detail-content"></div></dialog>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

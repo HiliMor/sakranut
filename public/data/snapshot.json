@@ -1,0 +1,4463 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-02T10:40:51.196Z",
+  "dataDate": "2026-10-01",
+  "seriesStart": "2026-08-28",
+  "baselineStart": "2026-08-28",
+  "baselineEnd": "2026-09-24",
+  "source": {
+    "name": "Wikimedia Analytics API",
+    "license": "CC0 1.0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "url": "https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/reference/page-views.html",
+    "policyUrl": "https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/documentation/access-policy.html",
+    "topUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/top/he.wikipedia.org/all-access/2026/10/01"
+  },
+  "method": {
+    "project": "he.wikipedia.org",
+    "access": "all-access",
+    "agent": "user",
+    "candidateSelection": "First 30 eligible titles in the daily top list, in its original rank order. This is not an all-Wikipedia spike search.",
+    "exclusions": "Exclude the main page, the technical title \"-\", and all titles containing a colon (namespace-prefixed pages plus some valid mainspace titles).",
+    "baseline": "Median of the first 28 daily observations, strictly before the displayed final 7 days. The baseline is fixed for all displayed days.",
+    "baselineDays": 28,
+    "displayDays": 7,
+    "minimumBaseline": 20,
+    "missingData": "Require all 35 daily observations for comparison metrics. Valid incomplete histories are shown separately in uncomparedArticles with measured counts and explicit missing dates, without baseline, ratio, trend or streak metrics; they remain comparison failures in coverage. Unavailable or malformed series are not shown. Observed zero is valid; missing is never zero-filled.",
+    "ratio": "Final-day user pageviews / fixed baseline. Null when baseline < 20; no floor, pseudocount or fabricated ratio.",
+    "excess": "max(0, final-day user pageviews - fixed baseline).",
+    "elevated": "At least twice the fixed baseline AND at least 100 daily views.",
+    "activeDays": "Consecutive elevated days ending on dataDate within the displayed 7 days; capped at 7. Null for insufficient baseline.",
+    "trends": {
+      "insufficient": "Baseline < 20.",
+      "cooling": "A preceding displayed day was elevated, and final-day views are below 60% of that prior six-day peak. Takes precedence over sustained.",
+      "sustained": "At least 3 consecutive elevated displayed days ending on dataDate.",
+      "rising": "Final day is elevated, with only 1 or 2 consecutive elevated displayed days; denotes newly elevated interest, not a guaranteed day-over-day increase.",
+      "steady": "None of the above; this does not establish statistical stability."
+    },
+    "timezone": "UTC",
+    "limitations": [
+      "Pageviews are not unique people. The user agent category excludes recognized bots, not all automated or anomalous traffic.",
+      "Hebrew Wikipedia readership is not a representative sample of the Israeli population.",
+      "Top-list selection omits many lower-volume spikes. Labels are descriptive heuristics, not significance tests or causal explanations.",
+      "Article titles are measured independently; redirects, renamed pages and related titles are not merged.",
+      "An incomplete history does not establish that an article is new or explain why observations are absent.",
+      "A fixed 28-day median is not a model of weekly or seasonal patterns.",
+      "The snapshot covers a completed UTC day; collection can run on a schedule, but this is not a real-time feed."
+    ]
+  },
+  "coverage": {
+    "requestedDate": "2026-10-01",
+    "fallbackDays": 0,
+    "topListCount": 992,
+    "candidateCount": 30,
+    "articleCount": 24,
+    "failures": [
+      {
+        "title": "טיסה 1073 של פליי דובאי",
+        "error": "Incomplete 35-day series"
+      },
+      {
+        "title": "אריה עמידרור",
+        "error": "Incomplete 35-day series"
+      },
+      {
+        "title": "ינון קרייז",
+        "error": "Incomplete 35-day series"
+      },
+      {
+        "title": "גלעד בן ש\"ך",
+        "error": "Incomplete 35-day series"
+      },
+      {
+        "title": "ענת פבריקנט",
+        "error": "Incomplete 35-day series"
+      },
+      {
+        "title": "נז\"א (סרט)",
+        "error": "Incomplete 35-day series"
+      }
+    ]
+  },
+  "articles": [
+    {
+      "title": "יעקב עמידרור",
+      "url": "https://he.wikipedia.org/wiki/%D7%99%D7%A2%D7%A7%D7%91_%D7%A2%D7%9E%D7%99%D7%93%D7%A8%D7%95%D7%A8",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%99%D7%A2%D7%A7%D7%91_%D7%A2%D7%9E%D7%99%D7%93%D7%A8%D7%95%D7%A8/daily/2026082800/2026100100",
+      "rank": 1,
+      "views": 20695,
+      "baseline": 92,
+      "ratio": 224.94565217391303,
+      "excess": 20603,
+      "activeDays": 1,
+      "trend": "rising",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 9
+        },
+        {
+          "date": "2026-08-29",
+          "views": 16
+        },
+        {
+          "date": "2026-08-30",
+          "views": 25
+        },
+        {
+          "date": "2026-08-31",
+          "views": 35
+        },
+        {
+          "date": "2026-09-01",
+          "views": 30
+        },
+        {
+          "date": "2026-09-02",
+          "views": 19
+        },
+        {
+          "date": "2026-09-03",
+          "views": 24
+        },
+        {
+          "date": "2026-09-04",
+          "views": 38
+        },
+        {
+          "date": "2026-09-05",
+          "views": 23
+        },
+        {
+          "date": "2026-09-06",
+          "views": 68
+        },
+        {
+          "date": "2026-09-07",
+          "views": 747
+        },
+        {
+          "date": "2026-09-08",
+          "views": 557
+        },
+        {
+          "date": "2026-09-09",
+          "views": 179
+        },
+        {
+          "date": "2026-09-10",
+          "views": 832
+        },
+        {
+          "date": "2026-09-11",
+          "views": 190
+        },
+        {
+          "date": "2026-09-12",
+          "views": 141
+        },
+        {
+          "date": "2026-09-13",
+          "views": 94
+        },
+        {
+          "date": "2026-09-14",
+          "views": 90
+        },
+        {
+          "date": "2026-09-15",
+          "views": 69
+        },
+        {
+          "date": "2026-09-16",
+          "views": 54
+        },
+        {
+          "date": "2026-09-17",
+          "views": 2035
+        },
+        {
+          "date": "2026-09-18",
+          "views": 1841
+        },
+        {
+          "date": "2026-09-19",
+          "views": 1209
+        },
+        {
+          "date": "2026-09-20",
+          "views": 423
+        },
+        {
+          "date": "2026-09-21",
+          "views": 525
+        },
+        {
+          "date": "2026-09-22",
+          "views": 238
+        },
+        {
+          "date": "2026-09-23",
+          "views": 136
+        },
+        {
+          "date": "2026-09-24",
+          "views": 85
+        },
+        {
+          "date": "2026-09-25",
+          "views": 49
+        },
+        {
+          "date": "2026-09-26",
+          "views": 66
+        },
+        {
+          "date": "2026-09-27",
+          "views": 57
+        },
+        {
+          "date": "2026-09-28",
+          "views": 50
+        },
+        {
+          "date": "2026-09-29",
+          "views": 43
+        },
+        {
+          "date": "2026-09-30",
+          "views": 62
+        },
+        {
+          "date": "2026-10-01",
+          "views": 20695
+        }
+      ]
+    },
+    {
+      "title": "עומאן",
+      "url": "https://he.wikipedia.org/wiki/%D7%A2%D7%95%D7%9E%D7%90%D7%9F",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%A2%D7%95%D7%9E%D7%90%D7%9F/daily/2026082800/2026100100",
+      "rank": 3,
+      "views": 8158,
+      "baseline": 57,
+      "ratio": 143.12280701754386,
+      "excess": 8101,
+      "activeDays": 2,
+      "trend": "cooling",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 59
+        },
+        {
+          "date": "2026-08-29",
+          "views": 69
+        },
+        {
+          "date": "2026-08-30",
+          "views": 54
+        },
+        {
+          "date": "2026-08-31",
+          "views": 33
+        },
+        {
+          "date": "2026-09-01",
+          "views": 56
+        },
+        {
+          "date": "2026-09-02",
+          "views": 35
+        },
+        {
+          "date": "2026-09-03",
+          "views": 52
+        },
+        {
+          "date": "2026-09-04",
+          "views": 55
+        },
+        {
+          "date": "2026-09-05",
+          "views": 46
+        },
+        {
+          "date": "2026-09-06",
+          "views": 35
+        },
+        {
+          "date": "2026-09-07",
+          "views": 52
+        },
+        {
+          "date": "2026-09-08",
+          "views": 48
+        },
+        {
+          "date": "2026-09-09",
+          "views": 58
+        },
+        {
+          "date": "2026-09-10",
+          "views": 64
+        },
+        {
+          "date": "2026-09-11",
+          "views": 88
+        },
+        {
+          "date": "2026-09-12",
+          "views": 58
+        },
+        {
+          "date": "2026-09-13",
+          "views": 93
+        },
+        {
+          "date": "2026-09-14",
+          "views": 85
+        },
+        {
+          "date": "2026-09-15",
+          "views": 66
+        },
+        {
+          "date": "2026-09-16",
+          "views": 68
+        },
+        {
+          "date": "2026-09-17",
+          "views": 63
+        },
+        {
+          "date": "2026-09-18",
+          "views": 56
+        },
+        {
+          "date": "2026-09-19",
+          "views": 66
+        },
+        {
+          "date": "2026-09-20",
+          "views": 77
+        },
+        {
+          "date": "2026-09-21",
+          "views": 53
+        },
+        {
+          "date": "2026-09-22",
+          "views": 59
+        },
+        {
+          "date": "2026-09-23",
+          "views": 45
+        },
+        {
+          "date": "2026-09-24",
+          "views": 56
+        },
+        {
+          "date": "2026-09-25",
+          "views": 46
+        },
+        {
+          "date": "2026-09-26",
+          "views": 70
+        },
+        {
+          "date": "2026-09-27",
+          "views": 50
+        },
+        {
+          "date": "2026-09-28",
+          "views": 67
+        },
+        {
+          "date": "2026-09-29",
+          "views": 72
+        },
+        {
+          "date": "2026-09-30",
+          "views": 21895
+        },
+        {
+          "date": "2026-10-01",
+          "views": 8158
+        }
+      ]
+    },
+    {
+      "title": "תעופה בחקירה",
+      "url": "https://he.wikipedia.org/wiki/%D7%AA%D7%A2%D7%95%D7%A4%D7%94_%D7%91%D7%97%D7%A7%D7%99%D7%A8%D7%94",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%AA%D7%A2%D7%95%D7%A4%D7%94_%D7%91%D7%97%D7%A7%D7%99%D7%A8%D7%94/daily/2026082800/2026100100",
+      "rank": 5,
+      "views": 7430,
+      "baseline": 10.5,
+      "ratio": null,
+      "excess": 7419.5,
+      "activeDays": null,
+      "trend": "insufficient",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 10
+        },
+        {
+          "date": "2026-08-29",
+          "views": 10
+        },
+        {
+          "date": "2026-08-30",
+          "views": 2
+        },
+        {
+          "date": "2026-08-31",
+          "views": 4
+        },
+        {
+          "date": "2026-09-01",
+          "views": 7
+        },
+        {
+          "date": "2026-09-02",
+          "views": 12
+        },
+        {
+          "date": "2026-09-03",
+          "views": 20
+        },
+        {
+          "date": "2026-09-04",
+          "views": 11
+        },
+        {
+          "date": "2026-09-05",
+          "views": 4
+        },
+        {
+          "date": "2026-09-06",
+          "views": 9
+        },
+        {
+          "date": "2026-09-07",
+          "views": 9
+        },
+        {
+          "date": "2026-09-08",
+          "views": 6
+        },
+        {
+          "date": "2026-09-09",
+          "views": 12
+        },
+        {
+          "date": "2026-09-10",
+          "views": 9
+        },
+        {
+          "date": "2026-09-11",
+          "views": 11
+        },
+        {
+          "date": "2026-09-12",
+          "views": 13
+        },
+        {
+          "date": "2026-09-13",
+          "views": 9
+        },
+        {
+          "date": "2026-09-14",
+          "views": 13
+        },
+        {
+          "date": "2026-09-15",
+          "views": 12
+        },
+        {
+          "date": "2026-09-16",
+          "views": 7
+        },
+        {
+          "date": "2026-09-17",
+          "views": 4
+        },
+        {
+          "date": "2026-09-18",
+          "views": 14
+        },
+        {
+          "date": "2026-09-19",
+          "views": 12
+        },
+        {
+          "date": "2026-09-20",
+          "views": 11
+        },
+        {
+          "date": "2026-09-21",
+          "views": 15
+        },
+        {
+          "date": "2026-09-22",
+          "views": 13
+        },
+        {
+          "date": "2026-09-23",
+          "views": 13
+        },
+        {
+          "date": "2026-09-24",
+          "views": 10
+        },
+        {
+          "date": "2026-09-25",
+          "views": 9
+        },
+        {
+          "date": "2026-09-26",
+          "views": 5
+        },
+        {
+          "date": "2026-09-27",
+          "views": 16
+        },
+        {
+          "date": "2026-09-28",
+          "views": 16
+        },
+        {
+          "date": "2026-09-29",
+          "views": 14
+        },
+        {
+          "date": "2026-09-30",
+          "views": 6634
+        },
+        {
+          "date": "2026-10-01",
+          "views": 7430
+        }
+      ]
+    },
+    {
+      "title": "הושענא רבה",
+      "url": "https://he.wikipedia.org/wiki/%D7%94%D7%95%D7%A9%D7%A2%D7%A0%D7%90_%D7%A8%D7%91%D7%94",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%94%D7%95%D7%A9%D7%A2%D7%A0%D7%90_%D7%A8%D7%91%D7%94/daily/2026082800/2026100100",
+      "rank": 7,
+      "views": 5917,
+      "baseline": 45.5,
+      "ratio": 130.04395604395606,
+      "excess": 5871.5,
+      "activeDays": 7,
+      "trend": "sustained",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 31
+        },
+        {
+          "date": "2026-08-29",
+          "views": 16
+        },
+        {
+          "date": "2026-08-30",
+          "views": 33
+        },
+        {
+          "date": "2026-08-31",
+          "views": 28
+        },
+        {
+          "date": "2026-09-01",
+          "views": 37
+        },
+        {
+          "date": "2026-09-02",
+          "views": 35
+        },
+        {
+          "date": "2026-09-03",
+          "views": 30
+        },
+        {
+          "date": "2026-09-04",
+          "views": 20
+        },
+        {
+          "date": "2026-09-05",
+          "views": 30
+        },
+        {
+          "date": "2026-09-06",
+          "views": 45
+        },
+        {
+          "date": "2026-09-07",
+          "views": 44
+        },
+        {
+          "date": "2026-09-08",
+          "views": 40
+        },
+        {
+          "date": "2026-09-09",
+          "views": 35
+        },
+        {
+          "date": "2026-09-10",
+          "views": 46
+        },
+        {
+          "date": "2026-09-11",
+          "views": 49
+        },
+        {
+          "date": "2026-09-12",
+          "views": 41
+        },
+        {
+          "date": "2026-09-13",
+          "views": 46
+        },
+        {
+          "date": "2026-09-14",
+          "views": 82
+        },
+        {
+          "date": "2026-09-15",
+          "views": 65
+        },
+        {
+          "date": "2026-09-16",
+          "views": 84
+        },
+        {
+          "date": "2026-09-17",
+          "views": 111
+        },
+        {
+          "date": "2026-09-18",
+          "views": 82
+        },
+        {
+          "date": "2026-09-19",
+          "views": 72
+        },
+        {
+          "date": "2026-09-20",
+          "views": 116
+        },
+        {
+          "date": "2026-09-21",
+          "views": 175
+        },
+        {
+          "date": "2026-09-22",
+          "views": 285
+        },
+        {
+          "date": "2026-09-23",
+          "views": 217
+        },
+        {
+          "date": "2026-09-24",
+          "views": 222
+        },
+        {
+          "date": "2026-09-25",
+          "views": 256
+        },
+        {
+          "date": "2026-09-26",
+          "views": 246
+        },
+        {
+          "date": "2026-09-27",
+          "views": 298
+        },
+        {
+          "date": "2026-09-28",
+          "views": 348
+        },
+        {
+          "date": "2026-09-29",
+          "views": 480
+        },
+        {
+          "date": "2026-09-30",
+          "views": 895
+        },
+        {
+          "date": "2026-10-01",
+          "views": 5917
+        }
+      ]
+    },
+    {
+      "title": "קוסובו",
+      "url": "https://he.wikipedia.org/wiki/%D7%A7%D7%95%D7%A1%D7%95%D7%91%D7%95",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%A7%D7%95%D7%A1%D7%95%D7%91%D7%95/daily/2026082800/2026100100",
+      "rank": 8,
+      "views": 4408,
+      "baseline": 87,
+      "ratio": 50.666666666666664,
+      "excess": 4321,
+      "activeDays": 5,
+      "trend": "sustained",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 103
+        },
+        {
+          "date": "2026-08-29",
+          "views": 85
+        },
+        {
+          "date": "2026-08-30",
+          "views": 74
+        },
+        {
+          "date": "2026-08-31",
+          "views": 66
+        },
+        {
+          "date": "2026-09-01",
+          "views": 69
+        },
+        {
+          "date": "2026-09-02",
+          "views": 88
+        },
+        {
+          "date": "2026-09-03",
+          "views": 72
+        },
+        {
+          "date": "2026-09-04",
+          "views": 86
+        },
+        {
+          "date": "2026-09-05",
+          "views": 81
+        },
+        {
+          "date": "2026-09-06",
+          "views": 73
+        },
+        {
+          "date": "2026-09-07",
+          "views": 150
+        },
+        {
+          "date": "2026-09-08",
+          "views": 85
+        },
+        {
+          "date": "2026-09-09",
+          "views": 76
+        },
+        {
+          "date": "2026-09-10",
+          "views": 78
+        },
+        {
+          "date": "2026-09-11",
+          "views": 135
+        },
+        {
+          "date": "2026-09-12",
+          "views": 123
+        },
+        {
+          "date": "2026-09-13",
+          "views": 88
+        },
+        {
+          "date": "2026-09-14",
+          "views": 71
+        },
+        {
+          "date": "2026-09-15",
+          "views": 57
+        },
+        {
+          "date": "2026-09-16",
+          "views": 238
+        },
+        {
+          "date": "2026-09-17",
+          "views": 103
+        },
+        {
+          "date": "2026-09-18",
+          "views": 90
+        },
+        {
+          "date": "2026-09-19",
+          "views": 107
+        },
+        {
+          "date": "2026-09-20",
+          "views": 101
+        },
+        {
+          "date": "2026-09-21",
+          "views": 124
+        },
+        {
+          "date": "2026-09-22",
+          "views": 81
+        },
+        {
+          "date": "2026-09-23",
+          "views": 102
+        },
+        {
+          "date": "2026-09-24",
+          "views": 176
+        },
+        {
+          "date": "2026-09-25",
+          "views": 123
+        },
+        {
+          "date": "2026-09-26",
+          "views": 140
+        },
+        {
+          "date": "2026-09-27",
+          "views": 293
+        },
+        {
+          "date": "2026-09-28",
+          "views": 268
+        },
+        {
+          "date": "2026-09-29",
+          "views": 254
+        },
+        {
+          "date": "2026-09-30",
+          "views": 310
+        },
+        {
+          "date": "2026-10-01",
+          "views": 4408
+        }
+      ]
+    },
+    {
+      "title": "סאמי אבו שחאדה",
+      "url": "https://he.wikipedia.org/wiki/%D7%A1%D7%90%D7%9E%D7%99_%D7%90%D7%91%D7%95_%D7%A9%D7%97%D7%90%D7%93%D7%94",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%A1%D7%90%D7%9E%D7%99_%D7%90%D7%91%D7%95_%D7%A9%D7%97%D7%90%D7%93%D7%94/daily/2026082800/2026100100",
+      "rank": 9,
+      "views": 4144,
+      "baseline": 88.5,
+      "ratio": 46.824858757062145,
+      "excess": 4055.5,
+      "activeDays": 7,
+      "trend": "sustained",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 32
+        },
+        {
+          "date": "2026-08-29",
+          "views": 27
+        },
+        {
+          "date": "2026-08-30",
+          "views": 28
+        },
+        {
+          "date": "2026-08-31",
+          "views": 21
+        },
+        {
+          "date": "2026-09-01",
+          "views": 45
+        },
+        {
+          "date": "2026-09-02",
+          "views": 151
+        },
+        {
+          "date": "2026-09-03",
+          "views": 59
+        },
+        {
+          "date": "2026-09-04",
+          "views": 116
+        },
+        {
+          "date": "2026-09-05",
+          "views": 65
+        },
+        {
+          "date": "2026-09-06",
+          "views": 48
+        },
+        {
+          "date": "2026-09-07",
+          "views": 56
+        },
+        {
+          "date": "2026-09-08",
+          "views": 101
+        },
+        {
+          "date": "2026-09-09",
+          "views": 107
+        },
+        {
+          "date": "2026-09-10",
+          "views": 97
+        },
+        {
+          "date": "2026-09-11",
+          "views": 76
+        },
+        {
+          "date": "2026-09-12",
+          "views": 57
+        },
+        {
+          "date": "2026-09-13",
+          "views": 36
+        },
+        {
+          "date": "2026-09-14",
+          "views": 57
+        },
+        {
+          "date": "2026-09-15",
+          "views": 80
+        },
+        {
+          "date": "2026-09-16",
+          "views": 98
+        },
+        {
+          "date": "2026-09-17",
+          "views": 130
+        },
+        {
+          "date": "2026-09-18",
+          "views": 337
+        },
+        {
+          "date": "2026-09-19",
+          "views": 267
+        },
+        {
+          "date": "2026-09-20",
+          "views": 157
+        },
+        {
+          "date": "2026-09-21",
+          "views": 113
+        },
+        {
+          "date": "2026-09-22",
+          "views": 2004
+        },
+        {
+          "date": "2026-09-23",
+          "views": 5450
+        },
+        {
+          "date": "2026-09-24",
+          "views": 1826
+        },
+        {
+          "date": "2026-09-25",
+          "views": 582
+        },
+        {
+          "date": "2026-09-26",
+          "views": 578
+        },
+        {
+          "date": "2026-09-27",
+          "views": 418
+        },
+        {
+          "date": "2026-09-28",
+          "views": 404
+        },
+        {
+          "date": "2026-09-29",
+          "views": 1264
+        },
+        {
+          "date": "2026-09-30",
+          "views": 511
+        },
+        {
+          "date": "2026-10-01",
+          "views": 4144
+        }
+      ]
+    },
+    {
+      "title": "תיקון ליל הושענא רבה",
+      "url": "https://he.wikipedia.org/wiki/%D7%AA%D7%99%D7%A7%D7%95%D7%9F_%D7%9C%D7%99%D7%9C_%D7%94%D7%95%D7%A9%D7%A2%D7%A0%D7%90_%D7%A8%D7%91%D7%94",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%AA%D7%99%D7%A7%D7%95%D7%9F_%D7%9C%D7%99%D7%9C_%D7%94%D7%95%D7%A9%D7%A2%D7%A0%D7%90_%D7%A8%D7%91%D7%94/daily/2026082800/2026100100",
+      "rank": 10,
+      "views": 3772,
+      "baseline": 2.5,
+      "ratio": null,
+      "excess": 3769.5,
+      "activeDays": null,
+      "trend": "insufficient",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 0
+        },
+        {
+          "date": "2026-08-29",
+          "views": 0
+        },
+        {
+          "date": "2026-08-30",
+          "views": 0
+        },
+        {
+          "date": "2026-08-31",
+          "views": 3
+        },
+        {
+          "date": "2026-09-01",
+          "views": 3
+        },
+        {
+          "date": "2026-09-02",
+          "views": 2
+        },
+        {
+          "date": "2026-09-03",
+          "views": 1
+        },
+        {
+          "date": "2026-09-04",
+          "views": 1
+        },
+        {
+          "date": "2026-09-05",
+          "views": 0
+        },
+        {
+          "date": "2026-09-06",
+          "views": 2
+        },
+        {
+          "date": "2026-09-07",
+          "views": 3
+        },
+        {
+          "date": "2026-09-08",
+          "views": 0
+        },
+        {
+          "date": "2026-09-09",
+          "views": 6
+        },
+        {
+          "date": "2026-09-10",
+          "views": 3
+        },
+        {
+          "date": "2026-09-11",
+          "views": 1
+        },
+        {
+          "date": "2026-09-12",
+          "views": 1
+        },
+        {
+          "date": "2026-09-13",
+          "views": 2
+        },
+        {
+          "date": "2026-09-14",
+          "views": 3
+        },
+        {
+          "date": "2026-09-15",
+          "views": 3
+        },
+        {
+          "date": "2026-09-16",
+          "views": 4
+        },
+        {
+          "date": "2026-09-17",
+          "views": 3
+        },
+        {
+          "date": "2026-09-18",
+          "views": 0
+        },
+        {
+          "date": "2026-09-19",
+          "views": 2
+        },
+        {
+          "date": "2026-09-20",
+          "views": 3
+        },
+        {
+          "date": "2026-09-21",
+          "views": 6
+        },
+        {
+          "date": "2026-09-22",
+          "views": 17
+        },
+        {
+          "date": "2026-09-23",
+          "views": 10
+        },
+        {
+          "date": "2026-09-24",
+          "views": 26
+        },
+        {
+          "date": "2026-09-25",
+          "views": 12
+        },
+        {
+          "date": "2026-09-26",
+          "views": 25
+        },
+        {
+          "date": "2026-09-27",
+          "views": 37
+        },
+        {
+          "date": "2026-09-28",
+          "views": 49
+        },
+        {
+          "date": "2026-09-29",
+          "views": 87
+        },
+        {
+          "date": "2026-09-30",
+          "views": 157
+        },
+        {
+          "date": "2026-10-01",
+          "views": 3772
+        }
+      ]
+    },
+    {
+      "title": "יואב סגלוביץ",
+      "url": "https://he.wikipedia.org/wiki/%D7%99%D7%95%D7%90%D7%91_%D7%A1%D7%92%D7%9C%D7%95%D7%91%D7%99%D7%A5",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%99%D7%95%D7%90%D7%91_%D7%A1%D7%92%D7%9C%D7%95%D7%91%D7%99%D7%A5/daily/2026082800/2026100100",
+      "rank": 13,
+      "views": 1789,
+      "baseline": 356,
+      "ratio": 5.025280898876405,
+      "excess": 1433,
+      "activeDays": 1,
+      "trend": "rising",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 389
+        },
+        {
+          "date": "2026-08-29",
+          "views": 311
+        },
+        {
+          "date": "2026-08-30",
+          "views": 213
+        },
+        {
+          "date": "2026-08-31",
+          "views": 8191
+        },
+        {
+          "date": "2026-09-01",
+          "views": 4805
+        },
+        {
+          "date": "2026-09-02",
+          "views": 1559
+        },
+        {
+          "date": "2026-09-03",
+          "views": 872
+        },
+        {
+          "date": "2026-09-04",
+          "views": 1817
+        },
+        {
+          "date": "2026-09-05",
+          "views": 4379
+        },
+        {
+          "date": "2026-09-06",
+          "views": 1368
+        },
+        {
+          "date": "2026-09-07",
+          "views": 889
+        },
+        {
+          "date": "2026-09-08",
+          "views": 475
+        },
+        {
+          "date": "2026-09-09",
+          "views": 511
+        },
+        {
+          "date": "2026-09-10",
+          "views": 557
+        },
+        {
+          "date": "2026-09-11",
+          "views": 323
+        },
+        {
+          "date": "2026-09-12",
+          "views": 274
+        },
+        {
+          "date": "2026-09-13",
+          "views": 280
+        },
+        {
+          "date": "2026-09-14",
+          "views": 220
+        },
+        {
+          "date": "2026-09-15",
+          "views": 240
+        },
+        {
+          "date": "2026-09-16",
+          "views": 162
+        },
+        {
+          "date": "2026-09-17",
+          "views": 233
+        },
+        {
+          "date": "2026-09-18",
+          "views": 187
+        },
+        {
+          "date": "2026-09-19",
+          "views": 132
+        },
+        {
+          "date": "2026-09-20",
+          "views": 120
+        },
+        {
+          "date": "2026-09-21",
+          "views": 137
+        },
+        {
+          "date": "2026-09-22",
+          "views": 275
+        },
+        {
+          "date": "2026-09-23",
+          "views": 564
+        },
+        {
+          "date": "2026-09-24",
+          "views": 822
+        },
+        {
+          "date": "2026-09-25",
+          "views": 437
+        },
+        {
+          "date": "2026-09-26",
+          "views": 660
+        },
+        {
+          "date": "2026-09-27",
+          "views": 695
+        },
+        {
+          "date": "2026-09-28",
+          "views": 688
+        },
+        {
+          "date": "2026-09-29",
+          "views": 409
+        },
+        {
+          "date": "2026-09-30",
+          "views": 376
+        },
+        {
+          "date": "2026-10-01",
+          "views": 1789
+        }
+      ]
+    },
+    {
+      "title": "פיגועי 11 בספטמבר",
+      "url": "https://he.wikipedia.org/wiki/%D7%A4%D7%99%D7%92%D7%95%D7%A2%D7%99_11_%D7%91%D7%A1%D7%A4%D7%98%D7%9E%D7%91%D7%A8",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%A4%D7%99%D7%92%D7%95%D7%A2%D7%99_11_%D7%91%D7%A1%D7%A4%D7%98%D7%9E%D7%91%D7%A8/daily/2026082800/2026100100",
+      "rank": 14,
+      "views": 1763,
+      "baseline": 359,
+      "ratio": 4.910863509749303,
+      "excess": 1404,
+      "activeDays": 2,
+      "trend": "cooling",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 245
+        },
+        {
+          "date": "2026-08-29",
+          "views": 243
+        },
+        {
+          "date": "2026-08-30",
+          "views": 155
+        },
+        {
+          "date": "2026-08-31",
+          "views": 173
+        },
+        {
+          "date": "2026-09-01",
+          "views": 176
+        },
+        {
+          "date": "2026-09-02",
+          "views": 264
+        },
+        {
+          "date": "2026-09-03",
+          "views": 189
+        },
+        {
+          "date": "2026-09-04",
+          "views": 335
+        },
+        {
+          "date": "2026-09-05",
+          "views": 452
+        },
+        {
+          "date": "2026-09-06",
+          "views": 578
+        },
+        {
+          "date": "2026-09-07",
+          "views": 425
+        },
+        {
+          "date": "2026-09-08",
+          "views": 370
+        },
+        {
+          "date": "2026-09-09",
+          "views": 719
+        },
+        {
+          "date": "2026-09-10",
+          "views": 2369
+        },
+        {
+          "date": "2026-09-11",
+          "views": 7471
+        },
+        {
+          "date": "2026-09-12",
+          "views": 5577
+        },
+        {
+          "date": "2026-09-13",
+          "views": 2932
+        },
+        {
+          "date": "2026-09-14",
+          "views": 1819
+        },
+        {
+          "date": "2026-09-15",
+          "views": 1028
+        },
+        {
+          "date": "2026-09-16",
+          "views": 656
+        },
+        {
+          "date": "2026-09-17",
+          "views": 493
+        },
+        {
+          "date": "2026-09-18",
+          "views": 401
+        },
+        {
+          "date": "2026-09-19",
+          "views": 348
+        },
+        {
+          "date": "2026-09-20",
+          "views": 247
+        },
+        {
+          "date": "2026-09-21",
+          "views": 232
+        },
+        {
+          "date": "2026-09-22",
+          "views": 270
+        },
+        {
+          "date": "2026-09-23",
+          "views": 225
+        },
+        {
+          "date": "2026-09-24",
+          "views": 199
+        },
+        {
+          "date": "2026-09-25",
+          "views": 141
+        },
+        {
+          "date": "2026-09-26",
+          "views": 150
+        },
+        {
+          "date": "2026-09-27",
+          "views": 174
+        },
+        {
+          "date": "2026-09-28",
+          "views": 152
+        },
+        {
+          "date": "2026-09-29",
+          "views": 159
+        },
+        {
+          "date": "2026-09-30",
+          "views": 3418
+        },
+        {
+          "date": "2026-10-01",
+          "views": 1763
+        }
+      ]
+    },
+    {
+      "title": "נגבה",
+      "url": "https://he.wikipedia.org/wiki/%D7%A0%D7%92%D7%91%D7%94",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%A0%D7%92%D7%91%D7%94/daily/2026082800/2026100100",
+      "rank": 15,
+      "views": 1733,
+      "baseline": 170,
+      "ratio": 10.194117647058823,
+      "excess": 1563,
+      "activeDays": 2,
+      "trend": "rising",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 152
+        },
+        {
+          "date": "2026-08-29",
+          "views": 619
+        },
+        {
+          "date": "2026-08-30",
+          "views": 398
+        },
+        {
+          "date": "2026-08-31",
+          "views": 353
+        },
+        {
+          "date": "2026-09-01",
+          "views": 709
+        },
+        {
+          "date": "2026-09-02",
+          "views": 114
+        },
+        {
+          "date": "2026-09-03",
+          "views": 120
+        },
+        {
+          "date": "2026-09-04",
+          "views": 256
+        },
+        {
+          "date": "2026-09-05",
+          "views": 366
+        },
+        {
+          "date": "2026-09-06",
+          "views": 481
+        },
+        {
+          "date": "2026-09-07",
+          "views": 475
+        },
+        {
+          "date": "2026-09-08",
+          "views": 378
+        },
+        {
+          "date": "2026-09-09",
+          "views": 104
+        },
+        {
+          "date": "2026-09-10",
+          "views": 71
+        },
+        {
+          "date": "2026-09-11",
+          "views": 80
+        },
+        {
+          "date": "2026-09-12",
+          "views": 684
+        },
+        {
+          "date": "2026-09-13",
+          "views": 119
+        },
+        {
+          "date": "2026-09-14",
+          "views": 136
+        },
+        {
+          "date": "2026-09-15",
+          "views": 205
+        },
+        {
+          "date": "2026-09-16",
+          "views": 130
+        },
+        {
+          "date": "2026-09-17",
+          "views": 148
+        },
+        {
+          "date": "2026-09-18",
+          "views": 208
+        },
+        {
+          "date": "2026-09-19",
+          "views": 418
+        },
+        {
+          "date": "2026-09-20",
+          "views": 138
+        },
+        {
+          "date": "2026-09-21",
+          "views": 162
+        },
+        {
+          "date": "2026-09-22",
+          "views": 178
+        },
+        {
+          "date": "2026-09-23",
+          "views": 123
+        },
+        {
+          "date": "2026-09-24",
+          "views": 149
+        },
+        {
+          "date": "2026-09-25",
+          "views": 102
+        },
+        {
+          "date": "2026-09-26",
+          "views": 89
+        },
+        {
+          "date": "2026-09-27",
+          "views": 364
+        },
+        {
+          "date": "2026-09-28",
+          "views": 176
+        },
+        {
+          "date": "2026-09-29",
+          "views": 278
+        },
+        {
+          "date": "2026-09-30",
+          "views": 585
+        },
+        {
+          "date": "2026-10-01",
+          "views": 1733
+        }
+      ]
+    },
+    {
+      "title": "תעתוע (סרט)",
+      "url": "https://he.wikipedia.org/wiki/%D7%AA%D7%A2%D7%AA%D7%95%D7%A2_(%D7%A1%D7%A8%D7%98)",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%AA%D7%A2%D7%AA%D7%95%D7%A2_(%D7%A1%D7%A8%D7%98)/daily/2026082800/2026100100",
+      "rank": 17,
+      "views": 1679,
+      "baseline": 28,
+      "ratio": 59.964285714285715,
+      "excess": 1651,
+      "activeDays": 7,
+      "trend": "sustained",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 22
+        },
+        {
+          "date": "2026-08-29",
+          "views": 19
+        },
+        {
+          "date": "2026-08-30",
+          "views": 26
+        },
+        {
+          "date": "2026-08-31",
+          "views": 30
+        },
+        {
+          "date": "2026-09-01",
+          "views": 9
+        },
+        {
+          "date": "2026-09-02",
+          "views": 14
+        },
+        {
+          "date": "2026-09-03",
+          "views": 15
+        },
+        {
+          "date": "2026-09-04",
+          "views": 12
+        },
+        {
+          "date": "2026-09-05",
+          "views": 17
+        },
+        {
+          "date": "2026-09-06",
+          "views": 14
+        },
+        {
+          "date": "2026-09-07",
+          "views": 19
+        },
+        {
+          "date": "2026-09-08",
+          "views": 24
+        },
+        {
+          "date": "2026-09-09",
+          "views": 22
+        },
+        {
+          "date": "2026-09-10",
+          "views": 21
+        },
+        {
+          "date": "2026-09-11",
+          "views": 15
+        },
+        {
+          "date": "2026-09-12",
+          "views": 36
+        },
+        {
+          "date": "2026-09-13",
+          "views": 65
+        },
+        {
+          "date": "2026-09-14",
+          "views": 49
+        },
+        {
+          "date": "2026-09-15",
+          "views": 50
+        },
+        {
+          "date": "2026-09-16",
+          "views": 48
+        },
+        {
+          "date": "2026-09-17",
+          "views": 63
+        },
+        {
+          "date": "2026-09-18",
+          "views": 79
+        },
+        {
+          "date": "2026-09-19",
+          "views": 144
+        },
+        {
+          "date": "2026-09-20",
+          "views": 112
+        },
+        {
+          "date": "2026-09-21",
+          "views": 139
+        },
+        {
+          "date": "2026-09-22",
+          "views": 164
+        },
+        {
+          "date": "2026-09-23",
+          "views": 228
+        },
+        {
+          "date": "2026-09-24",
+          "views": 392
+        },
+        {
+          "date": "2026-09-25",
+          "views": 406
+        },
+        {
+          "date": "2026-09-26",
+          "views": 520
+        },
+        {
+          "date": "2026-09-27",
+          "views": 488
+        },
+        {
+          "date": "2026-09-28",
+          "views": 599
+        },
+        {
+          "date": "2026-09-29",
+          "views": 758
+        },
+        {
+          "date": "2026-09-30",
+          "views": 1218
+        },
+        {
+          "date": "2026-10-01",
+          "views": 1679
+        }
+      ]
+    },
+    {
+      "title": "מאיר שלו",
+      "url": "https://he.wikipedia.org/wiki/%D7%9E%D7%90%D7%99%D7%A8_%D7%A9%D7%9C%D7%95",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%9E%D7%90%D7%99%D7%A8_%D7%A9%D7%9C%D7%95/daily/2026082800/2026100100",
+      "rank": 18,
+      "views": 1620,
+      "baseline": 87.5,
+      "ratio": 18.514285714285716,
+      "excess": 1532.5,
+      "activeDays": 3,
+      "trend": "cooling",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 84
+        },
+        {
+          "date": "2026-08-29",
+          "views": 87
+        },
+        {
+          "date": "2026-08-30",
+          "views": 89
+        },
+        {
+          "date": "2026-08-31",
+          "views": 97
+        },
+        {
+          "date": "2026-09-01",
+          "views": 59
+        },
+        {
+          "date": "2026-09-02",
+          "views": 78
+        },
+        {
+          "date": "2026-09-03",
+          "views": 69
+        },
+        {
+          "date": "2026-09-04",
+          "views": 68
+        },
+        {
+          "date": "2026-09-05",
+          "views": 85
+        },
+        {
+          "date": "2026-09-06",
+          "views": 78
+        },
+        {
+          "date": "2026-09-07",
+          "views": 61
+        },
+        {
+          "date": "2026-09-08",
+          "views": 88
+        },
+        {
+          "date": "2026-09-09",
+          "views": 81
+        },
+        {
+          "date": "2026-09-10",
+          "views": 75
+        },
+        {
+          "date": "2026-09-11",
+          "views": 59
+        },
+        {
+          "date": "2026-09-12",
+          "views": 104
+        },
+        {
+          "date": "2026-09-13",
+          "views": 93
+        },
+        {
+          "date": "2026-09-14",
+          "views": 119
+        },
+        {
+          "date": "2026-09-15",
+          "views": 78
+        },
+        {
+          "date": "2026-09-16",
+          "views": 108
+        },
+        {
+          "date": "2026-09-17",
+          "views": 108
+        },
+        {
+          "date": "2026-09-18",
+          "views": 426
+        },
+        {
+          "date": "2026-09-19",
+          "views": 383
+        },
+        {
+          "date": "2026-09-20",
+          "views": 116
+        },
+        {
+          "date": "2026-09-21",
+          "views": 222
+        },
+        {
+          "date": "2026-09-22",
+          "views": 123
+        },
+        {
+          "date": "2026-09-23",
+          "views": 107
+        },
+        {
+          "date": "2026-09-24",
+          "views": 82
+        },
+        {
+          "date": "2026-09-25",
+          "views": 198
+        },
+        {
+          "date": "2026-09-26",
+          "views": 550
+        },
+        {
+          "date": "2026-09-27",
+          "views": 215
+        },
+        {
+          "date": "2026-09-28",
+          "views": 156
+        },
+        {
+          "date": "2026-09-29",
+          "views": 293
+        },
+        {
+          "date": "2026-09-30",
+          "views": 4361
+        },
+        {
+          "date": "2026-10-01",
+          "views": 1620
+        }
+      ]
+    },
+    {
+      "title": "דניאלה פיק",
+      "url": "https://he.wikipedia.org/wiki/%D7%93%D7%A0%D7%99%D7%90%D7%9C%D7%94_%D7%A4%D7%99%D7%A7",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%93%D7%A0%D7%99%D7%90%D7%9C%D7%94_%D7%A4%D7%99%D7%A7/daily/2026082800/2026100100",
+      "rank": 20,
+      "views": 1483,
+      "baseline": 51,
+      "ratio": 29.07843137254902,
+      "excess": 1432,
+      "activeDays": 1,
+      "trend": "rising",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 66
+        },
+        {
+          "date": "2026-08-29",
+          "views": 60
+        },
+        {
+          "date": "2026-08-30",
+          "views": 60
+        },
+        {
+          "date": "2026-08-31",
+          "views": 42
+        },
+        {
+          "date": "2026-09-01",
+          "views": 39
+        },
+        {
+          "date": "2026-09-02",
+          "views": 42
+        },
+        {
+          "date": "2026-09-03",
+          "views": 51
+        },
+        {
+          "date": "2026-09-04",
+          "views": 46
+        },
+        {
+          "date": "2026-09-05",
+          "views": 48
+        },
+        {
+          "date": "2026-09-06",
+          "views": 120
+        },
+        {
+          "date": "2026-09-07",
+          "views": 104
+        },
+        {
+          "date": "2026-09-08",
+          "views": 83
+        },
+        {
+          "date": "2026-09-09",
+          "views": 46
+        },
+        {
+          "date": "2026-09-10",
+          "views": 108
+        },
+        {
+          "date": "2026-09-11",
+          "views": 95
+        },
+        {
+          "date": "2026-09-12",
+          "views": 79
+        },
+        {
+          "date": "2026-09-13",
+          "views": 74
+        },
+        {
+          "date": "2026-09-14",
+          "views": 48
+        },
+        {
+          "date": "2026-09-15",
+          "views": 50
+        },
+        {
+          "date": "2026-09-16",
+          "views": 85
+        },
+        {
+          "date": "2026-09-17",
+          "views": 53
+        },
+        {
+          "date": "2026-09-18",
+          "views": 47
+        },
+        {
+          "date": "2026-09-19",
+          "views": 51
+        },
+        {
+          "date": "2026-09-20",
+          "views": 57
+        },
+        {
+          "date": "2026-09-21",
+          "views": 48
+        },
+        {
+          "date": "2026-09-22",
+          "views": 40
+        },
+        {
+          "date": "2026-09-23",
+          "views": 35
+        },
+        {
+          "date": "2026-09-24",
+          "views": 30
+        },
+        {
+          "date": "2026-09-25",
+          "views": 46
+        },
+        {
+          "date": "2026-09-26",
+          "views": 43
+        },
+        {
+          "date": "2026-09-27",
+          "views": 40
+        },
+        {
+          "date": "2026-09-28",
+          "views": 40
+        },
+        {
+          "date": "2026-09-29",
+          "views": 44
+        },
+        {
+          "date": "2026-09-30",
+          "views": 20
+        },
+        {
+          "date": "2026-10-01",
+          "views": 1483
+        }
+      ]
+    },
+    {
+      "title": "עצמאות (סרט)",
+      "url": "https://he.wikipedia.org/wiki/%D7%A2%D7%A6%D7%9E%D7%90%D7%95%D7%AA_(%D7%A1%D7%A8%D7%98)",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%A2%D7%A6%D7%9E%D7%90%D7%95%D7%AA_(%D7%A1%D7%A8%D7%98)/daily/2026082800/2026100100",
+      "rank": 21,
+      "views": 1466,
+      "baseline": 1629.5,
+      "ratio": 0.8996624731512733,
+      "excess": 0,
+      "activeDays": 0,
+      "trend": "steady",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 142
+        },
+        {
+          "date": "2026-08-29",
+          "views": 278
+        },
+        {
+          "date": "2026-08-30",
+          "views": 685
+        },
+        {
+          "date": "2026-08-31",
+          "views": 1154
+        },
+        {
+          "date": "2026-09-01",
+          "views": 1523
+        },
+        {
+          "date": "2026-09-02",
+          "views": 1521
+        },
+        {
+          "date": "2026-09-03",
+          "views": 2252
+        },
+        {
+          "date": "2026-09-04",
+          "views": 3161
+        },
+        {
+          "date": "2026-09-05",
+          "views": 3946
+        },
+        {
+          "date": "2026-09-06",
+          "views": 1878
+        },
+        {
+          "date": "2026-09-07",
+          "views": 1491
+        },
+        {
+          "date": "2026-09-08",
+          "views": 1640
+        },
+        {
+          "date": "2026-09-09",
+          "views": 3413
+        },
+        {
+          "date": "2026-09-10",
+          "views": 5381
+        },
+        {
+          "date": "2026-09-11",
+          "views": 2161
+        },
+        {
+          "date": "2026-09-12",
+          "views": 5510
+        },
+        {
+          "date": "2026-09-13",
+          "views": 5125
+        },
+        {
+          "date": "2026-09-14",
+          "views": 2563
+        },
+        {
+          "date": "2026-09-15",
+          "views": 2582
+        },
+        {
+          "date": "2026-09-16",
+          "views": 1607
+        },
+        {
+          "date": "2026-09-17",
+          "views": 1619
+        },
+        {
+          "date": "2026-09-18",
+          "views": 2426
+        },
+        {
+          "date": "2026-09-19",
+          "views": 3442
+        },
+        {
+          "date": "2026-09-20",
+          "views": 797
+        },
+        {
+          "date": "2026-09-21",
+          "views": 782
+        },
+        {
+          "date": "2026-09-22",
+          "views": 1461
+        },
+        {
+          "date": "2026-09-23",
+          "views": 1157
+        },
+        {
+          "date": "2026-09-24",
+          "views": 1098
+        },
+        {
+          "date": "2026-09-25",
+          "views": 1206
+        },
+        {
+          "date": "2026-09-26",
+          "views": 2153
+        },
+        {
+          "date": "2026-09-27",
+          "views": 1912
+        },
+        {
+          "date": "2026-09-28",
+          "views": 1823
+        },
+        {
+          "date": "2026-09-29",
+          "views": 1918
+        },
+        {
+          "date": "2026-09-30",
+          "views": 1481
+        },
+        {
+          "date": "2026-10-01",
+          "views": 1466
+        }
+      ]
+    },
+    {
+      "title": "קוונטין טרנטינו",
+      "url": "https://he.wikipedia.org/wiki/%D7%A7%D7%95%D7%95%D7%A0%D7%98%D7%99%D7%9F_%D7%98%D7%A8%D7%A0%D7%98%D7%99%D7%A0%D7%95",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%A7%D7%95%D7%95%D7%A0%D7%98%D7%99%D7%9F_%D7%98%D7%A8%D7%A0%D7%98%D7%99%D7%A0%D7%95/daily/2026082800/2026100100",
+      "rank": 22,
+      "views": 1453,
+      "baseline": 130.5,
+      "ratio": 11.134099616858238,
+      "excess": 1322.5,
+      "activeDays": 1,
+      "trend": "rising",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 151
+        },
+        {
+          "date": "2026-08-29",
+          "views": 146
+        },
+        {
+          "date": "2026-08-30",
+          "views": 128
+        },
+        {
+          "date": "2026-08-31",
+          "views": 84
+        },
+        {
+          "date": "2026-09-01",
+          "views": 107
+        },
+        {
+          "date": "2026-09-02",
+          "views": 93
+        },
+        {
+          "date": "2026-09-03",
+          "views": 113
+        },
+        {
+          "date": "2026-09-04",
+          "views": 117
+        },
+        {
+          "date": "2026-09-05",
+          "views": 116
+        },
+        {
+          "date": "2026-09-06",
+          "views": 335
+        },
+        {
+          "date": "2026-09-07",
+          "views": 360
+        },
+        {
+          "date": "2026-09-08",
+          "views": 232
+        },
+        {
+          "date": "2026-09-09",
+          "views": 124
+        },
+        {
+          "date": "2026-09-10",
+          "views": 298
+        },
+        {
+          "date": "2026-09-11",
+          "views": 202
+        },
+        {
+          "date": "2026-09-12",
+          "views": 184
+        },
+        {
+          "date": "2026-09-13",
+          "views": 161
+        },
+        {
+          "date": "2026-09-14",
+          "views": 112
+        },
+        {
+          "date": "2026-09-15",
+          "views": 137
+        },
+        {
+          "date": "2026-09-16",
+          "views": 186
+        },
+        {
+          "date": "2026-09-17",
+          "views": 147
+        },
+        {
+          "date": "2026-09-18",
+          "views": 133
+        },
+        {
+          "date": "2026-09-19",
+          "views": 121
+        },
+        {
+          "date": "2026-09-20",
+          "views": 102
+        },
+        {
+          "date": "2026-09-21",
+          "views": 137
+        },
+        {
+          "date": "2026-09-22",
+          "views": 122
+        },
+        {
+          "date": "2026-09-23",
+          "views": 107
+        },
+        {
+          "date": "2026-09-24",
+          "views": 108
+        },
+        {
+          "date": "2026-09-25",
+          "views": 125
+        },
+        {
+          "date": "2026-09-26",
+          "views": 111
+        },
+        {
+          "date": "2026-09-27",
+          "views": 79
+        },
+        {
+          "date": "2026-09-28",
+          "views": 87
+        },
+        {
+          "date": "2026-09-29",
+          "views": 104
+        },
+        {
+          "date": "2026-09-30",
+          "views": 64
+        },
+        {
+          "date": "2026-10-01",
+          "views": 1453
+        }
+      ]
+    },
+    {
+      "title": "פליי דובאי",
+      "url": "https://he.wikipedia.org/wiki/%D7%A4%D7%9C%D7%99%D7%99_%D7%93%D7%95%D7%91%D7%90%D7%99",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%A4%D7%9C%D7%99%D7%99_%D7%93%D7%95%D7%91%D7%90%D7%99/daily/2026082800/2026100100",
+      "rank": 23,
+      "views": 1443,
+      "baseline": 11.5,
+      "ratio": null,
+      "excess": 1431.5,
+      "activeDays": null,
+      "trend": "insufficient",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 8
+        },
+        {
+          "date": "2026-08-29",
+          "views": 21
+        },
+        {
+          "date": "2026-08-30",
+          "views": 11
+        },
+        {
+          "date": "2026-08-31",
+          "views": 19
+        },
+        {
+          "date": "2026-09-01",
+          "views": 10
+        },
+        {
+          "date": "2026-09-02",
+          "views": 3
+        },
+        {
+          "date": "2026-09-03",
+          "views": 8
+        },
+        {
+          "date": "2026-09-04",
+          "views": 9
+        },
+        {
+          "date": "2026-09-05",
+          "views": 13
+        },
+        {
+          "date": "2026-09-06",
+          "views": 9
+        },
+        {
+          "date": "2026-09-07",
+          "views": 9
+        },
+        {
+          "date": "2026-09-08",
+          "views": 11
+        },
+        {
+          "date": "2026-09-09",
+          "views": 14
+        },
+        {
+          "date": "2026-09-10",
+          "views": 12
+        },
+        {
+          "date": "2026-09-11",
+          "views": 9
+        },
+        {
+          "date": "2026-09-12",
+          "views": 8
+        },
+        {
+          "date": "2026-09-13",
+          "views": 14
+        },
+        {
+          "date": "2026-09-14",
+          "views": 12
+        },
+        {
+          "date": "2026-09-15",
+          "views": 5
+        },
+        {
+          "date": "2026-09-16",
+          "views": 8
+        },
+        {
+          "date": "2026-09-17",
+          "views": 16
+        },
+        {
+          "date": "2026-09-18",
+          "views": 8
+        },
+        {
+          "date": "2026-09-19",
+          "views": 14
+        },
+        {
+          "date": "2026-09-20",
+          "views": 16
+        },
+        {
+          "date": "2026-09-21",
+          "views": 12
+        },
+        {
+          "date": "2026-09-22",
+          "views": 18
+        },
+        {
+          "date": "2026-09-23",
+          "views": 16
+        },
+        {
+          "date": "2026-09-24",
+          "views": 17
+        },
+        {
+          "date": "2026-09-25",
+          "views": 17
+        },
+        {
+          "date": "2026-09-26",
+          "views": 20
+        },
+        {
+          "date": "2026-09-27",
+          "views": 12
+        },
+        {
+          "date": "2026-09-28",
+          "views": 16
+        },
+        {
+          "date": "2026-09-29",
+          "views": 8
+        },
+        {
+          "date": "2026-09-30",
+          "views": 3203
+        },
+        {
+          "date": "2026-10-01",
+          "views": 1443
+        }
+      ]
+    },
+    {
+      "title": "קדמת עדן (רומן)",
+      "url": "https://he.wikipedia.org/wiki/%D7%A7%D7%93%D7%9E%D7%AA_%D7%A2%D7%93%D7%9F_(%D7%A8%D7%95%D7%9E%D7%9F)",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%A7%D7%93%D7%9E%D7%AA_%D7%A2%D7%93%D7%9F_(%D7%A8%D7%95%D7%9E%D7%9F)/daily/2026082800/2026100100",
+      "rank": 24,
+      "views": 1288,
+      "baseline": 39,
+      "ratio": 33.02564102564103,
+      "excess": 1249,
+      "activeDays": 1,
+      "trend": "rising",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 10
+        },
+        {
+          "date": "2026-08-29",
+          "views": 16
+        },
+        {
+          "date": "2026-08-30",
+          "views": 13
+        },
+        {
+          "date": "2026-08-31",
+          "views": 12
+        },
+        {
+          "date": "2026-09-01",
+          "views": 9
+        },
+        {
+          "date": "2026-09-02",
+          "views": 81
+        },
+        {
+          "date": "2026-09-03",
+          "views": 109
+        },
+        {
+          "date": "2026-09-04",
+          "views": 96
+        },
+        {
+          "date": "2026-09-05",
+          "views": 55
+        },
+        {
+          "date": "2026-09-06",
+          "views": 57
+        },
+        {
+          "date": "2026-09-07",
+          "views": 41
+        },
+        {
+          "date": "2026-09-08",
+          "views": 28
+        },
+        {
+          "date": "2026-09-09",
+          "views": 37
+        },
+        {
+          "date": "2026-09-10",
+          "views": 22
+        },
+        {
+          "date": "2026-09-11",
+          "views": 22
+        },
+        {
+          "date": "2026-09-12",
+          "views": 46
+        },
+        {
+          "date": "2026-09-13",
+          "views": 34
+        },
+        {
+          "date": "2026-09-14",
+          "views": 24
+        },
+        {
+          "date": "2026-09-15",
+          "views": 33
+        },
+        {
+          "date": "2026-09-16",
+          "views": 16
+        },
+        {
+          "date": "2026-09-17",
+          "views": 52
+        },
+        {
+          "date": "2026-09-18",
+          "views": 66
+        },
+        {
+          "date": "2026-09-19",
+          "views": 85
+        },
+        {
+          "date": "2026-09-20",
+          "views": 61
+        },
+        {
+          "date": "2026-09-21",
+          "views": 61
+        },
+        {
+          "date": "2026-09-22",
+          "views": 52
+        },
+        {
+          "date": "2026-09-23",
+          "views": 44
+        },
+        {
+          "date": "2026-09-24",
+          "views": 27
+        },
+        {
+          "date": "2026-09-25",
+          "views": 42
+        },
+        {
+          "date": "2026-09-26",
+          "views": 54
+        },
+        {
+          "date": "2026-09-27",
+          "views": 41
+        },
+        {
+          "date": "2026-09-28",
+          "views": 63
+        },
+        {
+          "date": "2026-09-29",
+          "views": 58
+        },
+        {
+          "date": "2026-09-30",
+          "views": 53
+        },
+        {
+          "date": "2026-10-01",
+          "views": 1288
+        }
+      ]
+    },
+    {
+      "title": "איחוד האמירויות הערביות",
+      "url": "https://he.wikipedia.org/wiki/%D7%90%D7%99%D7%97%D7%95%D7%93_%D7%94%D7%90%D7%9E%D7%99%D7%A8%D7%95%D7%99%D7%95%D7%AA_%D7%94%D7%A2%D7%A8%D7%91%D7%99%D7%95%D7%AA",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%90%D7%99%D7%97%D7%95%D7%93_%D7%94%D7%90%D7%9E%D7%99%D7%A8%D7%95%D7%99%D7%95%D7%AA_%D7%94%D7%A2%D7%A8%D7%91%D7%99%D7%95%D7%AA/daily/2026082800/2026100100",
+      "rank": 25,
+      "views": 1256,
+      "baseline": 133,
+      "ratio": 9.443609022556391,
+      "excess": 1123,
+      "activeDays": 5,
+      "trend": "sustained",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 98
+        },
+        {
+          "date": "2026-08-29",
+          "views": 105
+        },
+        {
+          "date": "2026-08-30",
+          "views": 101
+        },
+        {
+          "date": "2026-08-31",
+          "views": 131
+        },
+        {
+          "date": "2026-09-01",
+          "views": 124
+        },
+        {
+          "date": "2026-09-02",
+          "views": 96
+        },
+        {
+          "date": "2026-09-03",
+          "views": 111
+        },
+        {
+          "date": "2026-09-04",
+          "views": 86
+        },
+        {
+          "date": "2026-09-05",
+          "views": 102
+        },
+        {
+          "date": "2026-09-06",
+          "views": 118
+        },
+        {
+          "date": "2026-09-07",
+          "views": 116
+        },
+        {
+          "date": "2026-09-08",
+          "views": 336
+        },
+        {
+          "date": "2026-09-09",
+          "views": 255
+        },
+        {
+          "date": "2026-09-10",
+          "views": 206
+        },
+        {
+          "date": "2026-09-11",
+          "views": 133
+        },
+        {
+          "date": "2026-09-12",
+          "views": 163
+        },
+        {
+          "date": "2026-09-13",
+          "views": 156
+        },
+        {
+          "date": "2026-09-14",
+          "views": 156
+        },
+        {
+          "date": "2026-09-15",
+          "views": 158
+        },
+        {
+          "date": "2026-09-16",
+          "views": 149
+        },
+        {
+          "date": "2026-09-17",
+          "views": 126
+        },
+        {
+          "date": "2026-09-18",
+          "views": 121
+        },
+        {
+          "date": "2026-09-19",
+          "views": 151
+        },
+        {
+          "date": "2026-09-20",
+          "views": 138
+        },
+        {
+          "date": "2026-09-21",
+          "views": 133
+        },
+        {
+          "date": "2026-09-22",
+          "views": 177
+        },
+        {
+          "date": "2026-09-23",
+          "views": 150
+        },
+        {
+          "date": "2026-09-24",
+          "views": 155
+        },
+        {
+          "date": "2026-09-25",
+          "views": 148
+        },
+        {
+          "date": "2026-09-26",
+          "views": 192
+        },
+        {
+          "date": "2026-09-27",
+          "views": 307
+        },
+        {
+          "date": "2026-09-28",
+          "views": 606
+        },
+        {
+          "date": "2026-09-29",
+          "views": 292
+        },
+        {
+          "date": "2026-09-30",
+          "views": 1804
+        },
+        {
+          "date": "2026-10-01",
+          "views": 1256
+        }
+      ]
+    },
+    {
+      "title": "טד קזינסקי",
+      "url": "https://he.wikipedia.org/wiki/%D7%98%D7%93_%D7%A7%D7%96%D7%99%D7%A0%D7%A1%D7%A7%D7%99",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%98%D7%93_%D7%A7%D7%96%D7%99%D7%A0%D7%A1%D7%A7%D7%99/daily/2026082800/2026100100",
+      "rank": 26,
+      "views": 1134,
+      "baseline": 41,
+      "ratio": 27.658536585365855,
+      "excess": 1093,
+      "activeDays": 7,
+      "trend": "cooling",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 116
+        },
+        {
+          "date": "2026-08-29",
+          "views": 97
+        },
+        {
+          "date": "2026-08-30",
+          "views": 56
+        },
+        {
+          "date": "2026-08-31",
+          "views": 84
+        },
+        {
+          "date": "2026-09-01",
+          "views": 106
+        },
+        {
+          "date": "2026-09-02",
+          "views": 128
+        },
+        {
+          "date": "2026-09-03",
+          "views": 119
+        },
+        {
+          "date": "2026-09-04",
+          "views": 103
+        },
+        {
+          "date": "2026-09-05",
+          "views": 56
+        },
+        {
+          "date": "2026-09-06",
+          "views": 36
+        },
+        {
+          "date": "2026-09-07",
+          "views": 21
+        },
+        {
+          "date": "2026-09-08",
+          "views": 20
+        },
+        {
+          "date": "2026-09-09",
+          "views": 20
+        },
+        {
+          "date": "2026-09-10",
+          "views": 37
+        },
+        {
+          "date": "2026-09-11",
+          "views": 47
+        },
+        {
+          "date": "2026-09-12",
+          "views": 45
+        },
+        {
+          "date": "2026-09-13",
+          "views": 57
+        },
+        {
+          "date": "2026-09-14",
+          "views": 43
+        },
+        {
+          "date": "2026-09-15",
+          "views": 22
+        },
+        {
+          "date": "2026-09-16",
+          "views": 28
+        },
+        {
+          "date": "2026-09-17",
+          "views": 27
+        },
+        {
+          "date": "2026-09-18",
+          "views": 37
+        },
+        {
+          "date": "2026-09-19",
+          "views": 39
+        },
+        {
+          "date": "2026-09-20",
+          "views": 29
+        },
+        {
+          "date": "2026-09-21",
+          "views": 37
+        },
+        {
+          "date": "2026-09-22",
+          "views": 34
+        },
+        {
+          "date": "2026-09-23",
+          "views": 35
+        },
+        {
+          "date": "2026-09-24",
+          "views": 155
+        },
+        {
+          "date": "2026-09-25",
+          "views": 1445
+        },
+        {
+          "date": "2026-09-26",
+          "views": 2916
+        },
+        {
+          "date": "2026-09-27",
+          "views": 1754
+        },
+        {
+          "date": "2026-09-28",
+          "views": 1439
+        },
+        {
+          "date": "2026-09-29",
+          "views": 1441
+        },
+        {
+          "date": "2026-09-30",
+          "views": 1176
+        },
+        {
+          "date": "2026-10-01",
+          "views": 1134
+        }
+      ]
+    },
+    {
+      "title": "דניאל לוין",
+      "url": "https://he.wikipedia.org/wiki/%D7%93%D7%A0%D7%99%D7%90%D7%9C_%D7%9C%D7%95%D7%99%D7%9F",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%93%D7%A0%D7%99%D7%90%D7%9C_%D7%9C%D7%95%D7%99%D7%9F/daily/2026082800/2026100100",
+      "rank": 27,
+      "views": 1016,
+      "baseline": 55,
+      "ratio": 18.472727272727273,
+      "excess": 961,
+      "activeDays": 2,
+      "trend": "cooling",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 25
+        },
+        {
+          "date": "2026-08-29",
+          "views": 27
+        },
+        {
+          "date": "2026-08-30",
+          "views": 17
+        },
+        {
+          "date": "2026-08-31",
+          "views": 11
+        },
+        {
+          "date": "2026-09-01",
+          "views": 15
+        },
+        {
+          "date": "2026-09-02",
+          "views": 20
+        },
+        {
+          "date": "2026-09-03",
+          "views": 16
+        },
+        {
+          "date": "2026-09-04",
+          "views": 28
+        },
+        {
+          "date": "2026-09-05",
+          "views": 63
+        },
+        {
+          "date": "2026-09-06",
+          "views": 70
+        },
+        {
+          "date": "2026-09-07",
+          "views": 38
+        },
+        {
+          "date": "2026-09-08",
+          "views": 64
+        },
+        {
+          "date": "2026-09-09",
+          "views": 64
+        },
+        {
+          "date": "2026-09-10",
+          "views": 251
+        },
+        {
+          "date": "2026-09-11",
+          "views": 1289
+        },
+        {
+          "date": "2026-09-12",
+          "views": 1095
+        },
+        {
+          "date": "2026-09-13",
+          "views": 530
+        },
+        {
+          "date": "2026-09-14",
+          "views": 271
+        },
+        {
+          "date": "2026-09-15",
+          "views": 105
+        },
+        {
+          "date": "2026-09-16",
+          "views": 97
+        },
+        {
+          "date": "2026-09-17",
+          "views": 60
+        },
+        {
+          "date": "2026-09-18",
+          "views": 50
+        },
+        {
+          "date": "2026-09-19",
+          "views": 59
+        },
+        {
+          "date": "2026-09-20",
+          "views": 40
+        },
+        {
+          "date": "2026-09-21",
+          "views": 58
+        },
+        {
+          "date": "2026-09-22",
+          "views": 52
+        },
+        {
+          "date": "2026-09-23",
+          "views": 43
+        },
+        {
+          "date": "2026-09-24",
+          "views": 23
+        },
+        {
+          "date": "2026-09-25",
+          "views": 25
+        },
+        {
+          "date": "2026-09-26",
+          "views": 26
+        },
+        {
+          "date": "2026-09-27",
+          "views": 9
+        },
+        {
+          "date": "2026-09-28",
+          "views": 23
+        },
+        {
+          "date": "2026-09-29",
+          "views": 33
+        },
+        {
+          "date": "2026-09-30",
+          "views": 1773
+        },
+        {
+          "date": "2026-10-01",
+          "views": 1016
+        }
+      ]
+    },
+    {
+      "title": "הפשוטע (סדרת טלוויזיה)",
+      "url": "https://he.wikipedia.org/wiki/%D7%94%D7%A4%D7%A9%D7%95%D7%98%D7%A2_(%D7%A1%D7%93%D7%A8%D7%AA_%D7%98%D7%9C%D7%95%D7%95%D7%99%D7%96%D7%99%D7%94)",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%94%D7%A4%D7%A9%D7%95%D7%98%D7%A2_(%D7%A1%D7%93%D7%A8%D7%AA_%D7%98%D7%9C%D7%95%D7%95%D7%99%D7%96%D7%99%D7%94)/daily/2026082800/2026100100",
+      "rank": 30,
+      "views": 965,
+      "baseline": 1785,
+      "ratio": 0.5406162464985994,
+      "excess": 0,
+      "activeDays": 0,
+      "trend": "steady",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 1417
+        },
+        {
+          "date": "2026-08-29",
+          "views": 1417
+        },
+        {
+          "date": "2026-08-30",
+          "views": 1177
+        },
+        {
+          "date": "2026-08-31",
+          "views": 1775
+        },
+        {
+          "date": "2026-09-01",
+          "views": 1773
+        },
+        {
+          "date": "2026-09-02",
+          "views": 1443
+        },
+        {
+          "date": "2026-09-03",
+          "views": 1552
+        },
+        {
+          "date": "2026-09-04",
+          "views": 1634
+        },
+        {
+          "date": "2026-09-05",
+          "views": 1895
+        },
+        {
+          "date": "2026-09-06",
+          "views": 1300
+        },
+        {
+          "date": "2026-09-07",
+          "views": 2147
+        },
+        {
+          "date": "2026-09-08",
+          "views": 2772
+        },
+        {
+          "date": "2026-09-09",
+          "views": 2111
+        },
+        {
+          "date": "2026-09-10",
+          "views": 1797
+        },
+        {
+          "date": "2026-09-11",
+          "views": 1383
+        },
+        {
+          "date": "2026-09-12",
+          "views": 2015
+        },
+        {
+          "date": "2026-09-13",
+          "views": 2187
+        },
+        {
+          "date": "2026-09-14",
+          "views": 3103
+        },
+        {
+          "date": "2026-09-15",
+          "views": 3859
+        },
+        {
+          "date": "2026-09-16",
+          "views": 2887
+        },
+        {
+          "date": "2026-09-17",
+          "views": 2320
+        },
+        {
+          "date": "2026-09-18",
+          "views": 2336
+        },
+        {
+          "date": "2026-09-19",
+          "views": 2325
+        },
+        {
+          "date": "2026-09-20",
+          "views": 1662
+        },
+        {
+          "date": "2026-09-21",
+          "views": 1795
+        },
+        {
+          "date": "2026-09-22",
+          "views": 1697
+        },
+        {
+          "date": "2026-09-23",
+          "views": 1539
+        },
+        {
+          "date": "2026-09-24",
+          "views": 1469
+        },
+        {
+          "date": "2026-09-25",
+          "views": 1321
+        },
+        {
+          "date": "2026-09-26",
+          "views": 1634
+        },
+        {
+          "date": "2026-09-27",
+          "views": 1271
+        },
+        {
+          "date": "2026-09-28",
+          "views": 1245
+        },
+        {
+          "date": "2026-09-29",
+          "views": 1097
+        },
+        {
+          "date": "2026-09-30",
+          "views": 911
+        },
+        {
+          "date": "2026-10-01",
+          "views": 965
+        }
+      ]
+    },
+    {
+      "title": "ליזי בורדן",
+      "url": "https://he.wikipedia.org/wiki/%D7%9C%D7%99%D7%96%D7%99_%D7%91%D7%95%D7%A8%D7%93%D7%9F",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%9C%D7%99%D7%96%D7%99_%D7%91%D7%95%D7%A8%D7%93%D7%9F/daily/2026082800/2026100100",
+      "rank": 31,
+      "views": 962,
+      "baseline": 107,
+      "ratio": 8.990654205607477,
+      "excess": 855,
+      "activeDays": 7,
+      "trend": "cooling",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 206
+        },
+        {
+          "date": "2026-08-29",
+          "views": 173
+        },
+        {
+          "date": "2026-08-30",
+          "views": 49
+        },
+        {
+          "date": "2026-08-31",
+          "views": 41
+        },
+        {
+          "date": "2026-09-01",
+          "views": 54
+        },
+        {
+          "date": "2026-09-02",
+          "views": 50
+        },
+        {
+          "date": "2026-09-03",
+          "views": 107
+        },
+        {
+          "date": "2026-09-04",
+          "views": 106
+        },
+        {
+          "date": "2026-09-05",
+          "views": 107
+        },
+        {
+          "date": "2026-09-06",
+          "views": 79
+        },
+        {
+          "date": "2026-09-07",
+          "views": 57
+        },
+        {
+          "date": "2026-09-08",
+          "views": 58
+        },
+        {
+          "date": "2026-09-09",
+          "views": 63
+        },
+        {
+          "date": "2026-09-10",
+          "views": 75
+        },
+        {
+          "date": "2026-09-11",
+          "views": 48
+        },
+        {
+          "date": "2026-09-12",
+          "views": 92
+        },
+        {
+          "date": "2026-09-13",
+          "views": 140
+        },
+        {
+          "date": "2026-09-14",
+          "views": 117
+        },
+        {
+          "date": "2026-09-15",
+          "views": 61
+        },
+        {
+          "date": "2026-09-16",
+          "views": 391
+        },
+        {
+          "date": "2026-09-17",
+          "views": 2308
+        },
+        {
+          "date": "2026-09-18",
+          "views": 3887
+        },
+        {
+          "date": "2026-09-19",
+          "views": 5616
+        },
+        {
+          "date": "2026-09-20",
+          "views": 4680
+        },
+        {
+          "date": "2026-09-21",
+          "views": 5849
+        },
+        {
+          "date": "2026-09-22",
+          "views": 3522
+        },
+        {
+          "date": "2026-09-23",
+          "views": 2662
+        },
+        {
+          "date": "2026-09-24",
+          "views": 2139
+        },
+        {
+          "date": "2026-09-25",
+          "views": 2074
+        },
+        {
+          "date": "2026-09-26",
+          "views": 2639
+        },
+        {
+          "date": "2026-09-27",
+          "views": 1787
+        },
+        {
+          "date": "2026-09-28",
+          "views": 1612
+        },
+        {
+          "date": "2026-09-29",
+          "views": 1374
+        },
+        {
+          "date": "2026-09-30",
+          "views": 1190
+        },
+        {
+          "date": "2026-10-01",
+          "views": 962
+        }
+      ]
+    },
+    {
+      "title": "פאודה",
+      "url": "https://he.wikipedia.org/wiki/%D7%A4%D7%90%D7%95%D7%93%D7%94",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%A4%D7%90%D7%95%D7%93%D7%94/daily/2026082800/2026100100",
+      "rank": 31,
+      "views": 962,
+      "baseline": 1261.5,
+      "ratio": 0.7625842251288149,
+      "excess": 0,
+      "activeDays": 0,
+      "trend": "steady",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 371
+        },
+        {
+          "date": "2026-08-29",
+          "views": 407
+        },
+        {
+          "date": "2026-08-30",
+          "views": 315
+        },
+        {
+          "date": "2026-08-31",
+          "views": 363
+        },
+        {
+          "date": "2026-09-01",
+          "views": 297
+        },
+        {
+          "date": "2026-09-02",
+          "views": 654
+        },
+        {
+          "date": "2026-09-03",
+          "views": 499
+        },
+        {
+          "date": "2026-09-04",
+          "views": 436
+        },
+        {
+          "date": "2026-09-05",
+          "views": 458
+        },
+        {
+          "date": "2026-09-06",
+          "views": 323
+        },
+        {
+          "date": "2026-09-07",
+          "views": 260
+        },
+        {
+          "date": "2026-09-08",
+          "views": 839
+        },
+        {
+          "date": "2026-09-09",
+          "views": 1080
+        },
+        {
+          "date": "2026-09-10",
+          "views": 1280
+        },
+        {
+          "date": "2026-09-11",
+          "views": 1243
+        },
+        {
+          "date": "2026-09-12",
+          "views": 2231
+        },
+        {
+          "date": "2026-09-13",
+          "views": 4238
+        },
+        {
+          "date": "2026-09-14",
+          "views": 3557
+        },
+        {
+          "date": "2026-09-15",
+          "views": 2645
+        },
+        {
+          "date": "2026-09-16",
+          "views": 2187
+        },
+        {
+          "date": "2026-09-17",
+          "views": 1921
+        },
+        {
+          "date": "2026-09-18",
+          "views": 2200
+        },
+        {
+          "date": "2026-09-19",
+          "views": 2893
+        },
+        {
+          "date": "2026-09-20",
+          "views": 2300
+        },
+        {
+          "date": "2026-09-21",
+          "views": 2933
+        },
+        {
+          "date": "2026-09-22",
+          "views": 1724
+        },
+        {
+          "date": "2026-09-23",
+          "views": 1438
+        },
+        {
+          "date": "2026-09-24",
+          "views": 1365
+        },
+        {
+          "date": "2026-09-25",
+          "views": 1412
+        },
+        {
+          "date": "2026-09-26",
+          "views": 1885
+        },
+        {
+          "date": "2026-09-27",
+          "views": 1498
+        },
+        {
+          "date": "2026-09-28",
+          "views": 1327
+        },
+        {
+          "date": "2026-09-29",
+          "views": 1261
+        },
+        {
+          "date": "2026-09-30",
+          "views": 1062
+        },
+        {
+          "date": "2026-10-01",
+          "views": 962
+        }
+      ]
+    },
+    {
+      "title": "גדי איזנקוט",
+      "url": "https://he.wikipedia.org/wiki/%D7%92%D7%93%D7%99_%D7%90%D7%99%D7%96%D7%A0%D7%A7%D7%95%D7%98",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%92%D7%93%D7%99_%D7%90%D7%99%D7%96%D7%A0%D7%A7%D7%95%D7%98/daily/2026082800/2026100100",
+      "rank": 33,
+      "views": 908,
+      "baseline": 1123.5,
+      "ratio": 0.8081886960391633,
+      "excess": 0,
+      "activeDays": 0,
+      "trend": "steady",
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 1633
+        },
+        {
+          "date": "2026-08-29",
+          "views": 1383
+        },
+        {
+          "date": "2026-08-30",
+          "views": 1246
+        },
+        {
+          "date": "2026-08-31",
+          "views": 1115
+        },
+        {
+          "date": "2026-09-01",
+          "views": 1020
+        },
+        {
+          "date": "2026-09-02",
+          "views": 1013
+        },
+        {
+          "date": "2026-09-03",
+          "views": 1143
+        },
+        {
+          "date": "2026-09-04",
+          "views": 1265
+        },
+        {
+          "date": "2026-09-05",
+          "views": 1119
+        },
+        {
+          "date": "2026-09-06",
+          "views": 1434
+        },
+        {
+          "date": "2026-09-07",
+          "views": 1876
+        },
+        {
+          "date": "2026-09-08",
+          "views": 1390
+        },
+        {
+          "date": "2026-09-09",
+          "views": 1154
+        },
+        {
+          "date": "2026-09-10",
+          "views": 1116
+        },
+        {
+          "date": "2026-09-11",
+          "views": 1071
+        },
+        {
+          "date": "2026-09-12",
+          "views": 982
+        },
+        {
+          "date": "2026-09-13",
+          "views": 915
+        },
+        {
+          "date": "2026-09-14",
+          "views": 1024
+        },
+        {
+          "date": "2026-09-15",
+          "views": 919
+        },
+        {
+          "date": "2026-09-16",
+          "views": 1082
+        },
+        {
+          "date": "2026-09-17",
+          "views": 1237
+        },
+        {
+          "date": "2026-09-18",
+          "views": 1128
+        },
+        {
+          "date": "2026-09-19",
+          "views": 1152
+        },
+        {
+          "date": "2026-09-20",
+          "views": 933
+        },
+        {
+          "date": "2026-09-21",
+          "views": 648
+        },
+        {
+          "date": "2026-09-22",
+          "views": 2239
+        },
+        {
+          "date": "2026-09-23",
+          "views": 1518
+        },
+        {
+          "date": "2026-09-24",
+          "views": 922
+        },
+        {
+          "date": "2026-09-25",
+          "views": 1026
+        },
+        {
+          "date": "2026-09-26",
+          "views": 1474
+        },
+        {
+          "date": "2026-09-27",
+          "views": 1303
+        },
+        {
+          "date": "2026-09-28",
+          "views": 1067
+        },
+        {
+          "date": "2026-09-29",
+          "views": 1085
+        },
+        {
+          "date": "2026-09-30",
+          "views": 868
+        },
+        {
+          "date": "2026-10-01",
+          "views": 908
+        }
+      ]
+    }
+  ],
+  "uncomparedArticles": [
+    {
+      "title": "טיסה 1073 של פליי דובאי",
+      "url": "https://he.wikipedia.org/wiki/%D7%98%D7%99%D7%A1%D7%94_1073_%D7%A9%D7%9C_%D7%A4%D7%9C%D7%99%D7%99_%D7%93%D7%95%D7%91%D7%90%D7%99",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%98%D7%99%D7%A1%D7%94_1073_%D7%A9%D7%9C_%D7%A4%D7%9C%D7%99%D7%99_%D7%93%D7%95%D7%91%D7%90%D7%99/daily/2026082800/2026100100",
+      "rank": 4,
+      "reason": "incomplete_history",
+      "views": 7494,
+      "series": [
+        {
+          "date": "2026-09-30",
+          "views": 6442
+        },
+        {
+          "date": "2026-10-01",
+          "views": 7494
+        }
+      ],
+      "missingDates": [
+        "2026-08-28",
+        "2026-08-29",
+        "2026-08-30",
+        "2026-08-31",
+        "2026-09-01",
+        "2026-09-02",
+        "2026-09-03",
+        "2026-09-04",
+        "2026-09-05",
+        "2026-09-06",
+        "2026-09-07",
+        "2026-09-08",
+        "2026-09-09",
+        "2026-09-10",
+        "2026-09-11",
+        "2026-09-12",
+        "2026-09-13",
+        "2026-09-14",
+        "2026-09-15",
+        "2026-09-16",
+        "2026-09-17",
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21",
+        "2026-09-22",
+        "2026-09-23",
+        "2026-09-24",
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29"
+      ]
+    },
+    {
+      "title": "אריה עמידרור",
+      "url": "https://he.wikipedia.org/wiki/%D7%90%D7%A8%D7%99%D7%94_%D7%A2%D7%9E%D7%99%D7%93%D7%A8%D7%95%D7%A8",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%90%D7%A8%D7%99%D7%94_%D7%A2%D7%9E%D7%99%D7%93%D7%A8%D7%95%D7%A8/daily/2026082800/2026100100",
+      "rank": 11,
+      "reason": "incomplete_history",
+      "views": 2884,
+      "series": [
+        {
+          "date": "2026-10-01",
+          "views": 2884
+        }
+      ],
+      "missingDates": [
+        "2026-08-28",
+        "2026-08-29",
+        "2026-08-30",
+        "2026-08-31",
+        "2026-09-01",
+        "2026-09-02",
+        "2026-09-03",
+        "2026-09-04",
+        "2026-09-05",
+        "2026-09-06",
+        "2026-09-07",
+        "2026-09-08",
+        "2026-09-09",
+        "2026-09-10",
+        "2026-09-11",
+        "2026-09-12",
+        "2026-09-13",
+        "2026-09-14",
+        "2026-09-15",
+        "2026-09-16",
+        "2026-09-17",
+        "2026-09-18",
+        "2026-09-19",
+        "2026-09-20",
+        "2026-09-21",
+        "2026-09-22",
+        "2026-09-23",
+        "2026-09-24",
+        "2026-09-25",
+        "2026-09-26",
+        "2026-09-27",
+        "2026-09-28",
+        "2026-09-29",
+        "2026-09-30"
+      ]
+    },
+    {
+      "title": "ינון קרייז",
+      "url": "https://he.wikipedia.org/wiki/%D7%99%D7%A0%D7%95%D7%9F_%D7%A7%D7%A8%D7%99%D7%99%D7%96",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%99%D7%A0%D7%95%D7%9F_%D7%A7%D7%A8%D7%99%D7%99%D7%96/daily/2026082800/2026100100",
+      "rank": 12,
+      "reason": "incomplete_history",
+      "views": 2413,
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 3
+        },
+        {
+          "date": "2026-08-29",
+          "views": 6
+        },
+        {
+          "date": "2026-08-31",
+          "views": 4
+        },
+        {
+          "date": "2026-09-01",
+          "views": 2
+        },
+        {
+          "date": "2026-09-02",
+          "views": 6
+        },
+        {
+          "date": "2026-09-03",
+          "views": 7
+        },
+        {
+          "date": "2026-09-04",
+          "views": 6
+        },
+        {
+          "date": "2026-09-05",
+          "views": 3
+        },
+        {
+          "date": "2026-09-06",
+          "views": 2
+        },
+        {
+          "date": "2026-09-07",
+          "views": 1
+        },
+        {
+          "date": "2026-09-08",
+          "views": 0
+        },
+        {
+          "date": "2026-09-09",
+          "views": 2
+        },
+        {
+          "date": "2026-09-10",
+          "views": 2
+        },
+        {
+          "date": "2026-09-11",
+          "views": 4
+        },
+        {
+          "date": "2026-09-13",
+          "views": 4
+        },
+        {
+          "date": "2026-09-14",
+          "views": 3
+        },
+        {
+          "date": "2026-09-15",
+          "views": 0
+        },
+        {
+          "date": "2026-09-16",
+          "views": 3
+        },
+        {
+          "date": "2026-09-17",
+          "views": 1
+        },
+        {
+          "date": "2026-09-18",
+          "views": 1
+        },
+        {
+          "date": "2026-09-19",
+          "views": 6
+        },
+        {
+          "date": "2026-09-20",
+          "views": 2
+        },
+        {
+          "date": "2026-09-21",
+          "views": 1
+        },
+        {
+          "date": "2026-09-22",
+          "views": 2
+        },
+        {
+          "date": "2026-09-24",
+          "views": 5
+        },
+        {
+          "date": "2026-09-25",
+          "views": 10
+        },
+        {
+          "date": "2026-09-26",
+          "views": 5
+        },
+        {
+          "date": "2026-09-27",
+          "views": 2
+        },
+        {
+          "date": "2026-09-28",
+          "views": 1
+        },
+        {
+          "date": "2026-09-29",
+          "views": 4
+        },
+        {
+          "date": "2026-09-30",
+          "views": 118
+        },
+        {
+          "date": "2026-10-01",
+          "views": 2413
+        }
+      ],
+      "missingDates": [
+        "2026-08-30",
+        "2026-09-12",
+        "2026-09-23"
+      ]
+    },
+    {
+      "title": "גלעד בן ש\"ך",
+      "url": "https://he.wikipedia.org/wiki/%D7%92%D7%9C%D7%A2%D7%93_%D7%91%D7%9F_%D7%A9%22%D7%9A",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%92%D7%9C%D7%A2%D7%93_%D7%91%D7%9F_%D7%A9%22%D7%9A/daily/2026082800/2026100100",
+      "rank": 16,
+      "reason": "incomplete_history",
+      "views": 1687,
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 0
+        },
+        {
+          "date": "2026-08-29",
+          "views": 3
+        },
+        {
+          "date": "2026-08-30",
+          "views": 3
+        },
+        {
+          "date": "2026-08-31",
+          "views": 1
+        },
+        {
+          "date": "2026-09-01",
+          "views": 1
+        },
+        {
+          "date": "2026-09-02",
+          "views": 1
+        },
+        {
+          "date": "2026-09-03",
+          "views": 1
+        },
+        {
+          "date": "2026-09-04",
+          "views": 2
+        },
+        {
+          "date": "2026-09-05",
+          "views": 0
+        },
+        {
+          "date": "2026-09-06",
+          "views": 1
+        },
+        {
+          "date": "2026-09-07",
+          "views": 0
+        },
+        {
+          "date": "2026-09-08",
+          "views": 1
+        },
+        {
+          "date": "2026-09-09",
+          "views": 2
+        },
+        {
+          "date": "2026-09-10",
+          "views": 2
+        },
+        {
+          "date": "2026-09-11",
+          "views": 2
+        },
+        {
+          "date": "2026-09-12",
+          "views": 8
+        },
+        {
+          "date": "2026-09-13",
+          "views": 1
+        },
+        {
+          "date": "2026-09-14",
+          "views": 2
+        },
+        {
+          "date": "2026-09-15",
+          "views": 4
+        },
+        {
+          "date": "2026-09-16",
+          "views": 2
+        },
+        {
+          "date": "2026-09-17",
+          "views": 1
+        },
+        {
+          "date": "2026-09-18",
+          "views": 0
+        },
+        {
+          "date": "2026-09-19",
+          "views": 1
+        },
+        {
+          "date": "2026-09-20",
+          "views": 0
+        },
+        {
+          "date": "2026-09-21",
+          "views": 1
+        },
+        {
+          "date": "2026-09-22",
+          "views": 5
+        },
+        {
+          "date": "2026-09-24",
+          "views": 1
+        },
+        {
+          "date": "2026-09-25",
+          "views": 0
+        },
+        {
+          "date": "2026-09-26",
+          "views": 3
+        },
+        {
+          "date": "2026-09-27",
+          "views": 2
+        },
+        {
+          "date": "2026-09-28",
+          "views": 3
+        },
+        {
+          "date": "2026-09-29",
+          "views": 4
+        },
+        {
+          "date": "2026-09-30",
+          "views": 2
+        },
+        {
+          "date": "2026-10-01",
+          "views": 1687
+        }
+      ],
+      "missingDates": [
+        "2026-09-23"
+      ]
+    },
+    {
+      "title": "ענת פבריקנט",
+      "url": "https://he.wikipedia.org/wiki/%D7%A2%D7%A0%D7%AA_%D7%A4%D7%91%D7%A8%D7%99%D7%A7%D7%A0%D7%98",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%A2%D7%A0%D7%AA_%D7%A4%D7%91%D7%A8%D7%99%D7%A7%D7%A0%D7%98/daily/2026082800/2026100100",
+      "rank": 19,
+      "reason": "incomplete_history",
+      "views": 1596,
+      "series": [
+        {
+          "date": "2026-08-28",
+          "views": 3
+        },
+        {
+          "date": "2026-08-29",
+          "views": 9
+        },
+        {
+          "date": "2026-08-30",
+          "views": 0
+        },
+        {
+          "date": "2026-08-31",
+          "views": 2
+        },
+        {
+          "date": "2026-09-01",
+          "views": 4
+        },
+        {
+          "date": "2026-09-03",
+          "views": 5
+        },
+        {
+          "date": "2026-09-04",
+          "views": 4
+        },
+        {
+          "date": "2026-09-05",
+          "views": 3
+        },
+        {
+          "date": "2026-09-06",
+          "views": 6
+        },
+        {
+          "date": "2026-09-07",
+          "views": 5
+        },
+        {
+          "date": "2026-09-08",
+          "views": 0
+        },
+        {
+          "date": "2026-09-09",
+          "views": 3
+        },
+        {
+          "date": "2026-09-10",
+          "views": 5
+        },
+        {
+          "date": "2026-09-11",
+          "views": 4
+        },
+        {
+          "date": "2026-09-12",
+          "views": 2
+        },
+        {
+          "date": "2026-09-13",
+          "views": 5
+        },
+        {
+          "date": "2026-09-14",
+          "views": 6
+        },
+        {
+          "date": "2026-09-15",
+          "views": 5
+        },
+        {
+          "date": "2026-09-16",
+          "views": 2
+        },
+        {
+          "date": "2026-09-17",
+          "views": 6
+        },
+        {
+          "date": "2026-09-18",
+          "views": 4
+        },
+        {
+          "date": "2026-09-19",
+          "views": 2
+        },
+        {
+          "date": "2026-09-20",
+          "views": 1
+        },
+        {
+          "date": "2026-09-21",
+          "views": 1
+        },
+        {
+          "date": "2026-09-22",
+          "views": 3
+        },
+        {
+          "date": "2026-09-23",
+          "views": 1
+        },
+        {
+          "date": "2026-09-24",
+          "views": 1
+        },
+        {
+          "date": "2026-09-25",
+          "views": 4
+        },
+        {
+          "date": "2026-09-26",
+          "views": 2
+        },
+        {
+          "date": "2026-09-27",
+          "views": 2
+        },
+        {
+          "date": "2026-09-28",
+          "views": 1
+        },
+        {
+          "date": "2026-09-29",
+          "views": 2
+        },
+        {
+          "date": "2026-09-30",
+          "views": 75
+        },
+        {
+          "date": "2026-10-01",
+          "views": 1596
+        }
+      ],
+      "missingDates": [
+        "2026-09-02"
+      ]
+    },
+    {
+      "title": "נז\"א (סרט)",
+      "url": "https://he.wikipedia.org/wiki/%D7%A0%D7%96%22%D7%90_(%D7%A1%D7%A8%D7%98)",
+      "sourceUrl": "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/he.wikipedia.org/all-access/user/%D7%A0%D7%96%22%D7%90_(%D7%A1%D7%A8%D7%98)/daily/2026082800/2026100100",
+      "rank": 27,
+      "reason": "incomplete_history",
+      "views": 1016,
+      "series": [
+        {
+          "date": "2026-09-02",
+          "views": 31
+        },
+        {
+          "date": "2026-09-03",
+          "views": 16
+        },
+        {
+          "date": "2026-09-04",
+          "views": 4
+        },
+        {
+          "date": "2026-09-05",
+          "views": 5
+        },
+        {
+          "date": "2026-09-06",
+          "views": 4
+        },
+        {
+          "date": "2026-09-07",
+          "views": 3
+        },
+        {
+          "date": "2026-09-08",
+          "views": 2
+        },
+        {
+          "date": "2026-09-09",
+          "views": 3
+        },
+        {
+          "date": "2026-09-10",
+          "views": 569
+        },
+        {
+          "date": "2026-09-11",
+          "views": 1611
+        },
+        {
+          "date": "2026-09-12",
+          "views": 4174
+        },
+        {
+          "date": "2026-09-13",
+          "views": 12516
+        },
+        {
+          "date": "2026-09-14",
+          "views": 33224
+        },
+        {
+          "date": "2026-09-15",
+          "views": 21006
+        },
+        {
+          "date": "2026-09-16",
+          "views": 9549
+        },
+        {
+          "date": "2026-09-17",
+          "views": 6240
+        },
+        {
+          "date": "2026-09-18",
+          "views": 3701
+        },
+        {
+          "date": "2026-09-19",
+          "views": 3712
+        },
+        {
+          "date": "2026-09-20",
+          "views": 1880
+        },
+        {
+          "date": "2026-09-21",
+          "views": 1356
+        },
+        {
+          "date": "2026-09-22",
+          "views": 1251
+        },
+        {
+          "date": "2026-09-23",
+          "views": 1022
+        },
+        {
+          "date": "2026-09-24",
+          "views": 1477
+        },
+        {
+          "date": "2026-09-25",
+          "views": 923
+        },
+        {
+          "date": "2026-09-26",
+          "views": 789
+        },
+        {
+          "date": "2026-09-27",
+          "views": 783
+        },
+        {
+          "date": "2026-09-28",
+          "views": 513
+        },
+        {
+          "date": "2026-09-29",
+          "views": 466
+        },
+        {
+          "date": "2026-09-30",
+          "views": 692
+        },
+        {
+          "date": "2026-10-01",
+          "views": 1016
+        }
+      ],
+      "missingDates": [
+        "2026-08-28",
+        "2026-08-29",
+        "2026-08-30",
+        "2026-08-31",
+        "2026-09-01"
+      ]
+    }
+  ]
+}

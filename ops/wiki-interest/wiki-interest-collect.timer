@@ -1,0 +1,11 @@
+[Unit]
+Description=Check for a new complete Wikimedia day every three hours
+
+[Timer]
+OnCalendar=*-*-* 00/3:20:00 UTC
+RandomizedDelaySec=90
+Persistent=true
+Unit=wiki-interest-collect.service
+
+[Install]
+WantedBy=timers.target
