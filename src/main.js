@@ -10,9 +10,11 @@ import { newsSearchUrl } from './news-search.js';
 import { archiveSnapshotUrl, createEditionController } from './archive-state.js';
 import { identificationMarkup } from './identification.js';
 import { loadReadingData } from './reading-data.js';
+import { trackedArticles } from './tracking-lib.js';
+import { patternsMarkup } from './patterns-view.js';
 
-let snapshot, contexts, runtimeStatus, descriptions = null, archive = null, sort = 'surge', query = '', limit = 9;
-let measurementKey = '', featuredContextKey = '', descriptionsKey = '', lastLoad = null, readingLoad = null, detailOpener = null;
+let snapshot, contexts, runtimeStatus, descriptions = null, archive = null, tracks = null, sort = 'surge', query = '', limit = 9;
+let measurementKey = '', featuredContextKey = '', descriptionsKey = '', tracksKey = '', lastLoad = null, readingLoad = null, detailOpener = null;
 const $ = selector => document.querySelector(selector);
 const baseUrl = new URL(import.meta.env.BASE_URL, document.baseURI);
 const snapshotUrl = new URL('data/snapshot.json', baseUrl).href;
@@ -27,7 +29,8 @@ const setText = (element, value) => { if (element.textContent !== value) element
 const approvedContext = title => contextFor(contexts, title, snapshot.dataDate);
 const articleTitle = article => article.title.replaceAll('_', ' ');
 const articleUrl = article => `https://he.wikipedia.org/wiki/${encodeURIComponent(article.title)}`;
-const findArticle = title => snapshot.articles.find(article => article.title === title) || snapshot.uncomparedArticles?.find(article => article.title === title);
+const findArticle = title => snapshot.articles.find(article => article.title === title) || snapshot.uncomparedArticles?.find(article => article.title === title)
+  || trackedArticles(tracks, snapshot.dataDate).find(article => article.title === title);
 const pageviewsUrl = article => `https://pageviews.wmcloud.org/?project=he.wikipedia.org&platform=all-access&agent=user&start=${snapshot.seriesStart}&end=${snapshot.dataDate}&pages=${encodeURIComponent(article.title)}`;
 function newsSearchMarkup(article) {
   const url = newsSearchUrl(article.title, snapshot.dataDate);
@@ -71,6 +74,12 @@ function renderBriefing() {
   $('#daily-briefing').innerHTML = dailyBriefingMarkup(snapshot);
 }
 
+function renderPatterns() {
+  const markup = patternsMarkup(tracks, snapshot.dataDate, identify);
+  $('#weekly-patterns').hidden = !markup;
+  if ($('#weekly-patterns').innerHTML !== markup) $('#weekly-patterns').innerHTML = markup;
+}
+
 function renderUncompared() {
   const available = snapshot.uncomparedArticles || [];
   const filtered = selectUncomparedArticles(available, query);
@@ -93,12 +102,13 @@ function renderDetail(title) {
   const recent = a.series.slice(-14);
   $('#detail-content').innerHTML = `<p class="eyebrow">המספרים, בלי קיצורי דרך</p><h2 id="detail-title">${e(articleTitle(a))}</h2><p><strong>${number(a.views)} צפיות</strong> ב־${dateLabel(snapshot.dataDate)}. רמת הבסיס: <strong>${number(a.baseline)}</strong> צפיות ליום — חציון התקופה ${dateLabel(snapshot.baselineStart)} עד ${dateLabel(snapshot.baselineEnd)}.</p><div class="dialog-callout">${a.ratio == null ? 'רמת הבסיס קטנה מ־20, ולכן לא מציגים מכפיל שעלול להטעות.' : `${number(a.views)} ÷ ${number(a.baseline)} ≈ ${e(ratioLabel(a.ratio))} מהבסיס.`}</div><p>המספרים מודדים צפיות בעמוד, לא קוראים ייחודיים. הם אינם מוגבלים לגלישה מישראל ולא מוכיחים מה גרם לעלייה.</p>${detailChartMarkup(a)}<h3 id="detail-table-title">14 הימים שבגרף</h3><p>הטבלה מציגה את אותם ימים כמו הגרף. סיווג משך העניין נבדק בשבעת הימים האחרונים בלבד.</p><table><caption class="sr-only">צפיות יומיות ב־14 הימים שבגרף</caption><thead><tr><th scope="col">תאריך</th><th scope="col">צפיות</th><th scope="col">יחס לבסיס</th></tr></thead><tbody>${recent.map(p => `<tr><th scope="row">${dateLabel(p.date)}</th><td>${number(p.views)}</td><td>${e(ratioLabel(a.baseline >= 20 ? p.views / a.baseline : null))}</td></tr>`).join('')}</tbody></table><div class="dialog-links"><a href="${articleUrl(a)}" target="_blank" rel="noopener">לערך בוויקיפדיה ↗</a><a href="${pageviewsUrl(a)}" target="_blank" rel="noopener">לבדיקה ב־Pageviews ↗</a></div><details><summary>איך נקבע הסיווג?</summary><p>עניין מוגבר: פי שניים לפחות מהבסיס ולפחות 100 צפיות ביום. הרצף נספר עד היום הנבחר, בתוך שבעת הימים האחרונים בלבד. בבסיס קטן מ־20 אין סיווג של הרצף.</p><p>״ירידה מהשיא״: היום הנבחר נמוך ביותר מ־40% מהשיא בששת הימים שלפניו, והשיא עצמו עבר את סף העניין המוגבר. הסיווג הזה קודם לסיווגי הרצף — גם אם הצפיות עדיין גבוהות מהבסיס.</p><p>כשאין ירידה כזאת, רצף של שלושה ימים ומעלה מסומן ״עניין מתמשך״, ורצף של יום או יומיים מסומן ״זינוק חדש״. ״חדש״ מתייחס לרצף שמעל הסף, ולא מבטיח עלייה לעומת אתמול. ״ללא זינוק מזוהה״ אומר שכללי הניסוי לא זיהו אחד מהדפוסים האלה; זו אינה הוכחה ליציבות.</p><a href="/data/snapshot.json" target="_blank" rel="noopener">הנתונים וכללי הסיווג ↗</a></details>`;
   const contextSection = document.createElement('div');
+  if (a.tracked) $('#detail-title').insertAdjacentHTML('beforebegin', `<p class="tracked-note">ערך מהמעקב: נדגם לאחרונה ב־${e(dateLabel(a.lastSampleDate, { year: 'numeric' }))}. הצפיות נמדדות גם לאחר יציאה ממובילי היום.</p>`);
   $('#detail-title').nextElementSibling.insertAdjacentHTML('afterend', dailyChangeMarkup(a, snapshot.dataDate) + newsSearchMarkup(a));
   $('#detail-title').insertAdjacentHTML('afterend', identificationMarkup(descriptions, a.title, { detail: true }));
   contextSection.className = 'detail-context';
   contextSection.innerHTML = contextMarkup(approvedContext(title));
   $('#detail-table-title').before(contextSection);
-  $('#detail-content details a').href = displayedSnapshotUrl();
+  $('#detail-content details a').href = a.tracked ? new URL('data/tracks.json', baseUrl).href : displayedSnapshotUrl();
 }
 
 function showDetail(title, opener) {
@@ -107,7 +117,7 @@ function showDetail(title, opener) {
   // Stop a pending smooth focus/anchor scroll before opening the modal.
   window.scrollTo({ left: detailOpener.scrollX, top: detailOpener.scrollY, behavior: 'instant' });
   renderDetail(title);
-  $('.dialog-return').textContent = detailOpener.containerId === 'feature' ? 'חזרה לסקירה' : detailOpener.containerId === 'daily-briefing' ? 'חזרה לשינויים היומיים' : 'חזרה לרשימה';
+  $('.dialog-return').textContent = detailOpener.containerId === 'feature' ? 'חזרה לסקירה' : detailOpener.containerId === 'daily-briefing' ? 'חזרה לשינויים היומיים' : detailOpener.containerId === 'weekly-patterns' ? 'חזרה למבט השבועי' : 'חזרה לרשימה';
   $('#detail').showModal();
   $('#detail').scrollTop = 0;
   $('#detail-title').tabIndex = -1;
@@ -126,8 +136,14 @@ function renderRuntime() {
   setText($('#edition-date'), `נתוני ${dateLabel(snapshot.dataDate, { year: 'numeric', weekday: 'long' })}`);
   setText($('#edition-status'), edition.historical ? 'מהארכיון' : `${live.label}${refresh.paused ? ' · תצוגה מושהית' : ''}`);
   setText($('#snapshot-note'), `${timestampLabel(snapshot.generatedAt)} (שעון ישראל)`);
+  setText($('#collection-origin-note'), snapshot.collectionOrigin === 'retrospective' ? 'נתוני היום הזה הובאו מוויקימדיה בדיעבד. זמן יצירת הצילום הוא מועד האיסוף בפועל.' : '');
+  $('#collection-origin-note').hidden = snapshot.collectionOrigin !== 'retrospective';
   setText($('#server-check-note'), live.checkedAt ? `${timestampLabel(live.checkedAt)} (שעון ישראל)` : 'לא זמין — אין אישור לתהליך מתוזמן');
   setText($('#runtime-note'), edition.historical ? `האיסוף השוטף (${dateLabel(edition.latest.dataDate)}): ${live.detail}` : live.detail);
+  setText($('#tracking-note'), readingLoad?.trackingError ? 'לא הצלחנו לטעון עדכון למעקב השבועי; מוצגים רק הנתונים המאומתים שכבר נקלטו, אם ישנם.'
+    : tracks && !tracks.availableDates.includes(snapshot.dataDate) ? 'המבט השבועי זמין בחלון המעקב של 30 הימים האחרונים. צילום היום הישן ורשימת הערכים שלו נשמרים בארכיון.'
+      : tracks && tracks.dataDate !== edition.latest.dataDate ? `המעקב השבועי זמין עד ${dateLabel(tracks.dataDate)}; נתוני היום נאספים בנפרד.` : '');
+  $('#tracking-note').hidden = !$('#tracking-note').textContent;
   $('#snapshot-link').href = displayedSnapshotUrl();
   const coverage = coverageSummary(snapshot);
   if (coverage.warning) warnings.push(coverage.warning);
@@ -150,7 +166,7 @@ function renderEditionControls() {
   $('#edition-previous').disabled = edition.busy || position < 1;
   $('#edition-next').disabled = edition.busy || position >= dates.length - 1;
   $('#edition-latest').hidden = !edition.historical && !edition.busy;
-  for (const region of ['.today-overview', '#discover', '#uncompared']) {
+  for (const region of ['.today-overview', '#weekly-patterns', '#discover', '#uncompared']) {
     $(region).inert = edition.busy;
     $(region).setAttribute('aria-busy', String(edition.busy));
   }
@@ -168,19 +184,22 @@ function applyEdition() {
   snapshot = edition.displayed;
   const nextKey = snapshotDisplayKey(snapshot);
   const nextDescriptions = JSON.stringify(descriptions);
+  const nextTracks = JSON.stringify(tracks);
   preserveFocus(() => {
     if (nextKey !== measurementKey || nextDescriptions !== descriptionsKey) { renderFeature(); renderBriefing(); renderGrid(); renderUncompared(); }
     else if (featuredContextKey !== JSON.stringify(approvedContext(leadingArticle(snapshot).title))) renderFeature();
+    if (nextKey !== measurementKey || nextDescriptions !== descriptionsKey || nextTracks !== tracksKey) renderPatterns();
   });
   measurementKey = nextKey;
   descriptionsKey = nextDescriptions;
+  tracksKey = nextTracks;
   renderRuntime();
   renderEditionControls();
 }
 
 function preserveFocus(update) {
   const active = document.activeElement;
-  const container = active?.closest('#feature, #daily-briefing, #article-grid, #uncompared-grid, #detail-content');
+  const container = active?.closest('#feature, #daily-briefing, #weekly-patterns, #article-grid, #uncompared-grid, #detail-content');
   const descriptor = container ? {
     containerId: container.id, id: active.id, title: active.dataset.title,
     tag: active.tagName, className: active.className, href: active.getAttribute('href'),
@@ -206,7 +225,7 @@ async function load({ canApply }) {
     $('#content').hidden = true;
   }
   try {
-    const readingPromise = loadReadingData({ baseUrl, previousArchive: archive, previousDescriptions: descriptions });
+    const readingPromise = loadReadingData({ baseUrl, previousArchive: archive, previousDescriptions: descriptions, previousTracks: tracks });
     const result = await loadLiveData({ baseUrl, previousSnapshot: edition.latest, previousContexts: contexts });
     const reading = await readingPromise;
     // Keep both the open detail and its underlying list stable while reading.
@@ -219,6 +238,7 @@ async function load({ canApply }) {
     readingLoad = reading;
     descriptions = reading.descriptions;
     archive = reading.archive;
+    tracks = reading.tracks;
     edition.setArchive(archive);
     edition.setLatest(lastLoad.snapshot);
     $('#content').hidden = false;

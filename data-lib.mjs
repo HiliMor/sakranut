@@ -77,8 +77,14 @@ export function topUrl(dataDate) {
 
 export function articleSeriesUrl(title, dataDate) {
   const { seriesStart } = windowFor(dataDate);
+  return articleRangeUrl(title, seriesStart, dataDate);
+}
+
+export function articleRangeUrl(title, startDate, endDate) {
+  parseDate(startDate); parseDate(endDate);
+  if (startDate > endDate) throw new Error('Invalid series range');
   const timestamp = value => `${value.replaceAll('-', '')}00`;
-  return `${API_BASE}/per-article/${PROJECT}/all-access/user/${encodeURIComponent(title)}/daily/${timestamp(seriesStart)}/${timestamp(dataDate)}`;
+  return `${API_BASE}/per-article/${PROJECT}/all-access/user/${encodeURIComponent(title)}/daily/${timestamp(startDate)}/${timestamp(endDate)}`;
 }
 
 // Validate measured observations under the same rules for both comparable

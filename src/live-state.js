@@ -108,11 +108,11 @@ export function contextMarkup(context) {
   return `<aside class="context-card" aria-label="הקשר אפשרי לזינוק"><p class="context-label">מה עשוי להסביר את הזינוק?</p><p class="context-summary">${escapeHtml(context.summary)}</p><p class="context-qualification">${escapeHtml(CONTEXT_QUALIFICATION)}</p><ul class="context-sources">${context.sources.map(source => `<li><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label)} ↗</a><span>פורסם ${dateLabel(source.publishedDate, { year: 'numeric' })}</span></li>`).join('')}</ul><p class="context-review">הסבר שאושר לפרסום · מתייחס לנתוני ${dateLabel(context.dataDate, { year: 'numeric' })}</p></aside>`;
 }
 
-export async function fetchJson(url, { fetchImpl = globalThis.fetch, optional = false, timeoutMs = 15000 } = {}) {
+export async function fetchJson(url, { fetchImpl = globalThis.fetch, optional = false, timeoutMs = 15000, cacheMode = 'no-store' } = {}) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const response = await fetchImpl(url, { cache: 'no-store', signal: controller.signal });
+    const response = await fetchImpl(url, { cache: cacheMode, signal: controller.signal });
     if (optional && response.status === 404) return null;
     // Vite's development fallback serves index.html for a missing public JSON file.
     if (optional && response.headers?.get('content-type')?.includes('text/html')) return null;

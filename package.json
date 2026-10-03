@@ -10,6 +10,9 @@
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4176 --strictPort",
     "collect": "node collect.mjs",
+    "history:prepare": "node backfill.mjs prepare",
+    "history:import": "node backfill.mjs import",
+    "verify:rollover": "node scripts/verify-rollover.mjs",
     "test": "node --test",
     "context:queue": "node scripts/context-pilot.mjs queue",
     "context:validate": "node scripts/context-pilot.mjs validate"

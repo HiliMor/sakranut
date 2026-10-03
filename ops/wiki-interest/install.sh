@@ -13,7 +13,7 @@ if [[ "${bundle_dir}" != /* || "${bundle_dir}" == "/" || ! "${release_id}" =~ ^[
   exit 1
 fi
 units=(wiki-interest-collect.service wiki-interest-collect.timer wiki-interest-health.service wiki-interest-health.timer)
-for required in app/package.json app/collect.mjs app/data-lib.mjs app/runtime-lib.mjs app/run-daily.mjs app/health.mjs app/reading-products.mjs app/archive-products.mjs app/description-products.mjs app/src/ui-lib.js app/src/archive-state.js app/src/identification.js app/site/index.html ops/nginx-private.conf "${units[@]/#/ops/}"; do
+for required in app/package.json app/collect.mjs app/data-lib.mjs app/runtime-lib.mjs app/run-daily.mjs app/health.mjs app/reading-products.mjs app/archive-products.mjs app/description-products.mjs app/tracking-products.mjs app/backfill.mjs app/src/ui-lib.js app/src/archive-state.js app/src/identification.js app/src/tracking-lib.js app/site/index.html ops/nginx-private.conf "${units[@]/#/ops/}"; do
   if [[ ! -f "${bundle_dir}/${required}" ]]; then
     echo "Missing bundle file: ${required}" >&2
     exit 1

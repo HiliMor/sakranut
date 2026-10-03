@@ -58,7 +58,7 @@ for (const prior of [false, true]) {
         put(join(bin, 'mock-tool'), mockTool);
         chmodSync(join(bin, 'mock-tool'), 0o755);
         for (const command of ['flock', 'nginx', 'node', 'systemd-analyze', 'getent', 'useradd', 'install', 'chown', 'chmod', 'systemctl', 'curl', 'mv']) symlinkSync('mock-tool', join(bin, command));
-        for (const name of ['package.json', 'collect.mjs', 'data-lib.mjs', 'runtime-lib.mjs', 'run-daily.mjs', 'health.mjs', 'reading-products.mjs', 'archive-products.mjs', 'description-products.mjs', 'src/ui-lib.js', 'src/archive-state.js', 'src/identification.js', 'site/index.html']) put(join(bundle, 'app', name), 'new app');
+        for (const name of ['package.json', 'collect.mjs', 'data-lib.mjs', 'runtime-lib.mjs', 'run-daily.mjs', 'health.mjs', 'reading-products.mjs', 'archive-products.mjs', 'description-products.mjs', 'tracking-products.mjs', 'backfill.mjs', 'src/ui-lib.js', 'src/archive-state.js', 'src/identification.js', 'src/tracking-lib.js', 'site/index.html']) put(join(bundle, 'app', name), 'new app');
         put(join(bundle, 'ops/nginx-private.conf'), 'new private configuration');
         for (const unit of units) put(join(bundle, 'ops', unit), `new ${unit}`);
         const appRoot = join(root, 'opt/wiki-interest');

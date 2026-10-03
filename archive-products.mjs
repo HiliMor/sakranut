@@ -10,7 +10,7 @@ const pick = (object, keys) => Object.fromEntries(keys.filter(key => Object.hasO
 // Unknown fields, operator notes, revisions and runner state cannot enter this product.
 export function archiveProjection(snapshot) {
   validateSnapshot(snapshot);
-  const projection = pick(snapshot, ['schemaVersion', 'generatedAt', 'dataDate', 'seriesStart', 'baselineStart', 'baselineEnd']);
+  const projection = pick(snapshot, ['schemaVersion', 'generatedAt', 'dataDate', 'seriesStart', 'baselineStart', 'baselineEnd', 'collectionOrigin']);
   projection.source = pick(snapshot.source, ['name', 'license', 'licenseUrl', 'url', 'policyUrl', 'topUrl']);
   projection.method = pick(snapshot.method, ['project', 'access', 'agent', 'baselineDays', 'displayDays', 'minimumBaseline', 'timezone', 'candidateSelection', 'exclusions', 'baseline', 'missingData', 'ratio', 'excess', 'elevated', 'activeDays']);
   projection.method.trends = pick(snapshot.method.trends, ['rising', 'sustained', 'cooling', 'steady', 'insufficient']);
@@ -28,11 +28,11 @@ export function archiveProjection(snapshot) {
   return validateSnapshot(projection);
 }
 
-export async function publishArchive({ runtimeDir, snapshot, now = new Date(), logger = console }) {
+export async function publishArchive({ runtimeDir, snapshot, now = new Date(), logger = console, force = false }) {
   const paths = runtimePaths(runtimeDir);
   let previous = null;
   try { previous = validateArchive(await readJson(paths.archiveIndex)); } catch { /* Rebuild from validated history. */ }
-  if (previous?.latestDate === snapshot.dataDate && previous.latestGeneratedAt === snapshot.generatedAt
+  if (!force && previous?.latestDate === snapshot.dataDate && previous.latestGeneratedAt === snapshot.generatedAt
     && await stat(join(paths.archive, `${snapshot.dataDate}.json`)).then(() => true, () => false)) {
     return { index: previous, titles: [], changed: false };
   }

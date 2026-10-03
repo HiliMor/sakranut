@@ -39,8 +39,10 @@
             </div>
             <dl><div><dt>צילום הנתונים נוצר</dt><dd id="snapshot-note"></dd></div><div><dt>בדיקת האיסוף בשרת</dt><dd id="server-check-note"></dd></div><div><dt>המדגם</dt><dd id="sample-size"></dd></div></dl>
             <p id="coverage-note" hidden></p>
+            <p id="collection-origin-note" hidden></p>
             <p id="runtime-note"></p>
-            <p>הארכיון מציג רק ימים שנאספו ונשמרו בפועל; אין השלמה של ימים חסרים. בבחירת יום ישן התצוגה נשארת עליו, גם כשהשרת אוסף יום חדש.</p>
+            <p id="tracking-note" hidden></p>
+            <p>הארכיון מציג ימים עם נתונים מאומתים, כולל ימים שהובאו בדיעבד מוויקימדיה. נתונים חסרים אינם מומצאים. בבחירת יום ישן התצוגה נשארת עליו גם כשהשרת אוסף יום חדש.</p>
             <p>שורות הזיהוי הקצרות נשלפות מוויקינתונים בעברית, לפי הקישור המדויק לערך. הן לא הסבר לשינוי בקריאה ולא תיאור היסטורי של היום הנבחר. כשאין תיאור זמין, לא ממציאים אחד. <a href="https://www.wikidata.org/wiki/Wikidata:Licensing" target="_blank" rel="noopener noreferrer">תיאורי ויקינתונים · CC0 ↗</a></p>
             <p>יום המדידה הוא יממה מלאה לפי UTC, לא לפי שעון ישראל. הנתונים יומיים, לא בזמן אמת. כשהתצוגה אינה מושהית, הדף בודק אם פורסם עדכון בכניסה לאתר, בחזרה ללשונית ובכל שעה כשהיא גלויה. השהיית התצוגה אינה עוצרת את האיסוף בשרת.</p>
             <a id="snapshot-link" href="./data/snapshot.json" target="_blank" rel="noopener">קובץ הנתונים המלא (JSON) ↗</a>
@@ -51,6 +53,7 @@
           <section class="feature" aria-labelledby="feature-title" id="feature"></section>
           <section id="daily-briefing" class="daily-briefing" aria-labelledby="daily-briefing-title"></section>
         </div>
+        <section id="weekly-patterns" class="weekly-patterns" aria-labelledby="patterns-title" hidden></section>
         <section id="discover" class="discovery" aria-labelledby="discover-title">
           <div class="section-head"><h2 id="discover-title">לגלות עוד ערכים</h2><p class="discovery-hint">לחיצה על שם פותחת פירוט, בלי לשנות את הסקירה.</p></div>
           <div class="toolbar"><div class="tabs" role="group" aria-label="מיון הערכים במדגם"><button data-sort="surge" aria-pressed="true">קפיצות בעניין</button><button data-sort="popular" aria-pressed="false">הכי נקראים</button><button data-sort="lasting" aria-pressed="false">עניין מתמשך</button></div><label class="search"><span>חיפוש במדגם</span><input id="search" type="search" aria-label="חיפוש ערך במדגם" placeholder="שם של ערך…" autocomplete="off" /></label></div>
