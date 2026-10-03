@@ -103,7 +103,7 @@ function renderRuntime() {
   if (lastLoad?.snapshotError) warnings.push('לא הצלחנו לטעון עדכון תקין. הנתונים הקודמים נשמרו; ננסה שוב אוטומטית.');
   if (lastLoad?.statusError) warnings.push('לא הצלחנו לאמת את סטטוס האיסוף. אין בכך אישור לעדכון אוטומטי.');
   if (lastLoad?.contextError) warnings.push('לא הצלחנו לבדוק עדכונים להסברים. מוצגים רק הסברים שאושרו ונקלטו קודם, אם ישנם.');
-  setText($('#edition-date'), `נתוני ${dateLabel(snapshot.dataDate, { year: 'numeric' })}`);
+  setText($('#edition-date'), `נתוני ${dateLabel(snapshot.dataDate, { year: 'numeric', weekday: 'long' })}`);
   setText($('#edition-status'), `${live.label}${refresh.paused ? ' · תצוגה מושהית' : ''}`);
   setText($('#snapshot-note'), `${timestampLabel(snapshot.generatedAt)} (שעון ישראל)`);
   setText($('#server-check-note'), live.checkedAt ? `${timestampLabel(live.checkedAt)} (שעון ישראל)` : 'לא זמין — אין אישור לתהליך מתוזמן');
