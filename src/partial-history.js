@@ -36,7 +36,7 @@ export function partialResultMessage({ count, query = '' }) {
   return count ? `${count === 1 ? 'נמצא ערך נוסף אחד' : `נמצאו ${count} ערכים נוספים`} בהתאם לחיפוש.` : 'לא נמצאו כאן ערכים שמתאימים לחיפוש.';
 }
 
-export function partialCardsMarkup(articles) {
+export function partialCardsMarkup(articles, identification = () => '') {
   return articles.map(article => {
     const title = article.title.replaceAll('_', ' ');
     // Construct the only navigable URL here; data links cannot redirect off Wikipedia.
@@ -44,6 +44,6 @@ export function partialCardsMarkup(articles) {
     const countLabel = article.views === null
       ? '<span class="partial-no-count">אין נתון ליום המדידה</span>'
       : `<strong>${number(article.views)}</strong><span>צפיות ביום המדידה</span>`;
-    return `<article class="partial-card"><h3><button class="select-article detail-trigger" data-title="${e(article.title)}" aria-label="פירוט הנתונים: ${e(title)}">${e(title)}</button></h3><p class="partial-views">${countLabel}</p><details class="partial-availability"><summary data-title="${e(article.title)}">פירוט הנתונים<span class="sr-only">: ${e(title)}</span></summary><p>נתונים זמינים ל־${article.series.length} מתוך ${REQUIRED_DAYS} ימים. חוסר ברשומה אינו מוכיח אפס צפיות.</p><p>ימים חסרים (${article.missingDates.length}): ${article.missingDates.map(date => dateLabel(date, { year: 'numeric' })).join(' · ')}</p></details><a class="partial-source" href="${e(url)}" target="_blank" rel="noopener noreferrer">לערך בוויקיפדיה ↗<span class="sr-only"> — נפתח בחלון חדש</span></a></article>`;
+    return `<article class="partial-card"><h3><button class="select-article detail-trigger" data-title="${e(article.title)}" aria-label="פירוט הנתונים: ${e(title)}">${e(title)}</button></h3>${identification(article.title)}<p class="partial-views">${countLabel}</p><details class="partial-availability"><summary data-title="${e(article.title)}">פירוט הנתונים<span class="sr-only">: ${e(title)}</span></summary><p>נתונים זמינים ל־${article.series.length} מתוך ${REQUIRED_DAYS} ימים. חוסר ברשומה אינו מוכיח אפס צפיות.</p><p>ימים חסרים (${article.missingDates.length}): ${article.missingDates.map(date => dateLabel(date, { year: 'numeric' })).join(' · ')}</p></details><a class="partial-source" href="${e(url)}" target="_blank" rel="noopener noreferrer">לערך בוויקיפדיה ↗<span class="sr-only"> — נפתח בחלון חדש</span></a></article>`;
   }).join('');
 }

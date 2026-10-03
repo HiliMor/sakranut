@@ -6,7 +6,17 @@ Operational runbook for Sakranut. Do not apply these commands to the RSS/news pr
 
 ## Current verified release — 2026-10-03
 
-Compact overview: release `20261003T160106Z-overview` is active, built from source `2b4647e516998849cf700f33a77da459541e19a8`. It combines the monthly-baseline leader and separately dated daily comparison in one responsive overview, shortens the introduction and uses compact ranked rows. Approved context is expandable; a missing explanation no longer occupies an empty overview block. Detail content, measurement rules and collection schedules are unchanged.
+Archive and identification: release `20261003T165446Z-archive` is active, built from source `a92ade662284234ed2b0c616d2873c6c88cc2b9d`. It adds a day selector, previous/next available day, explicit return to latest, stable historical selection during refresh, and retrieval-dated Hebrew Wikidata identification. The two available days were October 1–2; 40 of the 43 unique archived/current titles had descriptions, including 27 of the 30 current-day titles. Three missing descriptions were negatively cached; there were no pending titles after the follow-up check. No descriptions were invented or used as surge explanations.
+
+Local suite: 163 passing, five Linux-specific skips. Isolated Linux suite: 167 passing, one non-Linux-only skip. Build and diff check passed. Browser QA with isolated server data covered 1280/390/320 widths, selected-date links, search/sort retention, keyboard details/Escape, explicit return focus and manual refresh while viewing history. The deployed private tab confirmed both dates, their different leaders, identification, the corresponding Wikidata QID link and historical JSON detail link. No console errors or horizontal overflow were observed. These checks are not a screen-reader or physical-device certification.
+
+Both services succeeded, both timers remained active with unchanged unit hashes, and the listener stayed `127.0.0.1:4174`. Snapshot SHA-256 stayed `07f269c34b3dce413208256084f8f4f5307eafd4d4bfb8318a996a7505b77358`; reviewed context stayed unchanged. Nginx was deliberately extended only with the two new explicit products and date-shaped archive projection route; its new hash is `d8b284906fb27b9726174298100b59da9fb9f5017da08d2750ffafe0290aa397`. All seven denied routes, an unavailable date and an impossible date returned 404. The dedicated alert configuration was retained, not re-created or printed.
+
+A completed follow-up no-op made zero description requests and left snapshot, archive-index and description-file hashes identical. `lastSuccessAt` remained `2026-10-03T03:21:38.993Z`; `checkedAt` advanced to `2026-10-03T16:57:46.183Z`, with separate health check `16:57:46.335Z`. The previous overview release is retained for rollback. New archive/description products and private cache are additive runtime files, never committed. No public hosting, new timer, AI service or payment was introduced.
+
+### Previous same-day releases
+
+Compact overview: release `20261003T160106Z-overview` was deployed from source `2b4647e516998849cf700f33a77da459541e19a8`. It combines the monthly-baseline leader and separately dated daily comparison in one responsive overview, shortens the introduction and uses compact ranked rows. Approved context is expandable; a missing explanation no longer occupies an empty overview block. Detail content, measurement rules and collection schedules are unchanged.
 
 Local tests passed (144 passing, five Linux-specific skips), as did the build and isolated Linux suite (148 passing, one non-Linux-only skip). Browser checks covered 1280, 611 and 390 pixel widths, sorting, search, partial histories in the popular ranking, keyboard detail opening, Escape close and restored opener focus/search/sort. The deployed private browser confirmed October 2, automatic daily status, the new assets and stable overview leader after opening a daily-change detail. At 1280 pixels, the data starts at 252px and discovery at 717px; the prior layout started them at 448px and 1397px. Nine compact rows fit in approximately one discovery viewport. No console errors or horizontal overflow were observed. These checks are not a screen-reader or physical-device certification.
 
@@ -48,6 +58,10 @@ This deployment is private, on the existing Linux host. It does not open cloud i
 | `/opt/wiki-interest/current` | Symlink to the selected release. |
 | `/var/lib/wiki-interest/public/snapshot.json` | Last validated measurement snapshot. |
 | `/var/lib/wiki-interest/public/status.json` | Public-safe runtime state, dates, counters and monitoring boolean. |
+| `/var/lib/wiki-interest/public/archive.json` | Validated available-day index, published after its snapshot products. |
+| `/var/lib/wiki-interest/public/archive/YYYY-MM-DD.json` | Whitelisted measurement projection, accessible only through a date-shaped route. |
+| `/var/lib/wiki-interest/public/descriptions.json` | Optional Hebrew Wikidata identifiers/descriptions with retrieval timestamps. |
+| `/var/lib/wiki-interest/description-cache.json` | Private positive/negative metadata cache, pending titles and retry time; not web-served. |
 | `/var/lib/wiki-interest/history/YYYY-MM-DD.json` | Validated daily snapshots; not web-served. |
 | `/var/lib/wiki-interest/history/index.json` | Available and missing dates; no automatic backfill. |
 | `/var/lib/wiki-interest/runner-state.json` | Last completed collector check and successful publication; not web-served. |
@@ -66,7 +80,7 @@ The `wiki-interest` system user can write runtime data, not the release or the h
 - Daily publication is conditional on upstream availability and validation, not guaranteed at a fixed wall-clock time. The first attempt for a new UTC day is at 00:20 UTC the following day (03:20 in Israel during daylight saving time; 02:20 in standard time). A later same-day check does not imply newly measured data. Convert the live timer output with `Asia/Jerusalem`, not the host's timezone, when reporting the next attempt to the user.
 - Independent health check: `wiki-interest-health.timer`, every hour at `:45 UTC`, plus up to 45 seconds of randomized delay. It does not collect measurements.
 - The requested data day is strictly yesterday in UTC. The scheduled runner uses `maxFallbackDays: 0`; the manual developer collector's historical fallback is not used.
-- A published yesterday snapshot in the current format makes later collector checks a no-op for Wikimedia requests and public measurement publication. Runner status and the history index may change. `lastSuccessAt` must not advance on a no-op.
+- A published yesterday snapshot in the current format makes later collector checks a no-op for measurement requests and public measurement publication. Runner status and the history index may change. Optional identification metadata can retry pending work or expired cache entries, but `lastSuccessAt` must not advance on a no-op.
 - Partial-history format upgrade: `uncomparedArticles` is an additive v1 array. An older same-day snapshot without this field is re-collected once; the prior version is retained under `history/revisions/` before replacement. A failed upgrade preserves the old published snapshot. Partial cards remain in `coverage.failures` as **comparison exclusions**, so the unchanged 75% gate and `articleCount` refer only to full-history articles. The UI subtracts separately displayed partial records before reporting articles not shown at all.
 - Unavailable or insufficient prior-day data preserves the last good snapshot and reports `waiting`; invalid/network data errors report `error`. Publication uses atomic file replacement and a shared kernel lock.
 - Data age of at least three UTC calendar days is `stale`. A completed collector check older than six hours is also `stale`, even if the health service still runs hourly.
@@ -74,6 +88,9 @@ The `wiki-interest` system user can write runtime data, not the release or the h
 - The UI independently withdraws its automatic-update confirmation once `checkedAt` is more than six hours old, even if the health service stopped and left a formerly healthy status file behind.
 - The UI checks on initial load, upon visibility restoration, and every hour only while visible. Hidden or user-paused tabs skip automatic checks; pause also prevents an in-flight automatic result from applying. An open detail dialog also blocks automatic checks and applying already-started responses, preserving the reading and return context until a later check after closing. The data disclosure offers a manual check while paused and a resume control. These controls do not affect server collection. These are daily measurements, **not realtime traffic**. Failed fetches retain valid displayed data with a warning. Status timestamps retain an independent five-minute future clock-skew tolerance; hourly polling does not relax validation.
 - History is retained locally. Missing dates are listed, not synthesized. This is not an off-host backup or a completed backup/restore drill.
+- The collector also publishes the safe archive and optional identification metadata under its existing lock. Archive entries are validated against filename/date and the measurement schema, with unknown nested fields omitted. The index is published last. Same-edition archive exports are reused, rather than rescanning history every three hours. Private history, revisions and cache files have no web route.
+- Identification uses `pageprops.wikibase_item` and Hebrew `pageterms.description` from the official Hebrew Wikipedia WikibaseClient API. No redirects, fuzzy-name search, page bodies or AI. Titles and QIDs must match the requested article. A new/pending/current-expired description can trigger up to two sequential requests of at most 20 titles, with `maxlag=5`, an identifying User-Agent, a 12-second timeout and 200ms spacing. The seven-day cache includes missing descriptions; older editions retain retrieval-dated identification, not historical claims. HTTP/API errors defer retries by at least one hour and honor longer `Retry-After`; cached descriptions survive. This optional layer is not a measurement-health gate and does not approve news context.
+- Browser data/status refresh remains hourly/return/manual. While viewing an archived day, the latest snapshot/status can update separately but the displayed day, leader, lists, detail source link and context-date match remain historical until an explicit return. Selection failures retain the displayed day; stale selection responses are ignored. The UI disables article exploration while a date is loading and restores keyboard focus when a boundary/return control becomes unavailable.
 
 ## Install a release
 
@@ -90,7 +107,12 @@ bundle/
     runtime-lib.mjs
     run-daily.mjs
     health.mjs
+    reading-products.mjs
+    archive-products.mjs
+    description-products.mjs
     src/ui-lib.js
+    src/archive-state.js
+    src/identification.js
     site/                  # built experiment, including reviewed data/context.json
   ops/
     install.sh
@@ -157,9 +179,12 @@ curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4
 curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4174/runner-state.json
 curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4174/data/runner-state.json
 curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4174/.env
+curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4174/data/archive/index.json
+curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4174/data/archive/revisions/2026-10-01.json
+curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4174/data/description-cache.json
 ```
 
-The listener must be `127.0.0.1:4174`, not all interfaces; all four denied paths must return 404. Confirm that existing public news listeners/routes and existing collector timers are unchanged. The loopback listener does not by itself audit the entire host's network configuration.
+The listener must be `127.0.0.1:4174`, not all interfaces; all seven denied paths must return 404. The archive index and validated available date routes should return 200; an unavailable date should return 404. Confirm that existing public news listeners/routes and existing collector timers are unchanged. The loopback listener does not by itself audit the entire host's network configuration.
 
 ## Dedicated external alerts — verification pending
 

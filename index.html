@@ -23,6 +23,12 @@
       <div id="loading" class="load-state" role="status">טוענים את צילום המצב של ויקימדיה…</div>
       <div id="error" class="error-state" role="alert" hidden><h2>לא הצלחנו לטעון נתונים</h2><p>לא מציגים נתוני דמה במקום נתונים חסרים. אפשר לנסות לטעון שוב.</p><button id="retry" class="text-button">לנסות שוב ←</button></div>
       <div id="content" hidden>
+        <section class="edition-tools" aria-label="בחירת יום מדידה">
+          <div class="edition-picker"><label for="edition-select">יום המדידה</label><select id="edition-select" aria-describedby="archive-state"></select></div>
+          <div class="edition-navigation" role="group" aria-label="מעבר בין ימים שנאספו"><button id="edition-previous" class="text-button" disabled>יום קודם</button><button id="edition-next" class="text-button" disabled>יום הבא</button></div>
+          <button id="edition-latest" class="text-button" hidden>חזרה לנתונים האחרונים ←</button>
+          <p id="archive-state" role="status" aria-live="polite"></p>
+        </section>
         <details id="data-details" class="data-details">
           <summary>פרטי הנתונים ואפשרויות עדכון</summary>
           <div class="data-details-body">
@@ -34,6 +40,8 @@
             <dl><div><dt>צילום הנתונים נוצר</dt><dd id="snapshot-note"></dd></div><div><dt>בדיקת האיסוף בשרת</dt><dd id="server-check-note"></dd></div><div><dt>המדגם</dt><dd id="sample-size"></dd></div></dl>
             <p id="coverage-note" hidden></p>
             <p id="runtime-note"></p>
+            <p>הארכיון מציג רק ימים שנאספו ונשמרו בפועל; אין השלמה של ימים חסרים. בבחירת יום ישן התצוגה נשארת עליו, גם כשהשרת אוסף יום חדש.</p>
+            <p>שורות הזיהוי הקצרות נשלפות מוויקינתונים בעברית, לפי הקישור המדויק לערך. הן לא הסבר לשינוי בקריאה ולא תיאור היסטורי של היום הנבחר. כשאין תיאור זמין, לא ממציאים אחד. <a href="https://www.wikidata.org/wiki/Wikidata:Licensing" target="_blank" rel="noopener noreferrer">תיאורי ויקינתונים · CC0 ↗</a></p>
             <p>יום המדידה הוא יממה מלאה לפי UTC, לא לפי שעון ישראל. הנתונים יומיים, לא בזמן אמת. כשהתצוגה אינה מושהית, הדף בודק אם פורסם עדכון בכניסה לאתר, בחזרה ללשונית ובכל שעה כשהיא גלויה. השהיית התצוגה אינה עוצרת את האיסוף בשרת.</p>
             <a id="snapshot-link" href="./data/snapshot.json" target="_blank" rel="noopener">קובץ הנתונים המלא (JSON) ↗</a>
           </div>
@@ -65,7 +73,7 @@
       </section>
       <section class="feedback"><div><span class="feedback-star" aria-hidden="true">✳</span><h2>גילית כאן משהו שלא ידעת?</h2><p>זה המבחן של הניסוי: לזהות שינוי, להבין אותו, ולרצות לחזור מחר.</p></div><a href="https://pageviews.wmcloud.org/topviews?project=he.wikipedia.org" target="_blank" rel="noopener">להשוואה עם Topviews ↗</a></section>
     </main>
-    <footer class="wrap"><span>סקרנות / מעבדת מוצר קטנה</span><span>נתוני צפיות: Wikimedia Analytics · CC0 · ללא שיוך רשמי לוויקימדיה</span><a href="https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/documentation/access-policy.html" target="_blank" rel="noopener">מקור ותנאי שימוש ↗</a></footer>
+    <footer class="wrap"><span>סקרנות / מעבדת מוצר קטנה</span><span>צפיות: Wikimedia Analytics · תיאורים: Wikidata · CC0 · ללא שיוך רשמי לוויקימדיה</span><a href="https://doc.wikimedia.org/generated-data-platform/aqs/analytics-api/documentation/access-policy.html" target="_blank" rel="noopener">מקור ותנאי שימוש ↗</a></footer>
     <dialog id="detail" aria-labelledby="detail-title"><div class="dialog-toolbar"><button class="dialog-return">חזרה לרשימה</button><button class="dialog-close" aria-label="סגירת פירוט">×</button></div><div id="detail-content"></div></dialog>
     <script type="module" src="/src/main.js"></script>
   </body>

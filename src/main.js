@@ -1,18 +1,27 @@
 import './styles.css';
 import { escapeHtml as e, number, ratioLabel, dateLabel, trendNames, chartMarkup } from './ui-lib.js';
-import { POLL_INTERVAL_MS, contextFor, contextMarkup, deriveLiveState, loadLiveData, snapshotDisplayKey } from './live-state.js';
+import { POLL_INTERVAL_MS, contextFor, contextMarkup, deriveLiveState, fetchJson, loadLiveData, snapshotDisplayKey } from './live-state.js';
 import { coverageSummary, partialCardsMarkup, partialResultMessage, selectUncomparedArticles } from './partial-history.js';
 import { selectDiscoveryArticles, discoveryMetric } from './discovery-lib.js';
 import { createRefreshController } from './refresh-controller.js';
 import { leadingArticle, detailChartMarkup } from './article-view.js';
 import { dailyBriefingMarkup, dailyChangeMarkup } from './daily-briefing-view.js';
 import { newsSearchUrl } from './news-search.js';
+import { archiveSnapshotUrl, createEditionController } from './archive-state.js';
+import { identificationMarkup } from './identification.js';
+import { loadReadingData } from './reading-data.js';
 
-let snapshot, contexts, runtimeStatus, sort = 'surge', query = '', limit = 9;
-let measurementKey = '', featuredContextKey = '', lastLoad = null, detailOpener = null;
+let snapshot, contexts, runtimeStatus, descriptions = null, archive = null, sort = 'surge', query = '', limit = 9;
+let measurementKey = '', featuredContextKey = '', descriptionsKey = '', lastLoad = null, readingLoad = null, detailOpener = null;
 const $ = selector => document.querySelector(selector);
 const baseUrl = new URL(import.meta.env.BASE_URL, document.baseURI);
 const snapshotUrl = new URL('data/snapshot.json', baseUrl).href;
+const edition = createEditionController({
+  loadSnapshot: date => fetchJson(archiveSnapshotUrl(baseUrl, date)),
+  onChange: () => applyEdition(),
+});
+const displayedSnapshotUrl = () => edition.historical ? archiveSnapshotUrl(baseUrl, snapshot.dataDate) : snapshotUrl;
+const identify = title => identificationMarkup(descriptions, title);
 const timestampLabel = value => new Intl.DateTimeFormat('he-IL', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Asia/Jerusalem' }).format(new Date(value));
 const setText = (element, value) => { if (element.textContent !== value) element.textContent = value; };
 const approvedContext = title => contextFor(contexts, title, snapshot.dataDate);
@@ -35,7 +44,7 @@ function renderFeature() {
   const context = approvedContext(a.title);
   const days = a.activeDays === null ? 'הבסיס נמוך מכדי לסווג את משך העניין באופן אמין' : a.activeDays >= 3 ? `${a.activeDays} ימים רצופים של עניין מוגבר בשבוע הנבדק` : a.activeDays > 0 ? `${a.activeDays === 1 ? 'יום אחד' : 'יומיים'} של עניין מוגבר — מוקדם לדעת אם יימשך` : 'אין כרגע רצף של עניין מוגבר לפי סף הניסוי';
   $('#feature').innerHTML = `<div class="feature-story">
-    <div class="feature-heading"><p class="eyebrow"><span class="small-dot"></span>העניין הגבוה ביותר ביחס לבסיס</p><h2 id="feature-title">${e(articleTitle(a))}</h2></div>
+    <div class="feature-heading"><p class="eyebrow"><span class="small-dot"></span>העניין הגבוה ביותר ביחס לבסיס</p><h2 id="feature-title">${e(articleTitle(a))}</h2>${identify(a.title)}</div>
     <div class="feature-ratio"><strong class="feature-ratio-value">${e(ratioLabel(a.ratio))}</strong><span>${a.ratio == null ? 'לחישוב השוואה' : 'מרמת הקריאה הרגילה'}</span></div>
     <p class="feature-sentence"><span class="trend-tag ${a.trend}">${trendNames[a.trend]}</span><span>${e(days)}.</span></p>
   </div><div class="feature-data">
@@ -52,7 +61,7 @@ function renderGrid() {
     : `תוצאות מכל הערכים במדגם. ${explanations[sort]}` : explanations[sort];
   $('#article-grid').innerHTML = all.slice(0, limit).map((a, i) => {
     const metric = discoveryMetric(a, sort);
-    return `<article class="article-card"><span class="card-rank">${String(i+1).padStart(2,'0')}</span><div class="card-name"><h3><button class="select-article detail-trigger" data-title="${e(a.title)}" aria-label="פירוט הנתונים: ${e(articleTitle(a))}">${e(articleTitle(a))}<span class="card-open-hint" aria-hidden="true">←</span></button></h3><span class="trend-tag ${a.comparisonAvailable ? a.trend : 'uncompared'}">${a.comparisonAvailable ? trendNames[a.trend] : 'ללא השוואת מגמה'}</span></div><div class="card-metrics"><strong>${e(metric.value)}</strong><span>${e(metric.label)}</span><small>${e(metric.secondary)}</small></div><div class="card-chart">${a.comparisonAvailable ? chartMarkup(a,true) : `<p class="no-comparison">${a.views === null ? 'אין נתון צפיות ליום המדידה.' : 'אין היסטוריה מלאה להשוואת מגמה.'}</p>`}</div></article>`;
+    return `<article class="article-card"><span class="card-rank">${String(i+1).padStart(2,'0')}</span><div class="card-name"><h3><button class="select-article detail-trigger" data-title="${e(a.title)}" aria-label="פירוט הנתונים: ${e(articleTitle(a))}">${e(articleTitle(a))}<span class="card-open-hint" aria-hidden="true">←</span></button></h3>${identify(a.title)}<span class="trend-tag ${a.comparisonAvailable ? a.trend : 'uncompared'}">${a.comparisonAvailable ? trendNames[a.trend] : 'ללא השוואת מגמה'}</span></div><div class="card-metrics"><strong>${e(metric.value)}</strong><span>${e(metric.label)}</span><small>${e(metric.secondary)}</small></div><div class="card-chart">${a.comparisonAvailable ? chartMarkup(a,true) : `<p class="no-comparison">${a.views === null ? 'אין נתון צפיות ליום המדידה.' : 'אין היסטוריה מלאה להשוואת מגמה.'}</p>`}</div></article>`;
   }).join('');
   $('#result-status').textContent = all.length ? `מוצגים ${Math.min(limit, all.length)} מתוך ${all.length} ערכים${query.trim() ? ' שמתאימים לחיפוש' : ' במיון הזה'}.` : 'לא נמצאו ערכים מתאימים במדגם הזה. אפשר לשנות חיפוש או מיון.';
   $('#show-more').hidden = all.length <= limit;
@@ -66,7 +75,7 @@ function renderUncompared() {
   const available = snapshot.uncomparedArticles || [];
   const filtered = selectUncomparedArticles(available, query);
   $('#uncompared').hidden = !available.length || sort === 'popular' || Boolean(query.trim());
-  $('#uncompared-grid').innerHTML = partialCardsMarkup(filtered);
+  $('#uncompared-grid').innerHTML = partialCardsMarkup(filtered, identify);
   const resultMessage = partialResultMessage({ count: filtered.length, query });
   $('#uncompared-status').hidden = !resultMessage;
   $('#uncompared-status').textContent = resultMessage;
@@ -78,19 +87,22 @@ function renderDetail(title) {
   if (a.reason === 'incomplete_history') {
     $('#detail-content').innerHTML = `<p class="eyebrow">הנתונים הזמינים</p><h2 id="detail-title">${e(articleTitle(a))}</h2><p>${a.views === null ? 'אין נתון צפיות ליום המדידה.' : `<strong>${number(a.views)} צפיות</strong> ב־${dateLabel(snapshot.dataDate)}.`}</p><p>יש נתונים ל־${a.series.length} מתוך 35 ימי הבדיקה, ולכן לא מוצגים בסיס, מכפיל או סיווג מגמה. חוסר ברשומה אינו מוכיח אפס צפיות.</p><h3>הימים שיש להם נתונים</h3><table><caption class="sr-only">כל הצפיות היומיות הזמינות לערך</caption><thead><tr><th scope="col">תאריך</th><th scope="col">צפיות</th></tr></thead><tbody>${a.series.map(p => `<tr><th scope="row">${dateLabel(p.date, { year: 'numeric' })}</th><td>${number(p.views)}</td></tr>`).join('')}</tbody></table><details><summary>ימים ללא נתון (${a.missingDates.length})</summary><p>${a.missingDates.map(date => dateLabel(date, { year: 'numeric' })).join(' · ')}</p></details><div class="dialog-links"><a href="${articleUrl(a)}" target="_blank" rel="noopener">לערך בוויקיפדיה ↗</a><a href="${pageviewsUrl(a)}" target="_blank" rel="noopener">לבדיקה ב־Pageviews ↗</a></div>`;
     $('#detail-title').nextElementSibling.insertAdjacentHTML('afterend', dailyChangeMarkup(a, snapshot.dataDate) + newsSearchMarkup(a));
+    $('#detail-title').insertAdjacentHTML('afterend', identificationMarkup(descriptions, a.title, { detail: true }));
     return;
   }
   const recent = a.series.slice(-14);
   $('#detail-content').innerHTML = `<p class="eyebrow">המספרים, בלי קיצורי דרך</p><h2 id="detail-title">${e(articleTitle(a))}</h2><p><strong>${number(a.views)} צפיות</strong> ב־${dateLabel(snapshot.dataDate)}. רמת הבסיס: <strong>${number(a.baseline)}</strong> צפיות ליום — חציון התקופה ${dateLabel(snapshot.baselineStart)} עד ${dateLabel(snapshot.baselineEnd)}.</p><div class="dialog-callout">${a.ratio == null ? 'רמת הבסיס קטנה מ־20, ולכן לא מציגים מכפיל שעלול להטעות.' : `${number(a.views)} ÷ ${number(a.baseline)} ≈ ${e(ratioLabel(a.ratio))} מהבסיס.`}</div><p>המספרים מודדים צפיות בעמוד, לא קוראים ייחודיים. הם אינם מוגבלים לגלישה מישראל ולא מוכיחים מה גרם לעלייה.</p>${detailChartMarkup(a)}<h3 id="detail-table-title">14 הימים שבגרף</h3><p>הטבלה מציגה את אותם ימים כמו הגרף. סיווג משך העניין נבדק בשבעת הימים האחרונים בלבד.</p><table><caption class="sr-only">צפיות יומיות ב־14 הימים שבגרף</caption><thead><tr><th scope="col">תאריך</th><th scope="col">צפיות</th><th scope="col">יחס לבסיס</th></tr></thead><tbody>${recent.map(p => `<tr><th scope="row">${dateLabel(p.date)}</th><td>${number(p.views)}</td><td>${e(ratioLabel(a.baseline >= 20 ? p.views / a.baseline : null))}</td></tr>`).join('')}</tbody></table><div class="dialog-links"><a href="${articleUrl(a)}" target="_blank" rel="noopener">לערך בוויקיפדיה ↗</a><a href="${pageviewsUrl(a)}" target="_blank" rel="noopener">לבדיקה ב־Pageviews ↗</a></div><details><summary>איך נקבע הסיווג?</summary><p>עניין מוגבר: פי שניים לפחות מהבסיס ולפחות 100 צפיות ביום. הרצף נספר עד היום הנבחר, בתוך שבעת הימים האחרונים בלבד. בבסיס קטן מ־20 אין סיווג של הרצף.</p><p>״ירידה מהשיא״: היום הנבחר נמוך ביותר מ־40% מהשיא בששת הימים שלפניו, והשיא עצמו עבר את סף העניין המוגבר. הסיווג הזה קודם לסיווגי הרצף — גם אם הצפיות עדיין גבוהות מהבסיס.</p><p>כשאין ירידה כזאת, רצף של שלושה ימים ומעלה מסומן ״עניין מתמשך״, ורצף של יום או יומיים מסומן ״זינוק חדש״. ״חדש״ מתייחס לרצף שמעל הסף, ולא מבטיח עלייה לעומת אתמול. ״ללא זינוק מזוהה״ אומר שכללי הניסוי לא זיהו אחד מהדפוסים האלה; זו אינה הוכחה ליציבות.</p><a href="/data/snapshot.json" target="_blank" rel="noopener">הנתונים וכללי הסיווג ↗</a></details>`;
   const contextSection = document.createElement('div');
   $('#detail-title').nextElementSibling.insertAdjacentHTML('afterend', dailyChangeMarkup(a, snapshot.dataDate) + newsSearchMarkup(a));
+  $('#detail-title').insertAdjacentHTML('afterend', identificationMarkup(descriptions, a.title, { detail: true }));
   contextSection.className = 'detail-context';
   contextSection.innerHTML = contextMarkup(approvedContext(title));
   $('#detail-table-title').before(contextSection);
-  $('#detail-content details a').href = snapshotUrl;
+  $('#detail-content details a').href = displayedSnapshotUrl();
 }
 
 function showDetail(title, opener) {
+  if (edition.busy) return;
   detailOpener = { element: opener, title, containerId: opener.closest('section')?.id, scrollX: window.scrollX, scrollY: window.scrollY };
   // Stop a pending smooth focus/anchor scroll before opening the modal.
   window.scrollTo({ left: detailOpener.scrollX, top: detailOpener.scrollY, behavior: 'instant' });
@@ -106,16 +118,17 @@ $('#snapshot-link').href = snapshotUrl;
 
 function renderRuntime() {
   if (!snapshot) return;
-  const live = deriveLiveState(snapshot, runtimeStatus, Date.now(), Boolean(lastLoad?.statusError));
+  const live = deriveLiveState(edition.latest, runtimeStatus, Date.now(), Boolean(lastLoad?.statusError));
   const warnings = [...live.warnings];
   if (lastLoad?.snapshotError) warnings.push('לא הצלחנו לטעון עדכון תקין. הנתונים הקודמים נשמרו; ננסה שוב אוטומטית.');
   if (lastLoad?.statusError) warnings.push('לא הצלחנו לאמת את סטטוס האיסוף. אין בכך אישור לעדכון אוטומטי.');
   if (lastLoad?.contextError) warnings.push('לא הצלחנו לבדוק עדכונים להסברים. מוצגים רק הסברים שאושרו ונקלטו קודם, אם ישנם.');
   setText($('#edition-date'), `נתוני ${dateLabel(snapshot.dataDate, { year: 'numeric', weekday: 'long' })}`);
-  setText($('#edition-status'), `${live.label}${refresh.paused ? ' · תצוגה מושהית' : ''}`);
+  setText($('#edition-status'), edition.historical ? 'מהארכיון' : `${live.label}${refresh.paused ? ' · תצוגה מושהית' : ''}`);
   setText($('#snapshot-note'), `${timestampLabel(snapshot.generatedAt)} (שעון ישראל)`);
   setText($('#server-check-note'), live.checkedAt ? `${timestampLabel(live.checkedAt)} (שעון ישראל)` : 'לא זמין — אין אישור לתהליך מתוזמן');
-  setText($('#runtime-note'), live.detail);
+  setText($('#runtime-note'), edition.historical ? `האיסוף השוטף (${dateLabel(edition.latest.dataDate)}): ${live.detail}` : live.detail);
+  $('#snapshot-link').href = displayedSnapshotUrl();
   const coverage = coverageSummary(snapshot);
   if (coverage.warning) warnings.push(coverage.warning);
   setText($('#sample-size'), coverage.sample);
@@ -123,6 +136,46 @@ function renderRuntime() {
   setText($('#coverage-note'), coverage.detail);
   $('#update-warning').hidden = !warnings.length;
   setText($('#update-warning'), warnings.join(' '));
+}
+
+function renderEditionControls() {
+  const active = document.activeElement;
+  const dates = edition.dates;
+  const options = [...dates].reverse().map(date => `<option value="${date}">${e(dateLabel(date, { year: 'numeric', weekday: 'long' }))}${date === edition.latest.dataDate ? ' · אחרון' : ''}</option>`).join('');
+  const select = $('#edition-select');
+  if (select.innerHTML !== options) select.innerHTML = options;
+  select.value = edition.requestedDate ?? snapshot.dataDate;
+  select.disabled = dates.length < 2;
+  const position = dates.indexOf(snapshot.dataDate);
+  $('#edition-previous').disabled = edition.busy || position < 1;
+  $('#edition-next').disabled = edition.busy || position >= dates.length - 1;
+  $('#edition-latest').hidden = !edition.historical && !edition.busy;
+  for (const region of ['.today-overview', '#discover', '#uncompared']) {
+    $(region).inert = edition.busy;
+    $(region).setAttribute('aria-busy', String(edition.busy));
+  }
+  setText($('#archive-state'), edition.busy ? `טוענים את נתוני ${dateLabel(edition.requestedDate, { weekday: 'long' })}…`
+    : edition.error || (edition.historical ? 'יום שנשמר בארכיון. האיסוף השוטף בשרת ממשיך.'
+      : readingLoad?.archiveError ? 'הארכיון לא זמין כרגע; נתוני היום האחרון מוצגים.' : ''));
+  $('#archive-state').classList.toggle('archive-error', Boolean(edition.error || readingLoad?.archiveError));
+  // The return button disappears and boundary buttons become disabled. Keep
+  // keyboard focus in the edition picker instead of dropping it onto body.
+  if (active?.closest('.edition-tools') && ((active.tagName === 'BUTTON' && active.disabled) || active.hidden)) select.focus({ preventScroll: true });
+}
+
+function applyEdition() {
+  if (!edition.displayed) return;
+  snapshot = edition.displayed;
+  const nextKey = snapshotDisplayKey(snapshot);
+  const nextDescriptions = JSON.stringify(descriptions);
+  preserveFocus(() => {
+    if (nextKey !== measurementKey || nextDescriptions !== descriptionsKey) { renderFeature(); renderBriefing(); renderGrid(); renderUncompared(); }
+    else if (featuredContextKey !== JSON.stringify(approvedContext(leadingArticle(snapshot).title))) renderFeature();
+  });
+  measurementKey = nextKey;
+  descriptionsKey = nextDescriptions;
+  renderRuntime();
+  renderEditionControls();
 }
 
 function preserveFocus(update) {
@@ -153,22 +206,21 @@ async function load({ canApply }) {
     $('#content').hidden = true;
   }
   try {
-    const result = await loadLiveData({ baseUrl, previousSnapshot: snapshot, previousContexts: contexts });
+    const readingPromise = loadReadingData({ baseUrl, previousArchive: archive, previousDescriptions: descriptions });
+    const result = await loadLiveData({ baseUrl, previousSnapshot: edition.latest, previousContexts: contexts });
+    const reading = await readingPromise;
     // Keep both the open detail and its underlying list stable while reading.
     // A later scheduled check can apply updates after the dialog is closed.
     if (!canApply() || $('#detail').open) return;
     lastLoad = result;
     if (!lastLoad.snapshot) throw lastLoad.snapshotError || new Error('No valid snapshot');
-    const nextKey = snapshotDisplayKey(lastLoad.snapshot);
-    snapshot = lastLoad.snapshot;
     contexts = lastLoad.contexts;
     runtimeStatus = lastLoad.status;
-    preserveFocus(() => {
-      if (nextKey !== measurementKey) { renderFeature(); renderBriefing(); renderGrid(); renderUncompared(); }
-      else if (featuredContextKey !== JSON.stringify(approvedContext(leadingArticle(snapshot).title))) renderFeature();
-    });
-    measurementKey = nextKey;
-    renderRuntime();
+    readingLoad = reading;
+    descriptions = reading.descriptions;
+    archive = reading.archive;
+    edition.setArchive(archive);
+    edition.setLatest(lastLoad.snapshot);
     $('#content').hidden = false;
     $('#error').hidden = true;
   } catch (error) {
@@ -193,6 +245,10 @@ function renderRefreshControls() {
 const refresh = createRefreshController({ load, intervalMs: POLL_INTERVAL_MS, isVisible: () => !document.hidden && !$('#detail').open, onChange: renderRefreshControls });
 $('#pause-refresh').addEventListener('change', event => { refresh.setPaused(event.target.checked); });
 $('#refresh-now').addEventListener('click', () => { if (!refresh.busy) refresh.request(); });
+$('#edition-select').addEventListener('change', event => edition.select(event.target.value));
+$('#edition-latest').addEventListener('click', () => edition.showLatest());
+$('#edition-previous').addEventListener('click', () => edition.select(edition.dates[edition.dates.indexOf(snapshot.dataDate) - 1]));
+$('#edition-next').addEventListener('click', () => edition.select(edition.dates[edition.dates.indexOf(snapshot.dataDate) + 1]));
 
 $('.tabs').addEventListener('click', event => {
   const button = event.target.closest('[data-sort]'); if (!button) return;
