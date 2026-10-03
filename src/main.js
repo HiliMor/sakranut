@@ -32,9 +32,17 @@ const explanations = {
 
 function renderFeature() {
   const a = leadingArticle(snapshot);
+  const context = approvedContext(a.title);
   const days = a.activeDays === null ? 'הבסיס נמוך מכדי לסווג את משך העניין באופן אמין' : a.activeDays >= 3 ? `${a.activeDays} ימים רצופים של עניין מוגבר בשבוע הנבדק` : a.activeDays > 0 ? `${a.activeDays === 1 ? 'יום אחד' : 'יומיים'} של עניין מוגבר — מוקדם לדעת אם יימשך` : 'אין כרגע רצף של עניין מוגבר לפי סף הניסוי';
-  $('#feature').innerHTML = `<div class="feature-story"><p class="eyebrow"><span class="small-dot"></span>הקפיצה הבולטת במדגם</p><h2 id="feature-title">${e(articleTitle(a))}</h2><div class="feature-ratio"><strong class="feature-ratio-value">${e(ratioLabel(a.ratio))}</strong><span>${a.ratio == null ? 'לחישוב השוואה' : 'מרמת הקריאה הרגילה'}</span></div><p class="feature-sentence">${e(days)}.</p><button class="text-button detail-trigger" data-title="${e(a.title)}">לנתונים ולהסבר ←</button><p class="no-cause">מה גרם לשינוי? הנתונים האלה לבדם לא אומרים.</p></div><div class="feature-data"><div class="chart-heading"><h3>מסלול הקריאה</h3><span>14 ימים · צפיות ליום</span></div><div class="chart-legend"><span class="line-key">צפיות בפועל</span><span class="dash-key">רמת הבסיס</span></div>${chartMarkup(a)}<div class="chart-dates" dir="ltr"><span>${dateLabel(a.series.at(-14).date)}</span><span>${dateLabel(snapshot.dataDate)}</span></div><div class="feature-stats"><div><span>ביום הנבחר</span><strong>${number(a.views)}</strong><small>צפיות</small></div><div><span>רמת הבסיס</span><strong>${number(a.baseline)}</strong><small>חציון 28 יום</small></div><div><span>מצב העניין</span><strong class="trend-value">${trendNames[a.trend]}</strong><small>סיווג ניסיוני</small></div></div></div><div class="feature-context">${contextMarkup(approvedContext(a.title))}</div>`;
-  featuredContextKey = JSON.stringify(approvedContext(a.title));
+  $('#feature').innerHTML = `<div class="feature-story">
+    <div class="feature-heading"><p class="eyebrow"><span class="small-dot"></span>העניין הגבוה ביותר ביחס לבסיס</p><h2 id="feature-title">${e(articleTitle(a))}</h2></div>
+    <div class="feature-ratio"><strong class="feature-ratio-value">${e(ratioLabel(a.ratio))}</strong><span>${a.ratio == null ? 'לחישוב השוואה' : 'מרמת הקריאה הרגילה'}</span></div>
+    <p class="feature-sentence"><span class="trend-tag ${a.trend}">${trendNames[a.trend]}</span><span>${e(days)}.</span></p>
+  </div><div class="feature-data">
+    <div class="chart-heading"><h3>צפיות ליום · 14 ימים</h3><div class="chart-legend"><span class="line-key">צפיות בפועל</span><span class="dash-key">רמת הבסיס</span></div></div>${chartMarkup(a)}<div class="chart-dates" dir="ltr"><span>${dateLabel(a.series.at(-14).date)}</span><span>${dateLabel(snapshot.dataDate)}</span></div>
+    <div class="feature-stats"><div><span>צפיות ביום הנבחר</span><strong>${number(a.views)}</strong></div><div><span>בסיס · חציון 28 יום</span><strong>${number(a.baseline)}</strong></div><button class="text-button detail-trigger" data-title="${e(a.title)}">לגרף ולפירוט ←</button></div>
+  </div>${context ? `<details class="feature-context"><summary>הקשר אפשרי לזינוק · מקורות שנבדקו</summary>${contextMarkup(context)}</details>` : ''}`;
+  featuredContextKey = JSON.stringify(context);
 }
 
 function renderGrid() {
@@ -44,7 +52,7 @@ function renderGrid() {
     : `תוצאות מכל הערכים במדגם. ${explanations[sort]}` : explanations[sort];
   $('#article-grid').innerHTML = all.slice(0, limit).map((a, i) => {
     const metric = discoveryMetric(a, sort);
-    return `<article class="article-card"><div class="card-top"><span class="card-rank">${String(i+1).padStart(2,'0')}</span><span class="trend-tag ${a.comparisonAvailable ? a.trend : 'uncompared'}">${a.comparisonAvailable ? trendNames[a.trend] : 'ללא השוואת מגמה'}</span></div><h3><button class="select-article detail-trigger" data-title="${e(a.title)}" aria-label="פירוט הנתונים: ${e(articleTitle(a))}">${e(articleTitle(a))}</button></h3><div class="card-metrics"><strong>${e(metric.value)}</strong><span>${e(metric.label)}</span><small>${e(metric.secondary)}</small></div>${a.comparisonAvailable ? chartMarkup(a,true) : `<p class="no-comparison">${a.views === null ? 'אין נתון צפיות ליום המדידה.' : 'אין היסטוריה מלאה להשוואת מגמה.'}</p>`}<div class="card-foot"><span>${a.comparisonAvailable ? 'לחיצה על השם פותחת גרף ופירוט ←' : 'לחיצה על השם פותחת פירוט ←'}</span></div></article>`;
+    return `<article class="article-card"><span class="card-rank">${String(i+1).padStart(2,'0')}</span><div class="card-name"><h3><button class="select-article detail-trigger" data-title="${e(a.title)}" aria-label="פירוט הנתונים: ${e(articleTitle(a))}">${e(articleTitle(a))}<span class="card-open-hint" aria-hidden="true">←</span></button></h3><span class="trend-tag ${a.comparisonAvailable ? a.trend : 'uncompared'}">${a.comparisonAvailable ? trendNames[a.trend] : 'ללא השוואת מגמה'}</span></div><div class="card-metrics"><strong>${e(metric.value)}</strong><span>${e(metric.label)}</span><small>${e(metric.secondary)}</small></div><div class="card-chart">${a.comparisonAvailable ? chartMarkup(a,true) : `<p class="no-comparison">${a.views === null ? 'אין נתון צפיות ליום המדידה.' : 'אין היסטוריה מלאה להשוואת מגמה.'}</p>`}</div></article>`;
   }).join('');
   $('#result-status').textContent = all.length ? `מוצגים ${Math.min(limit, all.length)} מתוך ${all.length} ערכים${query.trim() ? ' שמתאימים לחיפוש' : ' במיון הזה'}.` : 'לא נמצאו ערכים מתאימים במדגם הזה. אפשר לשנות חיפוש או מיון.';
   $('#show-more').hidden = all.length <= limit;
