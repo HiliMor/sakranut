@@ -94,5 +94,7 @@ npm run context:validate -- --input data/context-pilot/YYYY-MM-DD/drafts.json
 
 [תכנית העבודה](docs/ROADMAP.md) · [המתודולוגיה והבדיקות](docs/METHODOLOGY.md) · [תפעול ופריסה פרטית](ops/wiki-interest/README.md) · [הפרדת הריפו](docs/REPOSITORY_MIGRATION.md)
 
+הצעד הבא: [אימות יום נתונים חדש](docs/DAILY_ROLLOVER.md) ו[ערכת בדיקת קוראים](docs/READER_STUDY.md). ערכת הקוראים היא הכנה בלבד, ללא גיוס או תוצאות. כלי האימות קורא את מוצרי השרת בלבד ואינו מפעיל איסוף או מפרסם דבר.
+
 נתוני צפייה: Wikimedia Analytics; תיאורי זיהוי: Wikidata; שניהם CC0. אין שיוך רשמי לוויקימדיה.
 הפרויקט אינו מעתיק גופי ערכים או כתבות. זכויות הנתונים אינן רישיון גורף לתוכן המקורות.
