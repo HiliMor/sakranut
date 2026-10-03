@@ -13,7 +13,8 @@
     "test": "node --test",
     "context:queue": "node scripts/context-pilot.mjs queue",
     "context:validate": "node scripts/context-pilot.mjs validate",
-    "context:daily": "node scripts/context-daily.mjs"
+    "context:daily": "node scripts/context-daily.mjs",
+    "context:related": "node scripts/related-pilot.mjs"
   },
   "devDependencies": { "vite": "7.3.6" }
 }
