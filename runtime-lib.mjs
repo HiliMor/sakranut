@@ -14,6 +14,7 @@ export function runtimePaths(runtimeDir) {
     state: join(runtimeDir, 'runner-state.json'), history: join(runtimeDir, 'history'),
     archive: join(runtimeDir, 'public/archive'), archiveIndex: join(runtimeDir, 'public/archive.json'),
     descriptions: join(runtimeDir, 'public/descriptions.json'), descriptionCache: join(runtimeDir, 'description-cache.json'),
+    tracks: join(runtimeDir, 'public/tracks.json'), trackingCache: join(runtimeDir, 'tracking-cache.json'),
   };
 }
 

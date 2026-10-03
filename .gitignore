@@ -18,6 +18,7 @@ public/data/status.json
 public/data/archive.json
 public/data/archive/
 public/data/descriptions.json
+public/data/tracks.json
 runtime/
 history/
 backups/

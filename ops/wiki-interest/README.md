@@ -6,6 +6,10 @@ Operational runbook for Sakranut. Do not apply these commands to the RSS/news pr
 
 ## Current verified release — 2026-10-03
 
+The history/patterns iteration is being verified separately. Its staged seven-day pilot has been extended to 30 dates (September 3–October 2), with 400 unique sampled titles. Only 28 missing dates are eligible for additive import; original October 1–2 editions and the live snapshot must stay byte-identical. See [the history protocol](../../docs/HISTORY_PATTERNS.md). A staged report is not deployment evidence.
+
+### Previous archive release
+
 Archive and identification: release `20261003T165446Z-archive` is active, built from source `a92ade662284234ed2b0c616d2873c6c88cc2b9d`. It adds a day selector, previous/next available day, explicit return to latest, stable historical selection during refresh, and retrieval-dated Hebrew Wikidata identification. The two available days were October 1–2; 40 of the 43 unique archived/current titles had descriptions, including 27 of the 30 current-day titles. Three missing descriptions were negatively cached; there were no pending titles after the follow-up check. No descriptions were invented or used as surge explanations.
 
 Local suite: 163 passing, five Linux-specific skips. Isolated Linux suite: 167 passing, one non-Linux-only skip. Build and diff check passed. Browser QA with isolated server data covered 1280/390/320 widths, selected-date links, search/sort retention, keyboard details/Escape, explicit return focus and manual refresh while viewing history. The deployed private tab confirmed both dates, their different leaders, identification, the corresponding Wikidata QID link and historical JSON detail link. No console errors or horizontal overflow were observed. These checks are not a screen-reader or physical-device certification.
@@ -110,9 +114,12 @@ bundle/
     reading-products.mjs
     archive-products.mjs
     description-products.mjs
+    tracking-products.mjs
+    backfill.mjs
     src/ui-lib.js
     src/archive-state.js
     src/identification.js
+    src/tracking-lib.js
     site/                  # built experiment, including reviewed data/context.json
   ops/
     install.sh
@@ -182,9 +189,10 @@ curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4
 curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4174/data/archive/index.json
 curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4174/data/archive/revisions/2026-10-01.json
 curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4174/data/description-cache.json
+curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4174/data/tracking-cache.json
 ```
 
-The listener must be `127.0.0.1:4174`, not all interfaces; all seven denied paths must return 404. The archive index and validated available date routes should return 200; an unavailable date should return 404. Confirm that existing public news listeners/routes and existing collector timers are unchanged. The loopback listener does not by itself audit the entire host's network configuration.
+The listener must be `127.0.0.1:4174`, not all interfaces; all eight denied paths must return 404. The archive index, tracking product and validated available date routes should return 200; an unavailable date should return 404. Verify `Content-Encoding: gzip` for JSON when requested, and an unchanged-product ETag conditional request returns 304. Confirm that existing public news listeners/routes and existing collector timers are unchanged. The loopback listener does not by itself audit the entire host's network configuration.
 
 ## Dedicated external alerts — verification pending
 

@@ -23,6 +23,7 @@ export function validateSnapshot(data) {
     catch { return false; }
   };
   if (data?.schemaVersion !== 1 || !validDate(data.dataDate) || !validDate(data.seriesStart) || !validDate(data.baselineStart) || !validDate(data.baselineEnd) || typeof data.generatedAt !== 'string' || !Number.isFinite(Date.parse(data.generatedAt)) || !Array.isArray(data.articles) || !data.articles.length) throw new Error('Invalid snapshot metadata');
+  if (Object.hasOwn(data, 'collectionOrigin') && !['scheduled', 'retrospective'].includes(data.collectionOrigin)) throw new Error('Invalid collection origin');
   const expectedWindow = windowFor(data.dataDate);
   if (['seriesStart', 'baselineStart', 'baselineEnd'].some(key => data[key] !== expectedWindow[key]) || Date.parse(data.generatedAt) < Date.parse(data.dataDate) + 86400000) throw new Error('Invalid snapshot date window');
   const source = data.source;

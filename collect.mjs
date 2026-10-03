@@ -6,6 +6,10 @@ import { validateSnapshot } from './src/ui-lib.js';
 import { atomicJson } from './runtime-lib.mjs';
 
 const userAgent = 'Sakranut/0.2 (https://github.com/HiliMor/sakranut) Node.js';
+const requestedRetryAt = value => {
+  const timestamp = /^\d+$/.test(value ?? '') ? Date.now() + Number(value) * 1000 : Date.parse(value);
+  return Number.isFinite(timestamp) && timestamp > Date.now() && timestamp < 8.64e15 ? new Date(timestamp).toISOString() : null;
+};
 
 export async function fetchJson(url, { fetchImpl = fetch, waitImpl = wait } = {}) {
   for (let attempt = 0; attempt < 3; attempt += 1) {
@@ -18,7 +22,10 @@ export async function fetchJson(url, { fetchImpl = fetch, waitImpl = wait } = {}
     if ((response.status === 429 || response.status >= 500) && attempt < 2) {
       const retryAfter = response.headers.get('retry-after');
       await response.body?.cancel();
-      await waitImpl(retryDelayMs(retryAfter, { attempt }));
+      let delay;
+      try { delay = retryDelayMs(retryAfter, { attempt }); }
+      catch (error) { error.retryAt = requestedRetryAt(retryAfter); throw error; }
+      await waitImpl(delay);
       continue;
     }
     if (!response.ok) {
@@ -26,6 +33,7 @@ export async function fetchJson(url, { fetchImpl = fetch, waitImpl = wait } = {}
       const error = new Error(`HTTP ${response.status}`);
       error.status = response.status;
       if (response.status === 429 || response.headers.has('retry-after')) error.code = 'STOP_COLLECTION';
+      error.retryAt = requestedRetryAt(response.headers.get('retry-after'));
       throw error;
     }
     return response.json();
@@ -34,7 +42,10 @@ export async function fetchJson(url, { fetchImpl = fetch, waitImpl = wait } = {}
 
 // Fetch and validate in memory. Publishing is deliberately a separate operation.
 // Scheduled runs pass maxFallbackDays: 0; the manual prototype retains fallback.
-export async function collectSnapshot({ requestedDate, maxFallbackDays = 3, fetchImpl = fetch, waitImpl = wait, now = () => new Date(), logger = console } = {}) {
+export async function collectSnapshot({ requestedDate, maxFallbackDays = 3, fetchImpl = fetch, waitImpl = wait, now = () => new Date(), logger = console,
+  fetchTop = date => fetchJson(topUrl(date), { fetchImpl, waitImpl }),
+  fetchSeries = (title, date) => fetchJson(articleSeriesUrl(title, date), { fetchImpl, waitImpl }),
+} = {}) {
   const today = now().toISOString().slice(0, 10);
   requestedDate ??= shiftDate(today, -1);
   parseDate(requestedDate);
@@ -44,7 +55,7 @@ export async function collectSnapshot({ requestedDate, maxFallbackDays = 3, fetc
   for (let offset = 0; offset <= maxFallbackDays; offset += 1) {
     const candidateDate = shiftDate(requestedDate, -offset);
     try {
-      const response = await fetchJson(topUrl(candidateDate), { fetchImpl, waitImpl });
+      const response = await fetchTop(candidateDate);
       const day = response.items?.[0];
       if (!Array.isArray(day?.articles) || !day.articles.length) throw new Error('Top list missing or empty');
       if (`${day.year}-${day.month}-${day.day}` !== candidateDate) throw new Error('Top-list date differs from requested date');
@@ -63,7 +74,7 @@ export async function collectSnapshot({ requestedDate, maxFallbackDays = 3, fetc
   for (const candidate of candidates) {
     let responseItems;
     try {
-      const response = await fetchJson(articleSeriesUrl(candidate.article, dataDate), { fetchImpl, waitImpl });
+      const response = await fetchSeries(candidate.article, dataDate);
       if (!Array.isArray(response.items)) throw new Error('Missing per-article daily series');
       responseItems = response.items;
       articles.push(buildArticle(candidate, responseItems, dataDate));
