@@ -5,6 +5,8 @@ import { coverageSummary, partialCardsMarkup, partialResultMessage, selectUncomp
 import { selectDiscoveryArticles, discoveryMetric } from './discovery-lib.js';
 import { createRefreshController } from './refresh-controller.js';
 import { leadingArticle, detailChartMarkup } from './article-view.js';
+import { dailyBriefingMarkup, dailyChangeMarkup } from './daily-briefing-view.js';
+import { newsSearchUrl } from './news-search.js';
 
 let snapshot, contexts, runtimeStatus, sort = 'surge', query = '', limit = 9;
 let measurementKey = '', featuredContextKey = '', lastLoad = null, detailOpener = null;
@@ -18,6 +20,10 @@ const articleTitle = article => article.title.replaceAll('_', ' ');
 const articleUrl = article => `https://he.wikipedia.org/wiki/${encodeURIComponent(article.title)}`;
 const findArticle = title => snapshot.articles.find(article => article.title === title) || snapshot.uncomparedArticles?.find(article => article.title === title);
 const pageviewsUrl = article => `https://pageviews.wmcloud.org/?project=he.wikipedia.org&platform=all-access&agent=user&start=${snapshot.seriesStart}&end=${snapshot.dataDate}&pages=${encodeURIComponent(article.title)}`;
+function newsSearchMarkup(article) {
+  const url = newsSearchUrl(article.title, snapshot.dataDate);
+  return url ? `<aside class="news-search" aria-label="חיפוש נוסף"><a href="${e(url)}" target="_blank" rel="noopener noreferrer">חיפוש כתבות ברשת ↗<span class="sr-only"> על ${e(articleTitle(article))} — נפתח בחלון חדש</span></a><p>חיפוש Google סביב יום המדידה. התוצאות אינן נבדקות כאן ואינן הסבר מאומת לשינוי.</p></aside>` : '';
+}
 const explanations = {
   surge: 'מיון לפי היחס בין הצפיות ביום הנבחר לרמת הבסיס של אותו ערך. בסיס קטן מ־20 צפיות אינו מקבל יחס.',
   popular: 'מיון כל הערכים במדגם לפי הצפיות ביום הנבחר, גם כשאין היסטוריה מלאה. פופולריות אינה בהכרח עלייה בעניין.',
@@ -44,6 +50,10 @@ function renderGrid() {
   $('#show-more').hidden = all.length <= limit;
 }
 
+function renderBriefing() {
+  $('#daily-briefing').innerHTML = dailyBriefingMarkup(snapshot);
+}
+
 function renderUncompared() {
   const available = snapshot.uncomparedArticles || [];
   const filtered = selectUncomparedArticles(available, query);
@@ -59,11 +69,13 @@ function renderDetail(title) {
   if (!a) return;
   if (a.reason === 'incomplete_history') {
     $('#detail-content').innerHTML = `<p class="eyebrow">הנתונים הזמינים</p><h2 id="detail-title">${e(articleTitle(a))}</h2><p>${a.views === null ? 'אין נתון צפיות ליום המדידה.' : `<strong>${number(a.views)} צפיות</strong> ב־${dateLabel(snapshot.dataDate)}.`}</p><p>יש נתונים ל־${a.series.length} מתוך 35 ימי הבדיקה, ולכן לא מוצגים בסיס, מכפיל או סיווג מגמה. חוסר ברשומה אינו מוכיח אפס צפיות.</p><h3>הימים שיש להם נתונים</h3><table><caption class="sr-only">כל הצפיות היומיות הזמינות לערך</caption><thead><tr><th scope="col">תאריך</th><th scope="col">צפיות</th></tr></thead><tbody>${a.series.map(p => `<tr><th scope="row">${dateLabel(p.date, { year: 'numeric' })}</th><td>${number(p.views)}</td></tr>`).join('')}</tbody></table><details><summary>ימים ללא נתון (${a.missingDates.length})</summary><p>${a.missingDates.map(date => dateLabel(date, { year: 'numeric' })).join(' · ')}</p></details><div class="dialog-links"><a href="${articleUrl(a)}" target="_blank" rel="noopener">לערך בוויקיפדיה ↗</a><a href="${pageviewsUrl(a)}" target="_blank" rel="noopener">לבדיקה ב־Pageviews ↗</a></div>`;
+    $('#detail-title').nextElementSibling.insertAdjacentHTML('afterend', dailyChangeMarkup(a, snapshot.dataDate) + newsSearchMarkup(a));
     return;
   }
   const recent = a.series.slice(-14);
   $('#detail-content').innerHTML = `<p class="eyebrow">המספרים, בלי קיצורי דרך</p><h2 id="detail-title">${e(articleTitle(a))}</h2><p><strong>${number(a.views)} צפיות</strong> ב־${dateLabel(snapshot.dataDate)}. רמת הבסיס: <strong>${number(a.baseline)}</strong> צפיות ליום — חציון התקופה ${dateLabel(snapshot.baselineStart)} עד ${dateLabel(snapshot.baselineEnd)}.</p><div class="dialog-callout">${a.ratio == null ? 'רמת הבסיס קטנה מ־20, ולכן לא מציגים מכפיל שעלול להטעות.' : `${number(a.views)} ÷ ${number(a.baseline)} ≈ ${e(ratioLabel(a.ratio))} מהבסיס.`}</div><p>המספרים מודדים צפיות בעמוד, לא קוראים ייחודיים. הם אינם מוגבלים לגלישה מישראל ולא מוכיחים מה גרם לעלייה.</p>${detailChartMarkup(a)}<h3 id="detail-table-title">14 הימים שבגרף</h3><p>הטבלה מציגה את אותם ימים כמו הגרף. סיווג משך העניין נבדק בשבעת הימים האחרונים בלבד.</p><table><caption class="sr-only">צפיות יומיות ב־14 הימים שבגרף</caption><thead><tr><th scope="col">תאריך</th><th scope="col">צפיות</th><th scope="col">יחס לבסיס</th></tr></thead><tbody>${recent.map(p => `<tr><th scope="row">${dateLabel(p.date)}</th><td>${number(p.views)}</td><td>${e(ratioLabel(a.baseline >= 20 ? p.views / a.baseline : null))}</td></tr>`).join('')}</tbody></table><div class="dialog-links"><a href="${articleUrl(a)}" target="_blank" rel="noopener">לערך בוויקיפדיה ↗</a><a href="${pageviewsUrl(a)}" target="_blank" rel="noopener">לבדיקה ב־Pageviews ↗</a></div><details><summary>איך נקבע הסיווג?</summary><p>עניין מוגבר: פי שניים לפחות מהבסיס ולפחות 100 צפיות ביום. הרצף נספר עד היום הנבחר, בתוך שבעת הימים האחרונים בלבד. בבסיס קטן מ־20 אין סיווג של הרצף.</p><p>״ירידה מהשיא״: היום הנבחר נמוך ביותר מ־40% מהשיא בששת הימים שלפניו, והשיא עצמו עבר את סף העניין המוגבר. הסיווג הזה קודם לסיווגי הרצף — גם אם הצפיות עדיין גבוהות מהבסיס.</p><p>כשאין ירידה כזאת, רצף של שלושה ימים ומעלה מסומן ״עניין מתמשך״, ורצף של יום או יומיים מסומן ״זינוק חדש״. ״חדש״ מתייחס לרצף שמעל הסף, ולא מבטיח עלייה לעומת אתמול. ״ללא זינוק מזוהה״ אומר שכללי הניסוי לא זיהו אחד מהדפוסים האלה; זו אינה הוכחה ליציבות.</p><a href="/data/snapshot.json" target="_blank" rel="noopener">הנתונים וכללי הסיווג ↗</a></details>`;
   const contextSection = document.createElement('div');
+  $('#detail-title').nextElementSibling.insertAdjacentHTML('afterend', dailyChangeMarkup(a, snapshot.dataDate) + newsSearchMarkup(a));
   contextSection.className = 'detail-context';
   contextSection.innerHTML = contextMarkup(approvedContext(title));
   $('#detail-table-title').before(contextSection);
@@ -75,7 +87,7 @@ function showDetail(title, opener) {
   // Stop a pending smooth focus/anchor scroll before opening the modal.
   window.scrollTo({ left: detailOpener.scrollX, top: detailOpener.scrollY, behavior: 'instant' });
   renderDetail(title);
-  $('.dialog-return').textContent = detailOpener.containerId === 'feature' ? 'חזרה לסקירה' : 'חזרה לרשימה';
+  $('.dialog-return').textContent = detailOpener.containerId === 'feature' ? 'חזרה לסקירה' : detailOpener.containerId === 'daily-briefing' ? 'חזרה לשינויים היומיים' : 'חזרה לרשימה';
   $('#detail').showModal();
   $('#detail').scrollTop = 0;
   $('#detail-title').tabIndex = -1;
@@ -107,7 +119,7 @@ function renderRuntime() {
 
 function preserveFocus(update) {
   const active = document.activeElement;
-  const container = active?.closest('#feature, #article-grid, #uncompared-grid, #detail-content');
+  const container = active?.closest('#feature, #daily-briefing, #article-grid, #uncompared-grid, #detail-content');
   const descriptor = container ? {
     containerId: container.id, id: active.id, title: active.dataset.title,
     tag: active.tagName, className: active.className, href: active.getAttribute('href'),
@@ -144,7 +156,7 @@ async function load({ canApply }) {
     contexts = lastLoad.contexts;
     runtimeStatus = lastLoad.status;
     preserveFocus(() => {
-      if (nextKey !== measurementKey) { renderFeature(); renderGrid(); renderUncompared(); }
+      if (nextKey !== measurementKey) { renderFeature(); renderBriefing(); renderGrid(); renderUncompared(); }
       else if (featuredContextKey !== JSON.stringify(approvedContext(leadingArticle(snapshot).title))) renderFeature();
     });
     measurementKey = nextKey;

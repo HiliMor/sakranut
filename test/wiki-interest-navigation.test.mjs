@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { leadingArticle, detailChartMarkup } from '../src/article-view.js';
 import { selectDiscoveryArticles } from '../src/discovery-lib.js';
+import { dailyBriefing } from '../src/daily-briefing.js';
 
 const snapshot = JSON.parse(readFileSync(new URL('../public/data/snapshot.json', import.meta.url)));
 const main = readFileSync(new URL('../src/main.js', import.meta.url), 'utf8');
@@ -62,4 +63,18 @@ test('automatic display updates cannot change the open detail or its underlying 
   const resolvedGuard = main.indexOf("if (!canApply() || $('#detail').open) return;");
   assert(resolvedGuard > main.indexOf('await loadLiveData'));
   assert(resolvedGuard < main.indexOf('lastLoad = result'));
+});
+test('daily briefing is independent of discovery controls and participates in focus restoration', () => {
+  const before = dailyBriefing(snapshot);
+  for (const sort of ['surge', 'popular', 'lasting']) selectDiscoveryArticles(snapshot, sort, 'סאמי');
+  assert.deepEqual(dailyBriefing(snapshot), before);
+  assert.match(html, /id="daily-briefing"[^>]*aria-labelledby="daily-briefing-title"/);
+  assert.match(main, /containerId === 'daily-briefing' \? 'חזרה לשינויים היומיים'/);
+  assert.match(main, /closest\('#feature, #daily-briefing,/);
+  assert.match(main, /renderFeature\(\); renderBriefing\(\); renderGrid\(\);/);
+});
+test('both full and partial details receive daily comparison and user-initiated search', () => {
+  assert.equal(main.split('dailyChangeMarkup(a, snapshot.dataDate) + newsSearchMarkup(a)').length - 1, 2);
+  assert.match(main, /href="\$\{e\(url\)\}" target="_blank" rel="noopener noreferrer"/);
+  assert.match(main, /התוצאות אינן נבדקות כאן ואינן הסבר מאומת/);
 });
