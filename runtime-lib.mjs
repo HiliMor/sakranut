@@ -9,7 +9,12 @@ export const DEFAULT_RUNTIME_DIR = '/var/lib/wiki-interest';
 export const MAX_CHECK_AGE_MS = 6 * 60 * 60 * 1000;
 
 export function runtimePaths(runtimeDir) {
-  return { snapshot: join(runtimeDir, 'public/snapshot.json'), status: join(runtimeDir, 'public/status.json'), state: join(runtimeDir, 'runner-state.json'), history: join(runtimeDir, 'history') };
+  return {
+    snapshot: join(runtimeDir, 'public/snapshot.json'), status: join(runtimeDir, 'public/status.json'),
+    state: join(runtimeDir, 'runner-state.json'), history: join(runtimeDir, 'history'),
+    archive: join(runtimeDir, 'public/archive'), archiveIndex: join(runtimeDir, 'public/archive.json'),
+    descriptions: join(runtimeDir, 'public/descriptions.json'), descriptionCache: join(runtimeDir, 'description-cache.json'),
+  };
 }
 
 // Unique temporary names and same-directory rename avoid partial JSON reads and

@@ -48,6 +48,10 @@ This deployment is private, on the existing Linux host. It does not open cloud i
 | `/opt/wiki-interest/current` | Symlink to the selected release. |
 | `/var/lib/wiki-interest/public/snapshot.json` | Last validated measurement snapshot. |
 | `/var/lib/wiki-interest/public/status.json` | Public-safe runtime state, dates, counters and monitoring boolean. |
+| `/var/lib/wiki-interest/public/archive.json` | Validated available-day index, published after its snapshot products. |
+| `/var/lib/wiki-interest/public/archive/YYYY-MM-DD.json` | Whitelisted measurement projection, accessible only through a date-shaped route. |
+| `/var/lib/wiki-interest/public/descriptions.json` | Optional Hebrew Wikidata identifiers/descriptions with retrieval timestamps. |
+| `/var/lib/wiki-interest/description-cache.json` | Private positive/negative metadata cache, pending titles and retry time; not web-served. |
 | `/var/lib/wiki-interest/history/YYYY-MM-DD.json` | Validated daily snapshots; not web-served. |
 | `/var/lib/wiki-interest/history/index.json` | Available and missing dates; no automatic backfill. |
 | `/var/lib/wiki-interest/runner-state.json` | Last completed collector check and successful publication; not web-served. |
@@ -66,7 +70,7 @@ The `wiki-interest` system user can write runtime data, not the release or the h
 - Daily publication is conditional on upstream availability and validation, not guaranteed at a fixed wall-clock time. The first attempt for a new UTC day is at 00:20 UTC the following day (03:20 in Israel during daylight saving time; 02:20 in standard time). A later same-day check does not imply newly measured data. Convert the live timer output with `Asia/Jerusalem`, not the host's timezone, when reporting the next attempt to the user.
 - Independent health check: `wiki-interest-health.timer`, every hour at `:45 UTC`, plus up to 45 seconds of randomized delay. It does not collect measurements.
 - The requested data day is strictly yesterday in UTC. The scheduled runner uses `maxFallbackDays: 0`; the manual developer collector's historical fallback is not used.
-- A published yesterday snapshot in the current format makes later collector checks a no-op for Wikimedia requests and public measurement publication. Runner status and the history index may change. `lastSuccessAt` must not advance on a no-op.
+- A published yesterday snapshot in the current format makes later collector checks a no-op for measurement requests and public measurement publication. Runner status and the history index may change. Optional identification metadata can retry pending work or expired cache entries, but `lastSuccessAt` must not advance on a no-op.
 - Partial-history format upgrade: `uncomparedArticles` is an additive v1 array. An older same-day snapshot without this field is re-collected once; the prior version is retained under `history/revisions/` before replacement. A failed upgrade preserves the old published snapshot. Partial cards remain in `coverage.failures` as **comparison exclusions**, so the unchanged 75% gate and `articleCount` refer only to full-history articles. The UI subtracts separately displayed partial records before reporting articles not shown at all.
 - Unavailable or insufficient prior-day data preserves the last good snapshot and reports `waiting`; invalid/network data errors report `error`. Publication uses atomic file replacement and a shared kernel lock.
 - Data age of at least three UTC calendar days is `stale`. A completed collector check older than six hours is also `stale`, even if the health service still runs hourly.
@@ -74,6 +78,9 @@ The `wiki-interest` system user can write runtime data, not the release or the h
 - The UI independently withdraws its automatic-update confirmation once `checkedAt` is more than six hours old, even if the health service stopped and left a formerly healthy status file behind.
 - The UI checks on initial load, upon visibility restoration, and every hour only while visible. Hidden or user-paused tabs skip automatic checks; pause also prevents an in-flight automatic result from applying. An open detail dialog also blocks automatic checks and applying already-started responses, preserving the reading and return context until a later check after closing. The data disclosure offers a manual check while paused and a resume control. These controls do not affect server collection. These are daily measurements, **not realtime traffic**. Failed fetches retain valid displayed data with a warning. Status timestamps retain an independent five-minute future clock-skew tolerance; hourly polling does not relax validation.
 - History is retained locally. Missing dates are listed, not synthesized. This is not an off-host backup or a completed backup/restore drill.
+- The collector also publishes the safe archive and optional identification metadata under its existing lock. Archive entries are validated against filename/date and the measurement schema, with unknown nested fields omitted. The index is published last. Same-edition archive exports are reused, rather than rescanning history every three hours. Private history, revisions and cache files have no web route.
+- Identification uses `pageprops.wikibase_item` and Hebrew `pageterms.description` from the official Hebrew Wikipedia WikibaseClient API. No redirects, fuzzy-name search, page bodies or AI. Titles and QIDs must match the requested article. A new/pending/current-expired description can trigger up to two sequential requests of at most 20 titles, with `maxlag=5`, an identifying User-Agent, a 12-second timeout and 200ms spacing. The seven-day cache includes missing descriptions; older editions retain retrieval-dated identification, not historical claims. HTTP/API errors defer retries by at least one hour and honor longer `Retry-After`; cached descriptions survive. This optional layer is not a measurement-health gate and does not approve news context.
+- Browser data/status refresh remains hourly/return/manual. While viewing an archived day, the latest snapshot/status can update separately but the displayed day, leader, lists, detail source link and context-date match remain historical until an explicit return. Selection failures retain the displayed day; stale selection responses are ignored. The UI disables article exploration while a date is loading and restores keyboard focus when a boundary/return control becomes unavailable.
 
 ## Install a release
 
@@ -90,7 +97,12 @@ bundle/
     runtime-lib.mjs
     run-daily.mjs
     health.mjs
+    reading-products.mjs
+    archive-products.mjs
+    description-products.mjs
     src/ui-lib.js
+    src/archive-state.js
+    src/identification.js
     site/                  # built experiment, including reviewed data/context.json
   ops/
     install.sh
@@ -157,9 +169,12 @@ curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4
 curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4174/runner-state.json
 curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4174/data/runner-state.json
 curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4174/.env
+curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4174/data/archive/index.json
+curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4174/data/archive/revisions/2026-10-01.json
+curl --silent --output /dev/null --write-out '%{http_code}\n' http://127.0.0.1:4174/data/description-cache.json
 ```
 
-The listener must be `127.0.0.1:4174`, not all interfaces; all four denied paths must return 404. Confirm that existing public news listeners/routes and existing collector timers are unchanged. The loopback listener does not by itself audit the entire host's network configuration.
+The listener must be `127.0.0.1:4174`, not all interfaces; all seven denied paths must return 404. The archive index and validated available date routes should return 200; an unavailable date should return 404. Confirm that existing public news listeners/routes and existing collector timers are unchanged. The loopback listener does not by itself audit the entire host's network configuration.
 
 ## Dedicated external alerts — verification pending
 

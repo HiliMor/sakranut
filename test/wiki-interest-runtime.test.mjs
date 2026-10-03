@@ -28,7 +28,7 @@ async function runtime(t) {
   t.after(() => rm(dir, { recursive: true, force: true }));
   return dir;
 }
-const options = dir => ({ runtimeDir: dir, lock: noLock, logger: quiet, now: clock('2026-10-02T06:20:00Z'), healthcheckUrl: '' });
+const options = dir => ({ runtimeDir: dir, lock: noLock, logger: quiet, now: clock('2026-10-02T06:20:00Z'), healthcheckUrl: '', updateProducts: async () => {} });
 
 test('collector is import-safe, configurable and produces a validated 35-day snapshot', async () => {
   const fixture = sample();

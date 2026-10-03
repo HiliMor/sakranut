@@ -15,6 +15,9 @@ data/
 !public/data/snapshot.json
 !public/data/context.json
 public/data/status.json
+public/data/archive.json
+public/data/archive/
+public/data/descriptions.json
 runtime/
 history/
 backups/

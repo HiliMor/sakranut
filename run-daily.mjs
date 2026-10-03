@@ -3,8 +3,9 @@ import { join, resolve } from 'node:path';
 import { collectSnapshot } from './collect.mjs';
 import { shiftDate } from './data-lib.mjs';
 import { atomicJson, DEFAULT_RUNTIME_DIR, healthcheckEndpoint, makeStatus, readJson, runtimePaths, updateHistoryIndex, validateDailySnapshot, withRuntimeLock } from './runtime-lib.mjs';
+import { updateReadingProducts } from './reading-products.mjs';
 
-export async function runDaily({ runtimeDir = process.env.WIKI_INTEREST_RUNTIME_DIR || DEFAULT_RUNTIME_DIR, healthcheckUrl = process.env.WIKI_INTEREST_HEALTHCHECK_URL, now = () => new Date(), collect = collectSnapshot, lock = withRuntimeLock, logger = console } = {}) {
+export async function runDaily({ runtimeDir = process.env.WIKI_INTEREST_RUNTIME_DIR || DEFAULT_RUNTIME_DIR, healthcheckUrl = process.env.WIKI_INTEREST_HEALTHCHECK_URL, now = () => new Date(), collect = collectSnapshot, updateProducts = updateReadingProducts, lock = withRuntimeLock, logger = console } = {}) {
   return lock(runtimeDir, async () => {
     const paths = runtimePaths(runtimeDir);
     const targetDate = shiftDate(now().toISOString().slice(0, 10), -1);
@@ -62,6 +63,10 @@ export async function runDaily({ runtimeDir = process.env.WIKI_INTEREST_RUNTIME_
     await atomicJson(paths.state, runnerState);
     const status = makeStatus({ snapshot, runnerState, now: finishedAt, monitoringConfigured });
     await atomicJson(paths.status, status);
+    // Measurement success is committed first. Optional reading aids cannot turn
+    // a valid collection into a failure or advance its last-success timestamp.
+    try { await updateProducts({ runtimeDir, snapshot, now: now(), logger }); }
+    catch { logger.warn('Optional reading aids unavailable; measurement publication and health retained.'); }
     logger.log(`Daily check: ${status.state}; data ${status.dataDate ?? 'unavailable'}; target ${status.targetDate}; ${published ? 'published' : 'unchanged'}.`);
     return { status, published, exitCode };
   });
