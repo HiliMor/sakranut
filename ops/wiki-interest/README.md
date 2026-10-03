@@ -6,6 +6,8 @@ Operational runbook for Sakranut. Do not apply these commands to the RSS/news pr
 
 ## Current verified release — 2026-10-03
 
+Weekday-label follow-up: release `20261003T144013Z-weekday` is now active, built from source `06e172ece9949524fcd71634f3607f704df49413`. The private browser shows `נתוני יום שישי, 2 באוקטובר 2026`; the weekday is derived from the measurement's UTC calendar date. Local tests (144 passing, five Linux-specific skips) and build passed. Snapshot SHA-256 remained identical to the daily-briefing release below, both timers are active, both services succeeded, and the browser reported no errors or horizontal overflow.
+
 Release `20261003T142909Z-daily-briefing` was installed from source commit `8b7091ae1f84321b02f6333e5670175fea66d7f3` after user approval. It adds the observed daily-change summary, the same daily comparison in article details, and a user-initiated external article search. The private site at local port 5175 reads the server's live snapshot/status routes; port 5176 remains development with a dated local sample.
 
 The standalone suite passed locally (144 passing, five Linux-specific skips) and in the isolated Linux staging directory (148 passing, one non-Linux-only skip). The build passed. The installer completed and both collection/health services succeeded; both timers remained active with the same unit-file hashes. Nginx configuration and reviewed context hashes also stayed unchanged. The listener remains `127.0.0.1:4174`, and all four denied paths in the privacy checks returned 404.
