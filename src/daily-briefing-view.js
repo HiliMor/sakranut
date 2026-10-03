@@ -13,7 +13,6 @@ export function dailyBriefingMarkup(snapshot) {
       <h3><button class="select-article detail-trigger" data-title="${e(insight.title)}" aria-label="פירוט השינוי היומי: ${e(title)}">${e(title)}</button></h3>
       <p class="briefing-delta"><strong><bdi>${number(Math.abs(insight.delta))}</bdi></strong> צפיות ${insight.kind === 'increase' ? 'יותר' : 'פחות'}</p>
       <p class="briefing-counts">מ־<bdi>${number(insight.previousViews)}</bdi> ל־<bdi>${number(insight.views)}</bdi> צפיות</p>
-      <p class="briefing-hint">לחיצה על השם פותחת פירוט ←</p>
     </li>`;
   }).join('');
   const note = briefing.insights.length
@@ -22,8 +21,7 @@ export function dailyBriefingMarkup(snapshot) {
       ? `ב־${briefing.comparedCount} הערכים שיש להם נתונים לשני הימים, מספר הצפיות לא השתנה.`
       : 'אין כרגע מספיק נתונים להשוואה בין שני הימים.';
   return `<div class="briefing-heading"><h2 id="daily-briefing-title">מה השתנה ביום אחד?</h2><p>${e(period)} · UTC</p></div>
-    ${cards ? `<ul class="briefing-list" role="list">${cards}</ul>` : ''}
-    <p class="briefing-note">${e(note)}</p>`;
+    ${cards ? `<ul class="briefing-list" role="list">${cards}</ul><details class="briefing-method"><summary>איך נבחרו השינויים?</summary><p class="briefing-note">${e(note)}</p></details>` : `<p class="briefing-note">${e(note)}</p>`}`;
 }
 
 export function dailyChangeMarkup(article, dataDate) {

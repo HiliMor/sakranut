@@ -17,7 +17,7 @@
     </header>
     <main id="main" class="wrap">
       <section class="intro">
-        <div><p class="eyebrow">לא רק מה פופולרי. מה השתנה.</p><h1>מה קראנו <em>אחרת?</em></h1><p class="intro-copy">הערכים שמשכו יותר צפיות מהרגיל בוויקיפדיה העברית.<br />קפיצה רגעית, עניין שנשאר, והנתונים שביניהם.</p></div>
+        <div><h1>מה קראנו <em>אחרת?</em></h1><p class="intro-copy">מגמות הקריאה בוויקיפדיה העברית — ביחס לשגרה וליום הקודם.</p></div>
         <div class="edition" role="status" aria-live="polite"><strong id="edition-date">טוענים נתונים</strong><span class="edition-separator" aria-hidden="true">·</span><span id="edition-status">צילום מצב</span></div>
       </section>
       <div id="loading" class="load-state" role="status">טוענים את צילום המצב של ויקימדיה…</div>
@@ -39,10 +39,12 @@
           </div>
         </details>
         <p id="update-warning" class="warning" role="status" aria-live="polite" hidden></p>
-        <section class="feature" aria-labelledby="feature-title" id="feature"></section>
-        <section id="daily-briefing" class="daily-briefing" aria-labelledby="daily-briefing-title"></section>
+        <div class="today-overview">
+          <section class="feature" aria-labelledby="feature-title" id="feature"></section>
+          <section id="daily-briefing" class="daily-briefing" aria-labelledby="daily-briefing-title"></section>
+        </div>
         <section id="discover" class="discovery" aria-labelledby="discover-title">
-          <div class="section-head"><div><p class="eyebrow">מה עוד עולה מהנתונים?</p><h2 id="discover-title">בעקבות הסקרנות</h2></div></div>
+          <div class="section-head"><h2 id="discover-title">לגלות עוד ערכים</h2><p class="discovery-hint">לחיצה על שם פותחת פירוט, בלי לשנות את הסקירה.</p></div>
           <div class="toolbar"><div class="tabs" role="group" aria-label="מיון הערכים במדגם"><button data-sort="surge" aria-pressed="true">קפיצות בעניין</button><button data-sort="popular" aria-pressed="false">הכי נקראים</button><button data-sort="lasting" aria-pressed="false">עניין מתמשך</button></div><label class="search"><span>חיפוש במדגם</span><input id="search" type="search" aria-label="חיפוש ערך במדגם" placeholder="שם של ערך…" autocomplete="off" /></label></div>
           <p id="sort-explanation" class="sort-explanation"></p>
           <div id="article-grid" class="article-grid"></div>

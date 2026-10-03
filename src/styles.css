@@ -120,3 +120,168 @@ nav a{display:inline-flex;align-items:center;min-height:44px}
   .briefing-hint{margin-top:5px}
   .news-search{padding-inline:12px}
 }
+
+/* One daily overview, followed by a scannable ranking. Detail navigation is unchanged. */
+.masthead{height:72px}
+.intro{display:flex;align-items:center;justify-content:space-between;gap:18px 32px;padding-block:22px 14px}
+.intro h1{font-size:46px;letter-spacing:-1.4px;line-height:1.1;margin-bottom:8px}
+.intro-copy{font-size:13px;line-height:1.7}
+.edition{flex-direction:column;align-items:flex-start;flex-shrink:0;gap:2px;margin:0}
+.edition-separator{display:none}
+.data-details{padding-bottom:0;margin-bottom:18px}
+.today-overview{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(280px,1fr);align-items:start;gap:20px}
+.feature{display:block;min-width:0}
+.feature-story{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 18px;padding:18px 22px 14px;align-items:start}
+.feature-heading{min-width:0}
+.feature-story .eyebrow{font-size:12px;margin:0 0 7px}
+.feature h2{font-size:32px;line-height:1.2;margin:0;overflow-wrap:anywhere}
+.feature-ratio{display:block;font-size:32px;text-align:end;max-width:180px}
+.feature-ratio .feature-ratio-value{white-space:normal}
+.feature-ratio>span{font-size:12px;line-height:1.6;margin-top:3px}
+.feature-sentence{grid-column:1/-1;display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;max-width:none;margin:0;font-size:12px;line-height:1.7}
+.feature-data{margin:0 12px 12px;padding:16px 18px 12px}
+.feature-data .chart-heading{flex-wrap:wrap;gap:6px 16px}
+.feature-data .chart-heading h3{font-size:12px}
+.feature-data .chart-legend{flex-wrap:wrap;gap:6px 14px;margin:0;font-size:12px}
+.feature-data .chart-frame{margin:16px 0 12px}
+.feature-data .interest-chart{height:150px}
+.feature-stats{grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;align-items:center;gap:10px;margin-top:12px;padding-top:10px}
+.feature-stats>div:last-child{grid-column:auto}
+.feature-stats span{font-size:12px;line-height:1.6}
+.feature-stats strong{font-size:24px;margin:2px 0 0}
+.feature-stats .text-button{justify-self:end;border:1px solid var(--baseline);border-radius:3px;padding:8px 10px;font-size:12px;white-space:nowrap}
+.feature-context{padding:0 22px}
+.feature-context>summary{display:flex;align-items:center;min-height:44px;padding-block:10px;font-size:12px;line-height:1.7;color:var(--green)}
+.feature-context>summary::before{content:'＋';margin-inline-end:8px}
+.feature-context[open]>summary::before{content:'−'}
+.feature-context .context-card{padding-bottom:16px}
+.daily-briefing{min-width:0;margin:0;padding:18px 20px 10px;background:#fbfbf7;border:1px solid var(--line);border-radius:4px}
+.briefing-heading{display:block;margin:0 0 8px}
+.briefing-heading h2{font-size:25px;line-height:1.3}
+.briefing-heading>p{margin-top:5px;font-size:12px;line-height:1.7}
+.briefing-list{display:block;margin:0}
+.briefing-item{display:grid;grid-template-columns:minmax(0,1fr) minmax(105px,.85fr);grid-template-areas:'title delta' 'direction counts';align-items:center;gap:0 12px;padding:10px 0;border-inline-start:0;border-bottom:1px solid var(--line)}
+.briefing-item:first-child,.briefing-item:last-child{padding-inline:0}
+.briefing-item:last-child{border-bottom:0;padding-bottom:10px}
+.briefing-item h3{grid-area:title;font-size:22px;line-height:1.3;margin:0}
+.briefing-item .select-article{text-decoration:underline;text-decoration-color:#aab4a5;text-underline-offset:4px}
+.briefing-direction{grid-area:direction;font-size:12px;line-height:1.7;margin:0}
+.briefing-direction>span{font-size:15px}
+.briefing-delta{grid-area:delta;font-size:12px;line-height:1.7;text-align:end;margin:0}
+.briefing-delta strong{display:block;font-size:23px;line-height:1.25;margin:0}
+.briefing-counts{grid-area:counts;text-align:end;font-size:12px;line-height:1.7;margin:0}
+.briefing-method{border-top:1px solid var(--line);padding-top:2px;margin-top:2px}
+.briefing-method summary{display:flex;align-items:center;min-height:44px;list-style-position:inside;font-size:12px;color:var(--muted)}
+.briefing-method summary::before{content:'＋';margin-inline-end:6px}
+.briefing-method[open] summary::before{content:'−'}
+.briefing-note{margin:0 0 10px;font-size:12px}
+.discovery{padding-block:28px 34px}
+.section-head{align-items:baseline;gap:12px 24px;margin-bottom:12px}
+.section-head h2{font-size:29px}
+.section-head .discovery-hint{max-width:none;margin:0;padding:0;font-size:12px;line-height:1.7}
+.toolbar{align-items:center}
+.search{padding-bottom:6px}
+.sort-explanation{margin:10px 0 14px}
+.article-grid{grid-template-columns:minmax(0,1fr);gap:0;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.article-card{display:grid;grid-template-columns:28px minmax(0,1.4fr) minmax(155px,1fr) minmax(100px,.6fr);align-items:center;gap:8px 20px;padding:10px 18px;border:0;border-bottom:1px solid var(--line);border-radius:0;transition:background-color .2s}
+.article-card:last-child{border-bottom:0}
+.article-card:hover{background:#f0f2e9}
+.article-card h3{min-height:0;font-size:23px;line-height:1.3;margin:0}
+.card-name{min-width:0;display:flex;align-items:center;flex-wrap:wrap;gap:0 12px}
+.card-name .select-article{gap:8px;max-width:100%;overflow-wrap:anywhere}
+.card-name .trend-tag{display:inline-block;font-size:12px;line-height:1.6;padding:2px 7px}
+.card-open-hint{font-family:Heebo,Arial,sans-serif;font-size:16px;color:var(--green);flex-shrink:0}
+.card-metrics{display:flex;align-items:baseline;flex-wrap:wrap;justify-content:flex-end;gap:0 8px;text-align:end}
+.card-metrics strong{display:block;font-size:18px;line-height:1.5}
+.card-metrics>span{display:block;font-size:12px;line-height:1.7}
+.card-metrics small{display:block;font-size:12px;line-height:1.6}
+.card-chart{min-width:0}
+.card-chart .sparkline{height:42px;margin:0}
+.card-chart .no-comparison{min-height:0;margin:0;font-size:12px;line-height:1.7}
+.more-button{margin-top:16px}
+.partial-history{padding-block:24px 30px}
+.partial-history .section-head h2{font-size:26px}
+.partial-explanation{font-size:12px;line-height:1.8;margin-bottom:16px}
+.partial-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.partial-card{padding:14px 18px}
+.partial-card h3{font-size:22px;margin-bottom:8px}
+.partial-views strong{font-size:23px}
+.partial-availability{margin-top:10px;padding-top:0}
+.method{gap:40px;padding-block:30px 34px}
+.method h2{font-size:29px}
+
+@media(max-width:1000px){
+  .intro{align-items:flex-start;flex-wrap:wrap;gap:12px}
+  .edition{flex-direction:row;flex-wrap:wrap;gap:4px 12px}
+  .intro h1{font-size:40px}
+  .today-overview{grid-template-columns:minmax(0,1fr);gap:14px}
+  .feature-data .interest-chart{height:135px}
+  .daily-briefing{padding:14px 20px 8px}
+  .briefing-item{grid-template-columns:minmax(0,1.2fr) minmax(130px,1fr);padding-block:6px}
+  .briefing-delta strong{display:inline;font-size:20px;margin-inline-end:5px}
+  .briefing-delta,.briefing-counts{font-size:12px}
+  .briefing-heading>p{font-size:12px}
+  .article-card{grid-template-columns:24px minmax(0,1.3fr) minmax(145px,1fr) 110px;column-gap:14px}
+}
+@media(max-width:700px){
+  .masthead{height:60px}
+  .intro{padding-block:16px 10px;gap:10px}
+  .intro h1{font-size:36px;margin-bottom:6px;letter-spacing:-1px}
+  .intro-copy{font-size:12px;line-height:1.7}
+  .edition{gap:3px 10px;line-height:1.7}
+  .data-details{margin-bottom:14px}
+  .feature-story{padding:14px 16px 12px;gap:10px 12px}
+  .feature h2{font-size:28px}
+  .feature-ratio{font-size:28px;max-width:150px}
+  .feature-ratio>span{font-size:12px}
+  .feature-story .eyebrow{font-size:12px;margin-bottom:5px}
+  .feature-sentence{font-size:12px}
+  .feature-data{margin:0 8px 8px;padding:12px}
+  .feature-data .chart-frame{margin:13px 0 10px}
+  .feature-data .interest-chart{height:125px}
+  .feature-data .chart-heading{gap:5px 10px}
+  .feature-data .chart-heading h3,.feature-data .chart-legend{font-size:12px}
+  .feature-data .chart-legend{gap:5px 10px}
+  .feature-stats{gap:8px;margin-top:10px;padding-top:8px}
+  .feature-stats strong{font-size:22px}
+  .feature-stats .text-button{padding-inline:8px;font-size:12px}
+  .feature-context{padding-inline:16px}
+  .daily-briefing{padding:12px 16px 6px}
+  .briefing-heading h2{font-size:25px}
+  .briefing-item h3{font-size:21px}
+  .briefing-direction{font-size:12px}
+  .briefing-method summary{font-size:12px}
+  .discovery{padding-block:24px 28px}
+  .section-head{display:block;margin-bottom:10px}
+  .section-head h2{font-size:27px}
+  .section-head .discovery-hint{font-size:12px;margin-top:5px}
+  .toolbar{display:block}
+  .search{margin-top:6px;padding-bottom:8px}
+  .sort-explanation{font-size:12px;line-height:1.7}
+  .article-card{grid-template-columns:22px minmax(0,1fr) minmax(108px,.8fr);grid-template-areas:'rank name metric' '. chart metric';gap:5px 10px;padding:10px 12px}
+  .card-rank{grid-area:rank;align-self:start;padding-top:14px;font-size:12px}
+  .card-name{grid-area:name;display:block}
+  .article-card h3{font-size:21px}
+  .card-metrics{grid-area:metric;align-self:center;display:block}
+  .card-metrics strong{font-size:17px}
+  .card-metrics>span{font-size:12px}
+  .card-metrics small{font-size:12px}
+  .card-chart{grid-area:chart;max-width:130px}
+  .card-chart .sparkline{height:28px}
+  .card-name .trend-tag{font-size:12px}
+  .card-open-hint{font-size:14px}
+  .partial-history .section-head h2{font-size:25px}
+  .method{gap:20px;padding-top:26px}
+}
+@media(max-width:480px){
+  .feature-story{grid-template-columns:minmax(0,1fr)}
+  .feature-ratio{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 10px;text-align:start;max-width:none;font-size:26px}
+  .feature-ratio>span{margin:0;font-size:12px}
+  .feature-sentence{gap:5px 8px}
+  .feature-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .feature-stats .text-button{grid-column:1/-1;justify-self:start;font-size:12px}
+  .briefing-item{grid-template-columns:minmax(0,1fr) minmax(115px,.85fr);column-gap:8px}
+  .briefing-delta strong{display:block;font-size:22px;margin:0}
+  .briefing-delta,.briefing-counts{font-size:12px}
+  .partial-grid{grid-template-columns:minmax(0,1fr)}
+}
